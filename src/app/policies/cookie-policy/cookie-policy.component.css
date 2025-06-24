@@ -1,0 +1,16 @@
+.bg-dark{
+    background-color: #161d29 !important;
+    line-height: 1;
+    font-size: 0.8125rem;
+    padding: 0.3rem 1rem;
+ }
+ .head{
+     padding: 10px 0px; 
+ }
+ @media (min-width: 1600px) {
+    .bg-dark{
+       line-height: 2;
+       font-size: 1.1rem;
+       padding: 0.5rem 1rem;
+    }
+ }

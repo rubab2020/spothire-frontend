@@ -1,0 +1,392 @@
+<!-- The Modal -->
+<div class="modal fade" id="filterModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Filters</h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div
+        class="modal-body"
+        style="padding: 10px; height: 74vh; overflow: auto;"
+      >
+        <div class="container" (click)="$event.stopPropagation()">
+          <!-- reset -->
+          <div class="row">
+            <div class="col-12" style="padding: 0px; padding-bottom: 5px;">
+              <button
+                class="btn material-btn-text"
+                style="text-transform: capitalize;"
+                (click)="cmnService.filterResetAll(); checkActionButtons()"
+              >
+                Reset All
+              </button>
+            </div>
+          </div>
+
+          <!-- applicantion statuses  -->
+          <div class="row" *ngIf="filters">
+            <div
+              class="btn-group btn-group-toggle flex-wrap"
+              data-toggle="buttons"
+            >
+              <span
+                *ngFor="
+                  let applicationStatus of filters['application_statuses'];
+                  let i = index
+                "
+              >
+                <label
+                  class="btn btn-sm btn-info material-btn-outline"
+                  placement="top"
+                  ngbTooltip="{{
+                    applicationStatus.length > 17 ? applicationStatus : ''
+                  }}"
+                >
+                  <input
+                    type="checkbox"
+                    name="filter_application_status"
+                    value="{{ applicationStatus }}"
+                    class="application_statuses"
+                    id="application_statuses_{{ i }}"
+                    (click)="checkActionButtons()"
+                  />
+                  {{
+                    applicationStatus.length > 17
+                      ? applicationStatus.substring(0, 17) + "..."
+                      : applicationStatus
+                  }}
+                </label>
+              </span>
+            </div>
+          </div>
+
+          <!-- job title -->
+          <div class="row">
+            <p class="filter-title" style="width: 100%;">
+              <button
+                class="btn btn-block text-left"
+                (click)="isJobTitleCollapsed = !isJobTitleCollapsed"
+                [attr.aria-expanded]="!isJobTitleCollapsed"
+                aria-controls="collapseJobTitle"
+                style="
+                  background: none;
+                  padding-left: 0px;
+                  color: gray;
+                  font-weight: bold;
+                  font-size: 18px;
+                "
+              >
+                Job Title
+                <i
+                  class="fa fa-{{
+                    isJobTitleCollapsed ? 'plus' : 'minus'
+                  }}-circle pull-right"
+                  aria-hidden="true"
+                  style="padding-top: 1px; font-size: 25px;"
+                >
+                </i>
+              </button>
+            </p>
+
+            <div
+              id="collapseJobTitle"
+              [ngbCollapse]="isJobTitleCollapsed"
+              style="margin-top: -5px;"
+            >
+              <div
+                class="btn-group btn-group-toggle flex-wrap"
+                data-toggle="buttons"
+              >
+                <ng-container
+                  *ngIf="filters['job_titles'].length === 0; else showJobs"
+                >
+                  <span style="color: gray;">No jobs found</span>
+                </ng-container>
+                <ng-template #showJobs>
+                  <span
+                    *ngFor="
+                      let jobTitle of filters['job_titles'];
+                      let i = index
+                    "
+                  >
+                    <label
+                      class="btn btn-sm btn-info material-btn-outline"
+                      placement="top"
+                      ngbTooltip="{{ jobTitle > 17 ? jobTitle : '' }}"
+                    >
+                      <input
+                        type="checkbox"
+                        name="filter_job_title"
+                        value="{{ jobTitle }}"
+                        class="job_titles"
+                        id="job_titles_{{ i }}"
+                        (click)="checkActionButtons()"
+                      />
+                      {{
+                        jobTitle.length > 17
+                          ? jobTitle.substring(0, 17) + "..."
+                          : jobTitle
+                      }}
+                    </label>
+                  </span>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+
+          <!-- skills -->
+          <div class="row">
+            <p class="filter-title" style="width: 100%;">
+              <button
+                class="btn btn-block text-left"
+                (click)="isSkillsCollapsed = !isSkillsCollapsed"
+                [attr.aria-expanded]="!isSkillsCollapsed"
+                aria-controls="collapseSkills"
+                style="
+                  background: none;
+                  padding-left: 0px;
+                  color: gray;
+                  font-weight: bold;
+                  font-size: 18px;
+                "
+              >
+                Skills
+                <i
+                  class="fa fa-{{
+                    isSkillsCollapsed ? 'plus' : 'minus'
+                  }}-circle pull-right"
+                  aria-hidden="true"
+                  style="padding-top: 1px; font-size: 25px;"
+                >
+                </i>
+              </button>
+            </p>
+
+            <div
+              id="collapseSkills"
+              [ngbCollapse]="isSkillsCollapsed"
+              style="margin-top: -5px;"
+            >
+              <div
+                class="btn-group btn-group-toggle flex-wrap"
+                data-toggle="buttons"
+              >
+                <ng-container
+                  *ngIf="filters['skills'].length === 0; else showSkills"
+                >
+                  <span style="color: gray;">No skills found</span>
+                </ng-container>
+                <ng-template #showSkills>
+                  <span *ngFor="let skill of filters['skills']; let i = index">
+                    <label
+                      class="btn btn-sm btn-info material-btn-outline"
+                      placement="top"
+                      ngbTooltip="{{ skill > 17 ? skill : '' }}"
+                    >
+                      <input
+                        type="checkbox"
+                        name="filter_skill"
+                        value="{{ skill }}"
+                        class="skills"
+                        id="skills_{{ i }}"
+                        (click)="checkActionButtons()"
+                      />
+                      {{
+                        skill.length > 17
+                          ? skill.substring(0, 17) + "..."
+                          : skill
+                      }}
+                    </label>
+                  </span>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+
+          <!-- qualifications -->
+          <div class="row">
+            <p class="filter-title" style="width: 100%;">
+              <button
+                class="btn btn-block text-left"
+                (click)="isQualificationsCollapsed = !isQualificationsCollapsed"
+                [attr.aria-expanded]="!isQualificationsCollapsed"
+                aria-controls="collapseQualifications"
+                style="
+                  background: none;
+                  padding-left: 0px;
+                  color: gray;
+                  font-weight: bold;
+                  font-size: 18px;
+                "
+              >
+                Qualifications
+                <i
+                  class="fa fa-{{
+                    isQualificationsCollapsed ? 'plus' : 'minus'
+                  }}-circle pull-right"
+                  aria-hidden="true"
+                  style="padding-top: 1px; font-size: 25px;"
+                >
+                </i>
+              </button>
+            </p>
+
+            <div
+              id="collapseQualifications"
+              [ngbCollapse]="isQualificationsCollapsed"
+              style="margin-top: -5px;"
+            >
+              <div
+                class="btn-group btn-group-toggle flex-wrap"
+                data-toggle="buttons"
+              >
+                <ng-container
+                  *ngIf="
+                    filters['qualifications'].length === 0;
+                    else showQualifications
+                  "
+                >
+                  <span style="color: gray;">No qualifications found</span>
+                </ng-container>
+                <ng-template #showQualifications>
+                  <span
+                    *ngFor="
+                      let qualification of filters['qualifications'];
+                      let i = index
+                    "
+                  >
+                    <label
+                      class="btn btn-sm btn-info material-btn-outline"
+                      placement="top"
+                      ngbTooltip="{{ qualification > 17 ? qualification : '' }}"
+                    >
+                      <input
+                        type="checkbox"
+                        name="filter_qualification"
+                        value="{{ qualification }}"
+                        class="qualifications"
+                        id="qualifications_{{ i }}"
+                        (click)="checkActionButtons()"
+                      />
+                      {{
+                        qualification.length > 17
+                          ? qualification.substring(0, 17) + "..."
+                          : qualification
+                      }}
+                    </label>
+                  </span>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+
+          <!-- university -->
+          <div class="row">
+            <p class="filter-title" style="width: 100%;">
+              <button
+                class="btn btn-block text-left"
+                (click)="isUniversitiesCollapsed = !isUniversitiesCollapsed"
+                [attr.aria-expanded]="!isUniversitiesCollapsed"
+                aria-controls="collapseUniversities"
+                style="
+                  background: none;
+                  padding-left: 0px;
+                  color: gray;
+                  font-weight: bold;
+                  font-size: 18px;
+                "
+              >
+                Universities
+                <i
+                  class="fa fa-{{
+                    isUniversitiesCollapsed ? 'plus' : 'minus'
+                  }}-circle pull-right"
+                  aria-hidden="true"
+                  style="padding-top: 1px; font-size: 25px;"
+                >
+                </i>
+              </button>
+            </p>
+
+            <div
+              id="collapseUniversities"
+              [ngbCollapse]="isUniversitiesCollapsed"
+              style="margin-top: -5px;"
+            >
+              <div
+                class="btn-group btn-group-toggle flex-wrap"
+                data-toggle="buttons"
+              >
+                <ng-container
+                  *ngIf="
+                    filters['universities'].length === 0;
+                    else showUniverisities
+                  "
+                >
+                  <span style="color: gray;">No univerisities found</span>
+                </ng-container>
+                <ng-template #showUniverisities>
+                  <span
+                    *ngFor="
+                      let university of filters['universities'];
+                      let i = index
+                    "
+                  >
+                    <label
+                      class="btn btn-sm btn-info material-btn-outline"
+                      placement="top"
+                      ngbTooltip="{{ university > 17 ? univesity : '' }}"
+                    >
+                      <input
+                        type="checkbox"
+                        name="filter_university"
+                        value="{{ university }}"
+                        class="universities"
+                        id="universities_{{ i }}"
+                        (click)="checkActionButtons()"
+                      />
+                      {{
+                        university.length > 17
+                          ? university.substring(0, 17) + "..."
+                          : university
+                      }}
+                    </label>
+                  </span>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="padding: 5px;">
+        <ng-container *ngIf="hasFitlerOption(filters)">
+          <button
+            class="btn material-btn-outline btn-streched"
+            style="text-transform: capitalize;"
+            data-dismiss="modal"
+            (click)="removeFilter()"
+          >
+            Clear
+          </button>
+          <button
+            class="btn material-btn-contained btn-streched"
+            style="text-transform: capitalize;"
+            data-dismiss="modal"
+            [disabled]="isActionBtnsDisabled"
+            (click)="applyFilter()"
+          >
+            Apply
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

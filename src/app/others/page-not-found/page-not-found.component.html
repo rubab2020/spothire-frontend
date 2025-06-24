@@ -1,0 +1,13 @@
+<app-public-header *ngIf="!user"></app-public-header>
+<app-private-header *ngIf="user"></app-private-header>
+
+<ng-progress [color]="'#00ccff'" [thick]="true" [spinner]="false"></ng-progress>
+
+<div class="row">
+  <div class="col-12">
+    <img src="assets/images/page-not-found.jpg" alt="No Data Found" style="width: auto; height: 362px;">
+  </div>
+</div>
+
+<app-login></app-login>
+<app-register></app-register>

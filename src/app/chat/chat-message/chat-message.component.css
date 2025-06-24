@@ -1,0 +1,25 @@
+/* .inbound {
+  background-color: gray;
+}
+
+.outbound {
+  background-color: lightseagreen;
+} */
+.messages-box,
+.chat-box {
+  height: 510px;
+  overflow-y: scroll;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.bg-primary{
+  background-color: #00b0f0 !important;
+}
+
+.small {
+  margin-bottom: 8px;
+  font-size: 11px;
+}

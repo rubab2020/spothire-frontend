@@ -1,0 +1,226 @@
+<div class="col-md-12 col-12 form-cotent">
+  <div class="form-content-background">
+    <div class="row">
+      <!-- pager left -->
+      <div class="col-md-3 pager-left" *ngIf="!isMobile">
+        <a class="previous-link skip-now" routerLink="../../hire-or-serve" style="color: white;">Skip</a>
+      </div>
+      
+      <div class="col-md-6 col-12 form-aboutyourself mx-auto">
+        <div class="dots text-center">
+          <div class="dotstyle dotstyle-scaleup">
+            <ul>
+              <li routerLinkActive="active current"><a routerLink="../about-yourself" (click)="onSubmit()">About</a></li>
+              <li routerLinkActive="active current"><a routerLink="../work-experience" (click)="onSubmit()">Work Experience</a></li>
+              <li routerLinkActive="active current"><a routerLink="../qualification" (click)="onSubmit()">Qualification</a></li>
+              <li routerLinkActive="active current"><a routerLink="../award" (click)="onSubmit()">Projects and Recognition</a></li>
+            </ul>
+          </div>
+        </div>
+        <form class="form-section content-bg" *ngIf="!loading; else showLoading" [formGroup]="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+          <!-- cover photo -->
+          <div class="form-group">
+            <div class="row">
+              <div class="col-12 cover-photo-section">
+                <label class="filebutton">
+                  <img
+                    class="cover-photo img-responsive"
+                    [src]="defaultCoverPhoto"
+                    alt="Cover Photo"/>
+                  <span style="display:none">
+                    <input  
+                      type="file" 
+                      accept="image/*" 
+                      id="cover_photo" 
+                      (change)="onCoverPicChange($event)" 
+                      #fileInput>
+                  </span>
+                </label>
+                <div class="carousel-caption pull-right" style="font-weight: bold;">
+                  <label class="filebutton">
+                    <small style="font-weight: bold;">+ Upload Cover</small>
+                    <span style="display:none">
+                      <input  
+                        type="file" 
+                        accept="image/*" 
+                        id="cover_photo" 
+                        (change)="onCoverPicChange($event)" 
+                        #fileInput>
+                    </span>
+                  </label>
+                  <p *ngIf="coverPicError" style="color:red">
+                    Please upload Image Max 15 MB Size
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          <!-- profile picture -->
+          <div class="form-group profile-pic-section">
+            <div class="row">
+              <div class="col-md-4 offset-md-4 col-8 offset-2">
+                <label class="filebutton" style="display: flex; justify-content: center;">
+                  <img
+                    [src]="defaultProfImg"
+                    class="profile-pic"
+                    alt="Profile Picture"
+                  />
+                  <span style="display:none">
+                    <input  
+                      type="file" 
+                      accept="image/*" 
+                      id="profile_picture" 
+                      (change)="onProfilePicChange($event)" 
+                      #fileInput>
+                  </span>
+                </label>
+              </div>
+              <div class="col-md-4 offset-md-4 col-10 offset-2 upload-pic-text">
+                <p style="color: #4f81bd;">
+                  <label class="filebutton">
+                    + Upload your profile picture
+                    <span style="display:none">
+                      <input  
+                        type="file" 
+                        accept="image/*" 
+                        id="profile_picture" 
+                        (change)="onProfilePicChange($event)" 
+                        #fileInput>
+                    </span>
+                  </label>
+                </p>
+                <p *ngIf="profilePicError" style="color:red">
+                  Please upload Image Max 15 MB Size
+                </p>
+              </div>  
+            </div>
+          </div>
+      
+          <div class="row lr-padding">
+            <!-- dob -->
+            <div class="col-6 form-group">
+              <div class="input-group">
+                <label class="material-field">
+                  <input 
+                    formControlName="dob" 
+                    matInput 
+                    [matDatepicker]="datePicker"
+                    (click)="datePicker.open()" 
+                    placeholder=" " 
+                    readonly>
+                  <span>Date of birth</span>
+                  <div class="input-group-append clear-date">
+                    <span class="input-group-text clear-dt-icon" (click)="resetDateInput()">
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                </label>
+                <mat-datepicker #datePicker></mat-datepicker>
+              </div>
+            </div>
+      
+            <!-- gender -->
+            <div class="col-6 form-group">
+              <label class="material-field">
+                <select 
+                  formControlName="gender"
+                  type="text" 
+                  placeholer=" "
+                >
+                  <option value="" selected>Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+                <span>Gender</span>
+              </label>
+            </div>
+          </div>
+      
+          <!-- about youself -->
+          <div class="form-group">
+            <div class="input-group">
+              <label class="material-field">
+                <textarea 
+                  type="text"
+                  class="txtArea" 
+                  id="about_yourself" 
+                  formControlName="about_yourself" 
+                  [maxLength]="301"
+                  placeholder=" ">
+                </textarea>
+                <span>Write about yourself</span>
+              </label>
+              <div *ngIf="form.controls['about_yourself'].touched" class="alert alert-danger">
+                <div *ngIf="form.controls['about_yourself'].value.length > 500">*Maximum 500 characters</div>
+              </div>
+            </div>
+          </div>
+      
+          <!-- skills -->
+          <div class="form-group">
+            <div class="input-group">
+              <label class="material-field">
+                <ng-select 
+                  class="form-control"
+                  [items]="tags"
+                  bindLabel="name"
+                  bindValue="name"
+                  formControlName="skills"
+                  [selectOnTab]="true"
+                  [addTag]="addTagFn"
+                  [multiple]="true"
+                  [hideSelected]="true"
+                  maxSelectedItems="8"
+                  [(ngModel)]="selectedSkills"
+                  placeholder=" ">
+                </ng-select>
+                <span>Add upto 8 core skills</span>
+              </label>
+              <div *ngIf="hasCustomTagTypeError" class="alert alert-danger">
+                *Maximum 15 characters for custom tag
+              </div>
+            </div>
+          </div>
+        </form>
+      
+        <!-- loader -->
+        <ng-template #showLoading>
+          <content-loader height="500" speed="1" primaryColor="#dddddd" secondaryColor="#c0c0c0">
+            <svg:rect x="0" y="15" rx="4" ry="4" width="400" height="100" />
+          
+            <svg:circle cx="210" cy="105" r="80" />
+          
+            <svg:rect x="0" y="230" rx="4" ry="4" width="180" height="10" />
+            <svg:rect x="225" y="230" rx="4" ry="4" width="180" height="10" />
+          
+            <svg:rect x="0" y="270" rx="4" ry="4" width="400" height="10" />
+            <svg:rect x="0" y="310" rx="4" ry="4" width="400" height="10" />
+          </content-loader>
+        </ng-template>
+      </div>
+      
+      <!-- pager right -->
+      <div class="col-md-3 pager-right" *ngIf="!isMobile">
+        <a class="next-link" routerLink="../work-experience" (click)="onSubmit()">
+          <i class="fa fa-2x fa-arrow-right" aria-hidden="true"></i>
+        </a>
+      </div>
+      
+      <!-- pager for mobile -->
+      <div class="col-12 my-auto mx-auto pager" *ngIf="isMobile" style="background: white;">
+        <button 
+          type="button" 
+          class="btn btn-primary skip-now">
+          <a routerLink="../../hire-or-serve" style="color: white;">Skip</a>
+        </button>
+        <ul>
+          <li class="next"><a routerLink="../work-experience" (click)="onSubmit()">Next &rarr;</a></li>
+        </ul>  
+      </div>
+    </div> 
+  </div>
+</div>
+
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

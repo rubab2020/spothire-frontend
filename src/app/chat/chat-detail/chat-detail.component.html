@@ -1,0 +1,78 @@
+<app-private-layout *ngIf="viewType !== 'popup'"></app-private-layout>
+
+<div [hidden]="threadLoading" [ngClass]="isMobile ? 'col-12' : 'col-6 offset-3'" style="border: 1px solid #ddd; padding: 0px;">
+  <main>
+    <mat-toolbar>
+      <!-- go back -->
+      <button mat-icon-button (click)="goBack(viewType)">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+  
+      <!-- sender image -->
+      <span class="spacer"></span>
+      <img src="{{sender?.profile_pic || defaultProfImg}}" alt="user" width="40" height="40"  class="rounded-circle">
+      
+      <!-- sender info -->
+      <span class="spacer"></span>
+      <span>
+        <div class="sender">{{ sender?.name }}</div>
+        <div class="job">
+          {{ sender?.job_title | truncate: [15] }} - {{ sender?.application_status }}
+        </div>
+      </span>
+  
+      <!-- phone -->
+      <span class="spacer"></span>
+      <button mat-icon-button style="padding-top: 5px;" *ngIf="sender?.phone != null else noPhoneNum">
+        <a [href]="'tel:' + cmnService.decode(sender.phone)">
+          <mat-icon>phone_enabled</mat-icon>
+        </a>
+      </button>
+      <ng-template #noPhoneNum>
+        <button mat-icon-button>
+          <mat-icon>phone_disabled</mat-icon>
+        </button>
+      </ng-template>
+  
+      <!-- options -->
+      <span class="flex-spacer"></span>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" [overlapTrigger]="false">
+        <button mat-menu-item (click)="deleteChat(viewType)">
+          <mat-icon>delete</mat-icon>
+          <span>Delete Chat</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+  
+    <!-- messages -->
+    <div class="col-12 px-0">
+      <div class="px-2 py-2 chat-box bg-white">
+        <div 
+          [ngClass]="(viewType == 'popup' ? 'chat-feed-popup' : 'chat-feed')" 
+          (wheel)="onScroll()" 
+          #scroller
+        >
+          <app-chat-messages [threadId]="threadId" [messages]="messages"></app-chat-messages>
+        </div>
+      </div>
+      <!-- Typing area -->
+      <app-chat-input 
+        [threadId]="threadId" 
+        [senderId]="user.id"
+        (onMessageSend)="messageSent()"
+      ></app-chat-input>
+    </div>
+  </main>
+</div>
+<div [hidden]="!threadLoading">
+  <div class="text-center thread-loader">
+    <i class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>
+    <br>
+    Loading...
+  </div>
+</div>
+
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

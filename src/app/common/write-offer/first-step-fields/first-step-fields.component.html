@@ -1,0 +1,226 @@
+<div [formGroup]="workForm">
+  <div class="container-fluid content-bg">
+    <!-- looking for -->
+    <div class="form-group" style="margin-bottom: 8px">
+      <div class="input-group">
+        <label class="material-field">
+          <input formControlName="job_title" type="text" placeholder=" ">
+          <span>Looking for*</span>
+        </label>
+      </div>
+  
+      <div *ngIf="workForm.controls['job_title'].touched" class="alert alert-danger">
+        <div *ngIf="workForm.controls['job_title'].value.length > 40">*Maximum 40 characters</div>
+      </div>
+      <div 
+        *ngIf="isFormSubmitted && workForm.get('job_title').invalid" 
+        class="alert alert-danger"
+      >
+        <div *ngIf="workForm.get('job_title').errors.required">
+          *Job title is required
+        </div>
+        <div *ngIf="workForm.get('job_title').errors.maxlength">
+          *Job title should be maximum
+          {{workForm.get('job_title').errors.maxlength.requiredLength}} characters
+        </div>
+        <div *ngIf="workForm.get('job_title').errors.pattern">*Use letters only</div>
+      </div>
+    </div>
+    
+    <!-- employment type -->
+    <div class="form-group">
+      <div class="input-group">
+        <label class="material-field">
+          <select 
+            formControlName="employment_type" 
+            type="text" 
+            [(ngModel)]="selectedEmploymentType"
+          >
+            <option [ngValue]="null" selected>Select</option>
+            <option *ngFor="let item of employmentTypes" [ngValue]="item">{{item}}</option>
+          </select>
+          <span>Employment type*</span>
+        </label>
+        <div 
+          *ngIf="isFormSubmitted && workForm.get('employment_type').invalid" 
+          class="alert alert-danger"
+        >
+          *Employment type is required
+        </div>
+      </div>
+    </div>
+
+  
+    <!-- work start date and time -->
+    <div class="form-group">
+      <div class="row">
+        <!-- from -->
+        <div class="col">
+          <div class="input-group">
+            <label class="material-field">
+              <input 
+                formControlName="start_date" 
+                matInput 
+                [matDatepicker]="datePickerWsd"
+                (click)="datePickerWsd.open()" 
+                placeholder=" " 
+                readonly>
+              <span>Work start date</span>
+              <div class="input-group-append clear-date">
+                <span class="input-group-text clear-dt-icon">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </span>
+              </div>
+            </label>
+            <mat-datepicker #datePickerWsd></mat-datepicker>
+          </div>
+          <div *ngIf="isFormSubmitted && workForm.errors?.dates" class="alert alert-danger">
+            {{ workForm.errors?.dates }}
+          </div>
+        </div>
+  
+        <!-- to -->
+        <div class="col">
+          <div class="input-group">
+            <label class="material-field">
+              <input 
+                formControlName="end_date"
+                matInput 
+                [matDatepicker]="datePickerWed"
+                (click)="datePickerWed.open()" 
+                placeholder=" " 
+                readonly>
+              <span>Work end date</span>
+              <div class="input-group-append clear-date">
+                <span class="input-group-text clear-dt-icon">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </span>
+              </div>
+            </label>
+            <mat-datepicker #datePickerWed></mat-datepicker>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- department -->
+    <div class="form-group">
+      <div class="input-group">
+        <label class="material-field">
+          <select 
+            formControlName="department" 
+            type="text" 
+            [(ngModel)]="selectedDepartment"
+          >
+            <option [ngValue]="null" selected>Select</option>
+            <option *ngFor="let item of departments" [ngValue]="item">{{item}}</option>
+          </select>
+          <span>Department*</span>
+        </label>
+        <div 
+          *ngIf="isFormSubmitted && workForm.get('department').invalid" 
+          class="alert alert-danger"
+        >
+          <div *ngIf="workForm.get('department').errors.required">
+            *Department is required
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- location -->
+    <div class="form-group">
+      <div class="input-group">
+        <label class="material-field">
+          <select 
+            formControlName="location" 
+            type="text" 
+            [(ngModel)]="selectedLocation"
+          >
+            <option [ngValue]="null" selected>Select</option>
+            <option *ngFor="let item of locations" [ngValue]="item">{{item}}</option>
+          </select>
+          <span>Location*</span>
+        </label>
+        <div 
+          *ngIf="isFormSubmitted && workForm.get('location').invalid" 
+          class="alert alert-danger"
+        >
+          <div *ngIf="workForm.get('location').errors.required">
+            *Location is required
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- salary range -->
+    <div class="form-group" style="margin-top: 10px">
+      <div class="row">
+        <!-- from -->
+        <div class="col" style="padding-right: 0px">
+          <div class="input-group">
+            <label class="material-field">
+              <input formControlName="salary_from" placeholder=" " type="number">
+              <span>Pay From*</span>
+            </label>
+          </div>
+          <div 
+            *ngIf="isFormSubmitted && workForm.get('salary_from').invalid" 
+            class="alert alert-danger"
+          >
+            <div *ngIf="workForm.get('salary_from').errors.required">
+              *This field is required
+            </div>
+            <div *ngIf="workForm.get('salary_from').errors.pattern">
+              *Use numbers only
+            </div>
+          </div>
+        </div>
+        <!-- to -->
+        <div class="col">
+          <div class="input-group">
+            <label class="material-field">
+              <input formControlName="salary_to" placeholder=" " type="number">
+              <span>Pay To</span>
+            </label>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row">
+        <!-- per -->
+        <div class="col" style="padding-right: 0px">
+          <div class="input-group">
+            <div class="material-field">
+              <select 
+                formControlName="salary_type" 
+                type="text" 
+                [(ngModel)]="selectedSalaryType">
+                <option [ngValue]="null" selected>Select</option>
+                <option *ngFor="let item of salaryTypes" [ngValue]="item">{{item}}</option>
+              </select>
+              <span>Per*</span>
+            </div>
+          </div>
+          <div 
+            *ngIf="isFormSubmitted && workForm.get('salary_type').invalid" 
+            class="alert alert-danger"
+            style="margin-top: 0px;"
+          >
+            *This field is required
+          </div>
+        </div>
+        <!-- negotiable -->
+        <div class="col">
+          <label class="material-switch" style="margin-top: 20px">
+            <input 
+              type="checkbox" 
+              formControlName="is_salary_negotiable"
+              (change)="onChangeNegotiable($event)">
+            <span style="color: gray;">Negotiable</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

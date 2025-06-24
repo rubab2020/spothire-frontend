@@ -1,0 +1,340 @@
+p{
+	margin-top: 0;
+	margin-bottom: 5px;
+	text-transform: capitalize;
+}
+
+.page-bg {
+  height: 91vh;
+  overflow: hidden !important;
+  /* background-color: #fbfbfb; */
+}
+
+.content-bg {
+  height: 84.5vh !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  margin-top: 2px;
+}
+
+/* -------- scrollbar ------- */
+.custom-scroll ::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+  border-radius: 4px;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+.custom-scroll ::-webkit-scrollbar:hover {
+  background: #bcbec5fa;
+}
+.custom-scroll ::-webkit-scrollbar-thumb {
+  background: #a6a6a6;
+  border-radius: 4px;
+}
+
+/* --------- button ----------- */
+.btn-streched{
+	min-width: 131px !important;
+}
+.btn-streched-single-btn{
+	min-width: 340px !important;
+}
+.btn-streched-disabled {
+	min-width: 239px !important;
+}
+.action-btns{
+	position: sticky;
+  bottom: 0;
+	left: 0;
+	z-index: 999;
+	background: white;
+	margin-left: 25px;
+}
+.btn-streched {
+	min-width: 232px !important;
+}
+/* .btn-group.special {
+  display: flex;
+}
+.special .btn {
+  flex: 1
+} */
+.btn-secondary{
+	font-weight: bold;
+}
+.mat-icon {
+	vertical-align: middle;
+}
+
+.header-btn-selected{
+	color: #212529;
+}
+
+.card {
+	cursor: pointer;
+}
+
+/* ------------- applications ---------------- */
+.application.selected {
+    background-color: aliceblue;
+}
+.application:hover {
+    background-color: aliceblue;
+}
+.job-title{
+	color: #595959;
+	font-weight: bold;
+	font-size: 15px;
+	text-transform: capitalize;
+}
+.employer-name{
+	color: #7f7f7f;
+	font-weight: bold;
+	font-size: 14px;
+	/* padding-bottom:5px; */
+	text-transform: capitalize;
+}
+.worker-image{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+}
+.interivew-timing{
+	color: #e70f91;
+	font-size: 13px;
+}
+
+/* -------- job details --------- */
+.job-details {
+  box-shadow: 0 0px 10px rgba(0, 0, 10, 0.1);
+  border-radius: 8px;
+  min-height: 84.7vh !important;
+  max-height: 84.7vh !important;
+}
+.job-details .logo-cover-section {
+  margin-top: 0px !important;
+}
+
+/*---------- contnt-right--------- */
+.content-right {
+  overflow: hidden !important;
+  /* inline-size: max-content !important; */
+  /* width: 100%; */
+}
+.content-right:hover {
+  overflow-y: auto !important;
+}
+
+/* --------- modal -------- */
+.modal-content{
+	height: 91vh !important;
+}
+.modal-body{
+	padding: 0px;
+}
+
+/* --------- not found jobs -------- */
+/* #workOverlay {
+	position: fixed;
+	display: none;
+	width: 100%;
+	height: 76%;
+	top: 136px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0,0.5);
+	z-index: 1;
+	cursor: pointer;
+}
+#text{
+	position: absolute;
+	top: 50%;
+	font-size: 24px;
+	color: white;
+	-webkit-transform: translate(-18%,-50%);
+	transform: translate(15%,75%);
+} */
+
+/* --------- gallery ------------ */
+.gallery-block.cards-gallery .card{
+	margin-bottom: 15px !important;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+.gallery-block.cards-gallery .card-body {
+	padding: 0.8rem;
+}
+
+.container-fluid{
+	padding-right: 12px !important;
+	padding-left: 12px !important;
+}
+
+#withdrawModal{
+	z-index: 1052;
+}
+
+/*--------- worker profile ----------*/
+.worker-profile{
+	max-height: 100vh !important;
+}
+
+/* notification dot */
+.appl-notif-dot{
+	float: right;
+	margin-top: 20px;
+}
+
+/* -------- mobile menu  ------- */
+.mobileMenu > .current {
+border-bottom: 3px solid #2bcbba !important;
+}
+.mobileMenu > .current a {
+color: #2bcbba !important;
+}
+.mobileMenu a {
+color: #595959 !important;
+}
+
+@media only screen and (max-width: 1023px) {
+    .page-bg {
+        min-height: 83vh !important;
+        max-height: 83vh !important;
+        overflow: hidden !important;
+        /* border: 1px solid red; */
+    }
+    .content-bg{
+        height: 77vh !important;
+        /* background-color: #F2F3F5 !important; */
+        overflow-x: hidden !important;
+        overflow-y: scroll !important;
+        /* border: 1px solid green; */
+        padding: 0px;
+    }
+    
+    p{
+        margin-top: 0;
+        margin-bottom: 5px;
+        text-transform: capitalize;
+    }
+    
+    /* --------- button ----------- */
+    .btn-streched{
+        min-width: 130px !important;
+    }
+    .btn-streched-single-btn{
+        min-width: 355px !important;
+    }
+    .btn-streched-large {
+        min-width: 215px !important;
+    }
+    
+    .discontinued-btn{
+        border-radius: 0px !important;
+        text-transform: capitalize !important;
+        margin-top: 7px !important;
+        /* font-weight: 400 !important; */
+        line-height: 23px !important;
+        padding: 1px 4px !important;
+        min-width: 62px !important;
+        height: 27px !important;
+        font-size: 12px;
+        margin-right: -5px;
+    }
+    
+    .header-btn-selected{
+        color: #212529;
+    }
+    
+    /* ------- card --------- */
+    
+    /* ------------- applications ---------------- */
+    .job-title{
+        color: #595959;
+        font-weight: bold;
+        font-size: 15px;
+        text-transform: capitalize;
+    }
+    .employer-name{
+        color: #7f7f7f;
+        font-weight: bold;
+        font-size: 14px;
+        /* padding-bottom:5px; */
+        text-transform: capitalize;
+    }
+    .worker-image{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+    
+    /* --------- modal -------- */
+    .modal-content{
+        height: 91vh !important;
+    }
+    .modal-body{
+        padding: 0px;
+    }
+
+    /* --------- not found jobs -------- */
+    #workOverlay {
+        position: fixed;
+        display: none;
+        width: 100%;
+        height: 76%;
+        top: 136px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 1;
+        cursor: pointer;
+    }
+    #text{
+        position: absolute;
+        top: 50%;
+        font-size: 24px;
+        color: white;
+        -webkit-transform: translate(-18%,-50%);
+        transform: translate(15%,75%);
+    }
+
+    /* --------- gallery ------------ */
+    .gallery-block.cards-gallery .card{
+        margin-bottom: 15px !important;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    .gallery-block.cards-gallery .card-body {
+        padding: 0.8rem;
+    }
+
+    .container-fluid{
+        padding-right: 12px !important;
+        padding-left: 12px !important;
+    }
+
+    #ratingRequestModal, #discontinueModal {
+        z-index: 1052;
+    }
+
+    /* -------- mobile menu  ------- */
+  .mobileMenu > .current {
+    border-bottom: 3px solid #2bcbba !important;
+  }
+  .mobileMenu > .current a {
+    color: #2bcbba !important;
+  }
+  .mobileMenu a {
+    color: #595959 !important;
+  }
+
+  /* notification dot */
+  .appl-notif-dot{
+    float: right;
+    margin-top: 13px;
+    margin-right: 10px;
+  }
+}

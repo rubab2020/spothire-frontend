@@ -1,0 +1,95 @@
+<div class="card job">
+  <div class="card-body">
+    <div class="row tpn-sectn">
+      <!-- title -->
+      <div class="col-11" [ngClass]="jobsSeen && jobsSeen[job.id] ? 'title-marked' : 'title'">
+        {{job.job_title}}
+      </div>
+      <!-- favourite -->
+      <div class="col-1 favourite-btn" style="padding-right: 0px;">
+        <button
+          *ngIf="!job.is_favourited; else favourited_icon"
+          (click)="favouriteJob(job.id); $event.stopPropagation()"
+          class="btn btn-sm"
+          style="background: none;
+          color: #757575;
+          border: none;
+          /* margin-left: 7px; */
+          float: right;"
+        >
+          <i class="fa fa-heart-o" aria-hidden="true"></i>
+        </button>
+        <ng-template #favourited_icon>
+          <button
+            (click)="unfavouriteJob(job.id); $event.stopPropagation()"
+            class="btn btn-sm"
+            style="background: none;
+            color: #757575;
+            border: none;
+            /* margin-left: 7px; */
+            float: right;"
+          >
+            <i class="fa fa-heart" aria-hidden="true"></i>
+          </button>
+        </ng-template>
+      </div>
+
+      <div class="col-12">
+        <!-- employer photo  -->
+        <div class="float-left" style="margin-left:-10px;">
+          <img 
+            src="{{job.employer.profile_picture ? job.employer.profile_picture : defaultProfImg}}"
+            alt="Company Image" 
+            class="rounded-circle emp-photo">
+        </div>
+        <!-- employer name -->
+        <div class="float-left emp-name">
+          {{job.employer.name}}
+        </div>
+      </div>
+    </div>
+
+    <div class="row cd-sctn">
+      <div class="col-6 city">
+        <!-- city -->
+        <p >
+          <i class="fa fa-map-marker city-icon"></i>
+          {{ job.location ? job.location : "Not Set" }}
+        </p>
+        <!-- degree -->
+        <p>
+          <i class="fa fa-graduation-cap degree-icon"></i>
+          {{job.min_qualification}}
+        </p>
+      </div>
+
+      <div class="col-6 se-sctn">
+        <!-- salary -->
+        <p>
+          <i class="salary-icon">৳</i>
+          <span *ngIf="job.is_salary_negotiable == 0;else salary_negotiable">
+              {{job.salary_from | number}} {{job.salary_to ? ' - '+(job.salary_to | number) : ''}}/
+              {{job.salary_type}}
+          </span>
+          <ng-template #salary_negotiable>
+            Negotiable
+          </ng-template>
+        </p>
+        <!-- employment type -->
+        <p>
+          <i class="fa fa-briefcase employment-type-icon"></i>
+          {{job.employment_type}}
+        </p>
+      </div>
+    </div>
+
+    <div class="row bd-sctn">
+      <!-- deadline -->
+      <div class="col-12">
+        <i class="float-right deadline">
+          Apply by {{cmnService.dateFormat(job.advert_deadline)}}
+        </i>
+      </div>
+    </div>
+  </div>
+  </div>

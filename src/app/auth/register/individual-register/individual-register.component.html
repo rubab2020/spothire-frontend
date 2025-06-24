@@ -1,0 +1,230 @@
+<form
+  #form="ngForm"
+  [formGroup]="indForm"
+  (ngSubmit)="createIndividualAccount(form.value)"
+  class="my-3"
+>
+  <!-- name -->
+  <div class="row" *ngIf="showRegisterFields">
+    <div class="col-12 form-group">
+      <label class="material-field">
+        <input
+          formControlName="name"
+          type="text"
+          class="form-control"
+          placeholder=" "
+        />
+        <span>Full Name</span>
+      </label>
+      <div
+        *ngIf="indForm.get('name').touched && indForm.get('name').invalid"
+        class="alert alert-danger"
+      >
+        <div *ngIf="indForm.get('name').errors.required">
+          *Full Name is required
+        </div>
+        <div *ngIf="indForm.get('name').errors.maxlength">
+          *Full Name should be maximum
+          {{ indForm.get("name").errors.maxlength.requiredLength }} characters
+        </div>
+        <div *ngIf="indForm.get('name').errors.pattern">*Use letters only</div>
+        <div *ngIf="indForm.get('name').errors.backend">
+          *{{ indForm.get("name").errors.backend }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- password -->
+  <div class="row" *ngIf="showRegisterFields">
+    <div class="col-12 form-group">
+      <label class="material-field">
+        <input
+          formControlName="email"
+          type="email"
+          class="form-control"
+          placeholder=" "
+        />
+        <span>Email</span>
+      </label>
+      <div
+        *ngIf="indForm.get('email').touched && indForm.get('email').invalid"
+        class="alert alert-danger"
+      >
+        <div *ngIf="indForm.get('email').errors.required">
+          *Email is required
+        </div>
+        <div *ngIf="indForm.get('email').errors.pattern">
+          *Invalid email address
+        </div>
+        <div *ngIf="indForm.get('email').errors.backend">
+          *{{ indForm.get("email").errors.backend }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- password -->
+  <div class="row" *ngIf="showRegisterFields">
+    <div class="col-12 form-group">
+      <label class="material-field">
+        <input
+          formControlName="phone"
+          type="text"
+          class="form-control"
+          placeholder=" "
+        />
+        <span>Phone Number</span>
+      </label>
+      <div
+        *ngIf="indForm.get('phone').touched && indForm.get('phone').invalid"
+        class="alert alert-danger"
+      >
+        <div *ngIf="indForm.get('phone').errors.required">
+          *Phone Number is required
+        </div>
+        <div *ngIf="indForm.get('phone').errors.minlength">
+          *Phone Number should be minimum
+          {{ indForm.get("phone").errors.minlength.requiredLength }} characters
+        </div>
+        <div *ngIf="indForm.get('phone').errors.maxlength">
+          *Phone Number should be maximum
+          {{ indForm.get("phone").errors.maxlength.requiredLength }} characters
+        </div>
+        <div *ngIf="indForm.get('phone').errors.pattern">
+          *Invalid Phone Number! e.g. 01XXXXXXXXX
+        </div>
+        <div *ngIf="indForm.get('phone').errors.backend">
+          *{{ indForm.get("phone").errors.backend }}
+        </div>
+      </div>
+    </div>
+
+    <!-- password -->
+    <div class="col-12 form-group">
+      <div class="input-group">
+        <label class="material-field password">
+          <input
+            #input
+            formControlName="password"
+            type="password"
+            class="form-control"
+            placeholder=" "
+          />
+          <span>Create Password</span>
+        </label>
+        <span class="input-group-append">
+          <button 
+            class="btn" 
+            type="button" 
+            (click)="showPassword(input)"
+            style="height: 81%;
+              color: gray !important;
+              border: 1px solid #ddd;
+              margin-top: 6px;"
+          > 
+            <i *ngIf="!togglePasswordIcon" class="fa fa-eye-slash" aria-hidden="true"></i> 
+            <i *ngIf="togglePasswordIcon" class="fa fa-eye" aria-hidden="true"></i> 
+          </button>
+        </span>
+      </div>
+      <div
+        *ngIf="
+          indForm.get('password').touched && indForm.get('password').invalid
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="indForm.get('password').errors.required">
+          *Password is required
+        </div>
+        <div *ngIf="indForm.get('password').errors.minlength">
+          *Password should be minimum
+          {{ indForm.get("password").errors.minlength.requiredLength }}
+          characters
+        </div>
+        <div *ngIf="indForm.get('password').errors.pattern">
+          *Password should contain at least one character and one
+          number.
+        </div>
+        <div *ngIf="indForm.get('password').errors.backend">
+          *{{ indForm.get("password").errors.backend }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- agreement -->
+  <div class="agreement text-center">
+    By clicking confirm you agree to our
+    <a
+      class="agree"
+      data-toggle="modal"
+      data-target="#policyModal"
+      (click)="showPolicyModal('terms-of-use')"
+    >
+      Terms of use </a
+    >,
+    <a
+      class="agree"
+      data-toggle="modal"
+      data-target="#policyModal"
+      (click)="showPolicyModal('privacy-policy')"
+    >
+      Privacy
+    </a>
+    and
+    <a
+      class="agree"
+      data-toggle="modal"
+      data-target="#policyModal"
+      (click)="showPolicyModal('cookie-policy')"
+    >
+      Cookie Policy </a
+    >.
+  </div>
+
+  <!-- confirm -->
+  <div *ngIf="showRegisterFields" class="confirm text-center">
+    <ng-container *ngIf="!circleSpin; else loaderConfirm">
+      <button type="submit" class="btn conf-btn">
+        Confirm
+      </button>
+    </ng-container>
+    <ng-template #loaderConfirm>
+      <button type="submit" class="btn conf-btn" disabled>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        Confirm
+      </button>
+    </ng-template>
+  </div>
+</form>
+
+<!-- modal policy -->
+<div class="modal fade preview-modal" data-backdrop="" id="policyModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <a class="navbar-brand" routerLink="">
+          <img class="logo" src="assets/images/logo_sm.jpg" alt="image" />
+        </a>
+        <button type="button" class="close" (click)="closeModal()">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <app-terms-of-use
+          *ngIf="PolicyViewType == 'terms-of-use'"
+        ></app-terms-of-use>
+        <app-privacy-policy
+          *ngIf="PolicyViewType == 'privacy-policy'"
+        ></app-privacy-policy>
+        <app-cookie-policy
+          *ngIf="PolicyViewType == 'cookie-policy'"
+        ></app-cookie-policy>
+      </div>
+    </div>
+  </div>
+</div>

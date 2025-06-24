@@ -1,0 +1,10 @@
+@media only screen and (max-width: 1023px) {
+  /* --------- button ----------- */
+  .btn-streched {
+    min-width: 162px !important;
+  }
+
+  #jobsFilterModal .modal-body {
+    padding: 2rem;
+  }
+}

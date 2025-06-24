@@ -1,0 +1,41 @@
+<div class="worker-profile" *ngIf="user.user_type == INDV_NAME">
+  <ng-container *ngIf="!previewLoading; else showProfileLoading">
+    <app-prv-indv-prof-content
+      [profile]="profile"
+      [logoCoverSctnClass]="getLogoCoverSectionClass()"
+      [hideCloseButton]="true"
+    >
+    </app-prv-indv-prof-content>
+  </ng-container>
+
+  <ng-template #showProfileLoading>
+    <app-profile-loader></app-profile-loader>
+  </ng-template>
+</div>
+
+<div class="company-details" *ngIf="user.user_type == COMP_NAME">
+  <ng-container *ngIf="!previewLoading; else showProfileLoading">
+    <app-prv-comp-prof-content
+      [profile]="profile"
+      [logoCoverSctnClass]="getLogoCoverSectionClass()"
+      [hideCloseButton]="true"
+    >
+    </app-prv-comp-prof-content>
+  </ng-container>
+
+  <ng-template #showProfileLoading>
+    <app-profile-loader></app-profile-loader>
+  </ng-template>
+</div>
+
+<div class="btn-section">
+  <a [routerLink]="getEditFormPageLink()" style="color: white;">
+    <button 
+      type="button" 
+      class="btn btn-primary btn-streched-single-btn" 
+      data-dismiss="modal"
+    >
+      Edit Profile
+    </button>
+  </a>
+</div>

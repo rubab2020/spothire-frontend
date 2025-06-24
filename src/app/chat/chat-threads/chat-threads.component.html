@@ -1,0 +1,77 @@
+<app-private-layout></app-private-layout>
+
+<div *ngIf="!isMobile">
+  <main>
+    <div class="row rounded-lg overflow-hidden shadow">
+      <!-- Users box-->
+      <div class="col-6 offset-3 px-0">
+        <div class="bg-white">
+          <div class="bg-gray px-4 py-2 bg-light">
+            <p class="h5 mb-0 py-1">Recent</p>
+          </div>
+          
+          <ng-container *ngIf="!threadsLoading; else showThreadsLoading">
+            <ng-container *ngIf="threads.length > 0; else noThreadsFound">
+              <!-- <div class="messages-box" *ngFor="let thread of threads" routerLink="{{ thread.id }}" [queryParams]="{sender: cmnService.encode(thread.sender)}"> -->
+              <div 
+                class="messages-box" 
+                *ngFor="let thread of threads" 
+                [routerLink]="['/chat', thread.id, 'sid', thread.sender.id]"
+              >
+                <div class="list-group rounded-0">
+                  <app-chat-thread  [thread]="thread"></app-chat-thread>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #noThreadsFound>
+              <div style="padding: 30px;">No Messages Found</div>
+            </ng-template>
+          </ng-container>
+          <ng-template #showThreadsLoading>
+            <div style="padding: 20px;">
+              <app-applications-loader></app-applications-loader>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+
+<!-- -------- mobile ---------- -->
+<div *ngIf="isMobile">
+  <main>
+    <div class="row rounded-lg overflow-hidden shadow">
+      <!-- Users box-->
+      <div class="col-12 px-0">
+        <div class="bg-white">
+          <div class="bg-gray px-4 py-2 bg-light">
+            <p class="h5 mb-0 py-1">Recent</p>
+          </div>
+  
+          <ng-container *ngIf="!threadsLoading; else showThreadsLoading">
+            <ng-container *ngIf="threads.length > 0; else noThreadsFound">
+              <!-- <div class="messages-box" *ngFor="let thread of threads" routerLink="{{ thread.id }}" [queryParams]="{sender: cmnService.encode(thread.sender)}"> -->
+              <div class="messages-box" *ngFor="let thread of threads" [routerLink]="['/chat', thread.id, 'sid', thread.sender.id]">
+                <div class="list-group rounded-0">
+                  <app-chat-thread  [thread]="thread"></app-chat-thread>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #noThreadsFound>
+              <div style="padding: 30px;">No Messages Found</div>
+            </ng-template>
+          </ng-container>
+          <ng-template #showThreadsLoading>
+            <div style="padding: 20px;">
+              <app-applications-loader></app-applications-loader>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

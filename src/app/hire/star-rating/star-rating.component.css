@@ -1,0 +1,14 @@
+/*star rating*/
+.to-rate{
+    cursor: pointer;
+    padding: 0 3px;
+}
+.fa-star-o{
+    color: #ffc107 !important;
+    font-size: 1.5rem;
+}
+.fa-star{
+    color: #ffc107 !important;
+    font-size: 1.5rem;
+}
+/*star rating ends*/

@@ -1,0 +1,45 @@
+<div ngbDropdown class="dropdown" placement="top-right">
+  <button 
+    ngbDropdownToggle 
+    class="dropdown-toggle material-btn-contained material-cntnd-btn-gray"
+    aria-haspopup="true"
+    aria-expanded="false"	
+  >
+    <a class="" id="share">
+      <i class="fa fa-share-alt" aria-hidden="true"></i> Share
+    </a>
+  </button>
+  <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="share">
+    <a class="dropdown-item" 
+      shareButton="facebook" 
+      [sbUrl]="baseUrl+'/jobs/'+job?.slug" 
+      [sbTitle]="job?.job_title"
+      [sbDescription]="cmnService.truncateText(job?.work_description, 200)" 
+      [sbImage]="job?.employer.profile_picture"
+    >
+      <i class="fa fa-facebook social-icon sfacebook"></i> Facebook
+    </a>
+    <a class="dropdown-item"
+      shareButton="twitter" 
+      [sbUrl]="baseUrl+'/jobs/'+job?.slug" 
+      [sbTitle]="job?.job_title">
+        <i class="fa fa-twitter social-icon stwitter"></i> Twitter
+    </a>
+    <a class="dropdown-item" 
+      shareButton="linkedIn" 
+      [sbUrl]="baseUrl+'/jobs/'+job?.slug" 
+      [sbTitle]="job?.job_title"
+      [sbDescription]="cmnService.truncateText(job?.work_description, 200)"
+    >
+      <i class="fa fa-linkedin social-icon slinkedin"></i> Linked In
+    </a>
+    <a class="dropdown-item" 
+      shareButton="pinterest" 
+      [sbUrl]="baseUrl+'/jobs/'+job?.slug" 
+      [sbDescription]="cmnService.truncateText(job?.work_description, 200)"
+      [sbImage]="job?.employer.profile_picture"
+    >
+      <i class="fa fa-pinterest social-icon spinterest"></i> Pinterest
+    </a>
+  </div>
+</div>

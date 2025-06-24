@@ -1,0 +1,162 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <ng-container *ngIf="!isMobile">
+    <!-- section name -->
+    <a
+      *ngIf="sectionName == 'work-dashboard'"
+      class="navbar-brand work headNav"
+      routerLink="/work/jobs"
+    >
+      Work
+    </a>
+    <a
+      *ngIf="sectionName == 'hire-dashboard'"
+      class="navbar-brand hire headNav"
+      routerLink="/hire/write-offer"
+    >
+      Hire
+    </a>
+    <a
+      *ngIf="sectionName !== 'work-dashboard' && sectionName !== 'hire-dashboard'"
+      class="navbar-brand headNav"
+      routerLink="/hire-or-serve"
+    >
+      <img class="logo" src="assets/images/logo_sm.jpg" alt="image" />
+    </a>
+    
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a 
+          class="nav-link notification notif-chat" 
+          routerLink="/chat"
+          >
+          <mat-icon class="chat-icon">chat</mat-icon>
+          <span class="badge" *ngIf="totalUnseenMsgs > 0">{{ totalUnseenMsgs }}</span>
+        </a>
+      </li>
+    </ul>
+    
+    <!-- sidebar toggle icon -->
+    <span
+      class="navbar-toggler headNav navbar-toggler-icon"
+      style="cursor: pointer;"
+      (click)="openNav()"
+    >
+    </span>  
+  </ng-container>
+  <ng-container *ngIf="isMobile">
+    <!-- section name -->
+    <a
+      *ngIf="sectionName == 'work-dashboard'"
+      class="navbar-brand work headNav"
+      routerLink="/work/jobs"
+    >
+      Work
+    </a>
+    <a
+      *ngIf="sectionName == 'hire-dashboard'"
+      class="navbar-brand hire headNav"
+      routerLink="/hire/write-offer"
+    >
+      Hire
+    </a>
+    <a
+      *ngIf="sectionName !== 'work-dashboard' && sectionName !== 'hire-dashboard'"
+      class="navbar-brand headNav"
+      routerLink="/hire-or-serve"
+    >
+      <img class="logo" src="assets/images/logo_sm.jpg" alt="image" />
+    </a>
+  
+    <a 
+      class="nav-link notification notif-chat" 
+      routerLink="/chat"
+    >
+      <mat-icon class="chat-icon">chat</mat-icon>
+      <span class="badge" *ngIf="totalUnseenMsgs > 0">{{ totalUnseenMsgs }}</span>
+    </a>
+    <span
+      class="navbar-toggler headNav navbar-toggler-icon"
+      style="cursor: pointer;"
+      (click)="openNav()"
+    >
+    </span>
+  </ng-container>
+
+  <!-- sidebar -->
+  <div id="mySidenav" class="sidenav">
+    <div class="firstPart">
+      <a class="closeCross ml-2" (click)="closeNav()">&times;</a>
+      <div class="row ml-1">
+        <div class="col text-right mr-2">
+          <div class="username">
+            {{ user.name ? user.name : 'Name not set' }}
+            <br />
+            <a
+              routerLink="/profile/details"
+              class="viewLink"
+              [ngClass]="{ 'nav-active': sectionName == 'view-profile' }"
+            >
+              <small>
+                <i class="fa fa-eye" aria-hidden="true"></i>
+                View Profile
+              </small>
+            </a>
+          </div>
+        </div>
+        <div class="col-3">
+          <img
+            src="{{ user.profile_picture ? user.profile_picture : defaultProfImg }}"
+            alt="Profile Picture"
+            class="float-right mr-2 tableImg rounded-circle"
+          />
+          <ng-template #default_image_block>
+            <img
+              [src]="netImage"
+              alt=""
+              class="tableImg rounded-circle seekerImg"
+            />
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <mat-divider class="firstLine"></mat-divider>
+
+    <a
+      class="navLink mr-2"
+      [ngClass]="{ 'nav-active': sectionName == 'hire-dashboard' }"
+      routerLink="/hire/write-offer"
+    >
+      <i class="fa fa-handshake-o" aria-hidden="true"></i> Hire
+    </a>
+
+    <mat-divider class="mt-1"></mat-divider>
+
+    <a
+      class="navLink mr-2"
+      [ngClass]="{ 'nav-active': sectionName == 'work-dashboard' }"
+      routerLink="/work/jobs"
+    >
+      <i class="fa fa-briefcase" aria-hidden="true"></i> Work
+    </a>
+
+    <mat-divider class="mt-1"></mat-divider>
+
+    <a
+      class="navLink mr-2"
+      [ngClass]="{ 'nav-active': sectionName == 'settings' }"
+      [routerLink]="getSettingsPageName()"
+    >
+      <i class="fa fa-cog" aria-hidden="true"></i> Settings
+    </a>
+
+    <mat-divider class="mt-1"></mat-divider>
+
+    <a class="navLink mr-2" routerLink="" (click)="authService.logOut()">
+      <i class="fa fa-sign-out" aria-hidden="true"></i> Log out
+    </a>
+  </div>
+</nav>
+
+<div id="overlay" (click)="closeNav()"></div>

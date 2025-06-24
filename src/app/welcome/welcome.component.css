@@ -1,0 +1,194 @@
+.pageBg{
+  background-color: #00b0f0 !important;
+  height: 100vh;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.pageBgStar{
+  background: url('../../assets/images/landing-page/left-bg-star.png') !important;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.pageBgRight{
+  background-color: white;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 76%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+  -webkit-clip-path: polygon(0 0, 35% 0, 94% 100%, 0% 100%);
+  clip-path: polygon(0 0, 35% 0, 94% 100%, 0% 100%);
+}
+
+.pageBgStartRight{
+  background: url('../../assets/images/landing-page/right-bg-star.png');
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 76%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+  -webkit-clip-path: polygon(0 0, 29% 0, 94% 100%, 0% 100%);
+  clip-path: polygon(0 0, 29% 0, 94% 100%, 0% 100%);
+}
+
+#content{
+  z-index: 2;
+  position: relative;
+}
+
+.signin-btn{
+  /* margin: 10px; */
+  float: right;
+  color: white; 
+  border-color: white;
+}
+
+.contact-us {
+  color: white;
+  border-color: white;
+  /* margin-right: 10px; */
+  margin: 1px 4px;
+  border: none;
+  padding: 0px;
+}
+
+/* icons */
+.icon-top-left{
+  margin-top: 30px;
+  margin-left: 200px;
+  height: 90px;
+}
+.icon-top-middle{
+  margin-top: -120px;
+  margin-left: 338px;
+  height: 55px;
+}
+.icon-top-right{
+  float: right;
+  margin-top: 30px;
+  height: 55px;
+  transform: rotate(35deg);
+  -webkit-transform: rotate(35deg);
+}
+.icon-bottom-left{
+  margin-left: 30px;
+  height: 65px;
+  -webkit-transform: rotate(-15deg);
+  transform: rotate(-15deg);
+}
+.icon-bottom-middle{
+  margin-left: 576px;
+  height: 70px;
+  transform: rotate(20deg);
+}
+.icon-bottom-right{
+  float: right;
+  margin-left: 30px;
+  height: 85px;
+}
+
+.hire-btn{
+  margin-left: 17px;
+  width: 360px;
+  height: 70px;
+  font-size: 30px;
+  border-radius: 50px;
+}
+
+.work-btn{
+  margin-left: 60px;
+  width: 360px;
+  height: 70px;
+  font-size: 30px;
+  border-radius: 50px;
+}
+
+@media only screen and (max-width: 1023px){
+  .pageBg{
+      background-color: #00b0f0 !important;
+      height: 91vh;
+      overflow: hidden;
+      padding: 0px;
+  }
+  
+  .pageBgRight{
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 76%;
+      height: 91vh;
+      overflow: hidden;
+      background-color: white;
+      z-index: 1;
+      /* -webkit-clip-path: polygon(0 0, 29% 0, 94% 100%, 0% 100%);
+      clip-path: polygon(0 0, 29% 0, 94% 100%, 0% 100%); */
+      clip-path: polygon(0 0, 40% 0, 85% 100%, 0% 100%);
+  }
+
+  .logo{
+    margin: 18px 5px 0px 10px;
+  }
+  
+  #content{
+      z-index: 2;
+      position: relative;
+  }
+  
+  .signin-btn{
+      margin: 10px;
+      float: right;
+      color: white; 
+      border-color: white;
+  }
+  .contact-us {
+    color: white;
+    border-color: white;
+    /* margin-right: 10px; */
+    margin: 10px 4px;
+    border: none;
+    padding: 0px;
+  }
+  
+  /* icons */
+  .icon-top-right{
+      float: right;
+      margin-right: 10px;
+      height: 90px;
+      transform: rotate(0deg);
+      -webkit-transform: rotate(0deg);
+  }
+  .icon-bottom-left{
+      margin-left: 30px;
+      height: 107px;
+  }
+  
+  .hire-btn{
+      margin-left: 17px;
+      width: 136px;
+      height: 60px;
+      font-size: 25px;
+      border-radius: 30px;
+  }
+  
+  .work-btn{
+      margin-left: 10px;
+      width: 136px;
+      height: 60px;
+      font-size: 25px;
+      border-radius: 30px;
+  }
+
+  /* modal */
+  .register-modal-content{
+      height: 91vh !important; 
+      overflow-x: hidden !important; 
+      overflow-y: scroll !important;
+  }
+}

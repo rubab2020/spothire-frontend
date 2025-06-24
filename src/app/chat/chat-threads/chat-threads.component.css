@@ -1,0 +1,21 @@
+.shadow {
+  /* box-shadow: 0 0.1rem 0.5rem rgba(0, 0, 0, 0.15) !important; */
+  box-shadow: none !important;
+}  
+@media only screen and (max-width: 1023px) {
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    width: 5px;
+    background: #f5f5f5;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    width: 1em;
+    background-color: #ddd;
+    outline: 1px solid slategrey;
+    border-radius: 1rem;
+  }
+}

@@ -1,0 +1,13 @@
+.hint-text {
+  color: #777;
+  padding-bottom: 15px;
+  text-align: center;
+}
+
+.agree {
+  cursor: pointer;
+}
+
+.modal {
+  z-index: 99999;
+}

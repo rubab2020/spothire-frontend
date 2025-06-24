@@ -1,0 +1,8 @@
+.swiper-pagination {
+  bottom: -11px !important;
+  bottom: calc(env(safe-area-inset-bottom) + -11px) !important;
+}
+
+.swiper-container  {
+  margin-bottom: 7px !important;
+}

@@ -1,0 +1,128 @@
+<!---------------- not mobile ------------->
+<div class="pageBg"  *ngIf="!isMobile">
+	<div class="pageBgStar">
+		<div id="content">
+			<!-- header -->
+			<div class="row">
+				<div class="col-4">
+					<img class="logo" src="assets/images/logo_sm.jpg" alt="image">
+				</div>
+				<div class="col-8">
+					<button type="button" 
+						class="material-btn-outline signin-btn" 
+						data-toggle="modal"
+						data-target="#loginModal"
+						(click)="cmnService.removePublicActionsFromStorage()"
+					>
+						Sign in
+					</button>
+					<button 
+						type="button" 
+						class="material-btn-outline float-right contact-us" 
+						data-toggle="modal" 
+						data-target="#contactSupportModal"
+						style="color: white; border-color: white; margin-right: 10px;"
+					>
+						Contact Us
+					</button>
+				</div>
+			</div>
+
+			<div class="row mt-4">
+				<div class="col-12">
+					<img class="icon-top-left" src="assets/images/landing-page/search.png" alt="image">
+					<img class="icon-top-middle" src="assets/images/landing-page/chat.png" alt="image">
+					<img class="icon-top-right" src="assets/images/landing-page/brifcase.png" alt="image">
+				</div>
+			</div>
+
+			<div class="row" style="margin-top: 9%; margin-bottom: 11%;">
+				<div class="col-4 offset-1">
+					<a routerLink="write-offer">
+						<button type="button" class="material-btn-contained hire-btn">Hire</button>
+					</a>
+				</div>
+
+				<div class="col-4 offset-2">
+					<a routerLink="jobs">
+						<button type="button" class="material-btn-contained material-cntnd-btn-white work-btn">Work</button>
+					</a>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<img class="icon-bottom-left" src="assets/images/landing-page/call.png" alt="image">
+					<img class="icon-bottom-middle" src="assets/images/landing-page/rating.png" alt="image">
+					<img class="icon-bottom-right" src="assets/images/landing-page/connect.png" alt="image">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- left background -->
+	<div class="pageBgRight"></div> 
+	<div class="pageBgStartRight"></div> 
+</div>
+
+<!---------------- mobile ----------------->
+<div class="pageBg" *ngIf="isMobile">
+	<div id="content">
+		<!-- header -->
+		<div class="row">
+			<div class="col-4">
+				<img class="logo" src="assets/images/logo_sm.jpg" alt="image">
+			</div>
+			<div class="col-8">
+				<button type="button" 
+					class="material-btn-outline signin-btn" 
+					data-toggle="modal"
+					data-target="#loginModal"
+					(click)="cmnService.removePublicActionsFromStorage()"
+				>
+					Sign in
+				</button>
+				<button 
+					type="button" 
+					class="material-btn-outline float-right contact-us" 
+					data-toggle="modal" 
+					data-target="#contactSupportModal"
+					style="color: white; border-color: white; margin-right: 10px;"
+				>
+					Contact Us
+				</button>
+			</div>
+		</div>
+
+		<div class="row mt-4">
+			<div class="col-12">
+				<img class="icon-top-right" src="assets/images/landing-page/connect.png" alt="image">
+			</div>
+		</div>
+
+		<div class="row" style="margin-top: 20%;">
+			<div class="col-6">
+				<a routerLink="write-offer">
+					<button type="button" class="material-btn-contained hire-btn">Hire</button>
+				</a>
+			</div>
+
+			<div class="col-6">
+				<a routerLink="jobs">
+					<button type="button" class="material-btn-contained material-cntnd-btn-white work-btn">Work</button>
+				</a>
+			</div>
+
+			<div class="row mt-5">
+				<div class="col-12">
+					<img class="icon-bottom-left" src="assets/images/landing-page/search.png" alt="image">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- left background -->
+	<div class="pageBgRight"></div> 
+</div>
+
+<app-login></app-login>
+<app-register></app-register>
+<app-contact-us></app-contact-us>

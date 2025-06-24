@@ -1,0 +1,6 @@
+<i 
+  class='fa to-rate' 
+  *ngFor='let n of range; let $index = index;' 
+  (click)='mark($index)' 
+  [ngClass]='isMarked($index)'>
+</i>

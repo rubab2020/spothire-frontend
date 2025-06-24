@@ -1,0 +1,60 @@
+<div [formGroup]="workForm">
+  <div class="container-fluid content-bg">
+    <div class="row">
+      <div class="col-12 advert-duration">
+        <div>
+          <img 
+            src="assets/images/free.png" 
+            alt="First job post is Free" 
+            style="
+              width: auto; 
+              height: 130px; 
+              margin-left: auto;
+              margin-right: auto;
+              display: block; 
+              margin-bottom: 20px;"
+          >
+        </div>
+
+        <p class="text-center" style="color: gray; margin-bottom: 25px;">
+          Choose Your Advert. Duration*
+          <br> 
+          <span style="color: #e74c3c;">First job post is free</span>
+        </p>
+
+        <div class="btn-group btn-group-toggle advert-btns" data-toggle="buttons">
+          <span *ngFor="let item of advertDays; let i=index;">
+            <label
+              class="btn btn-info material-btn-outline advert-option
+              {{ item.value == workForm.get('advert_duration').value ? 'active' : '' }}"
+              [ngStyle]="i == 0 
+                && {'margin-left': '10px'} 
+                || i == 1 
+                && {'margin-left': '5px', 'margin-right': '10px'}" 
+              (click)="onClickAdvertDuration(item)">
+              <input 
+                formControlName="advert_duration" 
+                type="radio" 
+                hidden 
+                value="{{item.value}}">
+                {{item.name}}
+            </label>
+            <div class="text-center old-advert-price">
+              <small>
+                {{item.amount}} taka
+              </small>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div 
+        *ngIf="isFormSubmitted && workForm.get('advert_duration').invalid" 
+        class="alert alert-danger"
+        style="margin-top: 0px;">
+        <div *ngIf="workForm.get('advert_duration').errors.required">
+          *Advert. Duration is required
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

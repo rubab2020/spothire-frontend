@@ -1,0 +1,201 @@
+<div class="page-bg" *ngIf="!isMobile">
+	<ng-container *ngIf="!loading; else showLoader">
+		<form #workform="ngForm" [formGroup]="workForm">
+			<!-- ------------ first stepper ------------ -->
+			<mat-horizontal-stepper #stepper>
+				<mat-step [stepControl]="workForm">
+					<div class="col-md-12 col-12 form-cotent">
+					<div class="form-content-background">
+						<div class="row">
+							<!-- pager left -->
+							<div class="col-md-3 pager-left">
+							</div>
+					
+							<div class="col-md-6 col-12 mx-auto">
+								<app-first-step-fields 
+									[workForm]="workForm" 
+									[employmentTypes]="employmentTypes"
+									[selectedEmploymentType]="selectedEmploymentType"
+									[departments]="departments"
+									[selectedDepartment]="selectedDepartment"
+									[salaryTypes]="salaryTypes"
+									[selectedSalaryType]="selectedSalaryType"
+									[locations]="locations"
+									[selectedLocation]="selectedLocation"
+									[isFormSubmitted]="isFormSubmitted"
+								>
+								</app-first-step-fields>
+							</div>
+					
+							<!-- pager right -->
+							<div class="col-md-3 pager-right">
+								<button class="next-link" matStepperNext>
+									<i class="fa fa-2x fa-arrow-right" aria-hidden="true"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+					</div>
+				</mat-step>
+		
+				<!-- ------------ second stepper ------------ -->
+				<mat-step [stepControl]="workForm">
+					<div class="col-md-12 col-12 form-cotent">
+						<div class="form-content-background">
+							<div class="row">
+								<!-- pager left -->
+								<div class="col-md-3 pager-left">
+									<button matStepperPrevious class="previous-link">
+										<i class="fa fa-2x fa-arrow-left" aria-hidden="true"></i>
+									</button>
+								</div>
+						
+								<div class="col-md-6 col-12 mx-auto">
+									<app-second-step-fields
+										[workForm]="workForm"
+										[experiences]="experiences"
+										[selectedMinimumExperience]="selectedMinimumExperience"
+										[qualifications]="qualifications"
+										[selectedMinimumQualification]="selectedMinimumQualification"
+										[tags]="tags"
+										[selectedSkills]="selectedSkills"
+										[description]="description"
+										[isFormSubmitted]="isFormSubmitted"
+									>
+									</app-second-step-fields>
+								</div>
+						
+								<!-- pager right -->
+								<div class="col-md-3 pager-right">
+									<button matStepperNext class="next-link" (click)="checkFieldsErrors()">
+										Preview
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</mat-step>
+			</mat-horizontal-stepper>
+		</form>
+	</ng-container>
+
+	<!-- loader -->
+	<ng-template #showLoader>
+		<div style="height: 85vh;">
+			<content-loader
+				height="100"
+				speed="1"
+				primaryColor="#dddddd"
+				secondaryColor="#c0c0c0"
+			>
+				<svg:circle cx="170" cy="80" r="3" />
+				<svg:circle cx="194" cy="80" r="3" />
+				<svg:circle cx="218" cy="80" r="3" />
+			</content-loader>
+		</div>
+
+	</ng-template>
+</div>
+
+
+<!---------------------- MOBILE ----------------------------------->
+<div class="page-bg" *ngIf="isMobile">
+	<form #workform="ngForm" [formGroup]="workForm">
+		<!-- ------------ looking for, employment type, work date and time, salary ------------ -->
+		<mat-horizontal-stepper #stepper>
+			<mat-step [stepControl]="workForm">
+				<app-first-step-fields
+					[workForm]="workForm"
+					[employmentTypes]="employmentTypes"
+					[selectedEmploymentType]="selectedEmploymentType"
+					[departments]="departments"
+					[selectedDepartment]="selectedDepartment"
+					[salaryTypes]="salaryTypes"
+					[selectedSalaryType]="selectedSalaryType"
+					[locations]="locations"
+					[selectedLocation]="selectedLocation"
+					[isFormSubmitted]="isFormSubmitted"
+				>
+				</app-first-step-fields>
+
+				<!-- pager -->
+				<div class="pager">
+					<ul style="padding-left: 10px; padding-right: 10px;">
+						<li class="float-right">
+							<button matStepperNext class="next">Next &rarr;</button>
+						</li>
+					</ul>
+				</div>
+			</mat-step>
+	
+			<!-- ------ work address, category, job experinece, qualifications, skills, benifits--- -->
+			<mat-step [stepControl]="workForm">
+				<app-second-step-fields
+					[workForm]="workForm"
+					[experiences]="experiences"
+					[selectedMinimumExperience]="selectedMinimumExperience"
+					[qualifications]="qualifications"
+					[selectedMinimumQualification]="selectedMinimumQualification"
+					[tags]="tags"
+					[selectedSkills]="selectedSkills"
+					[description]="description"
+					[isFormSubmitted]="isFormSubmitted"
+				>
+				</app-second-step-fields>
+				
+				<!-- pager -->
+				<div class="pager">
+					<ul style="padding-left: 10px; padding-right: 10px;">
+						<li class="float-left">
+							<button matStepperPrevious class="next">&larr; Back</button>
+						</li>
+						<li class="float-right">
+							<button
+								matStepperNext
+								class="next"
+								(click)="checkFieldsErrors()"
+							>
+								Preview
+							</button>
+						</li>
+					</ul>
+				</div>
+			</mat-step>
+		</mat-horizontal-stepper>
+	</form>
+</div>
+
+
+<!-- ---------- preview job Modal ------------- -->
+<div class="modal fade" id="jobPreviewModal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<!-- Modal body -->
+			<div class="modal-body job-details">
+				<app-prv-job-content [profile]="user" [job]="workForm.value"></app-prv-job-content>
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer" style="padding: 2px;">
+				
+				<button 
+					type="button" 
+					class="btn btn-primary btn-streched-single-btn finish-btn" 
+					data-toggle="modal"
+					data-target="#loginModal"
+					(click)="onSubmit()">
+					Circulate
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ---------- fields Error Modal ------------- -->
+<app-write-offer-fields-err-modal (onClick)="moveStepper($event)">
+</app-write-offer-fields-err-modal>
+
+<app-login></app-login>
+<app-register></app-register>
+
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

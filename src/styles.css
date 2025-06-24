@@ -1,0 +1,2083 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "~font-awesome/css/font-awesome.css";
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "~ngx-toastr/toastr.css";
+@import "./assets/css/pure-material-design.css";
+@import "./assets/css/stepper-dots.css";
+@import "./assets/css/pager.css";
+@import "./assets/css/swiper.css";
+@import "./assets/css/cards-gallery.css";
+@font-face {
+  font-family: futura;
+  src: url(assets/font/futura-medium-bt.ttf) format("opentype");
+}
+
+body {
+  max-height: 100vh;
+  scroll-behavior: smooth;
+}
+
+#toast-container > div {
+  opacity:1;
+}
+
+.px-15 {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.py-20 {
+  background: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 2px;
+}
+.form-section {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* ------------- page-bg ----------- */
+.page-bg {
+  background-color: #fbfbfb;
+}
+
+/* ------------- button ----------- */
+.btn:focus,
+.btn.focus {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+/* ------------- card ----------- */
+.card {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  margin: 7px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  z-index: 0;
+}
+.card-body {
+  padding: 15px;
+}
+.card-form {
+  box-shadow: 0 0px 2px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0px 2px rgba(0, 0, 0, 0.5);
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 4px;
+  z-index: 0;
+}
+
+/* ------------ header card ------------ */
+.header-card {
+  margin: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  z-index: 1;
+  background: #eeeeee8c;
+}
+
+/* ------- or separator ----------- */
+.or-seperator {
+  margin: 20px 0 10px;
+  margin-bottom: -1px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+.or-seperator i {
+  padding: 0 10px;
+  background: #f7f7f7;
+  position: relative;
+  top: -11px;
+  z-index: 1;
+}
+
+/* ----------- social buttons ----------- */
+.btn-social {
+  position: relative;
+  padding-left: 32px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.8rem;
+  text-align: center;
+}
+.btn-social > :first-child {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 28px;
+  line-height: 34px;
+  text-align: center;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+.social-btn .btn {
+  margin: 10px 0;
+  font-size: 15px;
+  text-align: left;
+  line-height: 24px;
+}
+.social-btn .btn i {
+  float: left;
+  margin: 4px 15px 0 5px;
+  min-width: 15px;
+}
+.input-group-addon .fa {
+  font-size: 18px;
+}
+.btn-facebook {
+  color: #ffffff !important;
+  background-color: #3b5998;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.btn-facebook:focus,
+.btn-facebook.focus {
+  color: #ffffff;
+  background-color: #2d4373;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.btn-facebook:hover {
+  color: #ffffff;
+  background-color: #2d4373;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.btn-facebook:active,
+.btn-facebook.active,
+.open > .dropdown-toggle.btn-facebook {
+  color: #ffffff;
+  background-color: #2d4373;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.btn-facebook:active,
+.btn-facebook.active,
+.open > .dropdown-toggle.btn-facebook {
+  background-image: none;
+}
+.btn-google {
+  color: #ffffff !important;
+  background-color: #dd4b39;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.btn-google:focus,
+.btn-google.focus {
+  color: #ffffff;
+  background-color: #c23321;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.btn-google:hover {
+  color: #ffffff;
+  background-color: #c23321;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.btn-google:active,
+.btn-google.active,
+.open > .dropdown-toggle.btn-google {
+  color: #ffffff;
+  background-color: #c23321;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.btn-google:active,
+.btn-google.active,
+.open > .dropdown-toggle.btn-google {
+  background-image: none;
+}
+
+/* ------ form input invalid color remove ----- */
+input.ng-invalid.ng-touched {
+  border-color: transparent;
+}
+
+/* -------------- nav ------------------ */
+.navbar > .btn-group > .btn-secondary,
+.btn-secondary:hover {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+.navbar .dropdown-menu-right {
+  right: 0;
+  left: auto;
+}
+button.btn.btn-secondary.dropdown-toggle {
+  padding: 0px;
+}
+.navbar > .btn-group > .dropdown-menu {
+  text-align: right;
+}
+.navbar > .btn-group > .btn > .user-image {
+  width: auto;
+  height: 30px;
+  border-radius: 50%;
+}
+.navbar > .btn-group > .dropdown-menu > .dropdown-item > .user-name {
+  font-size: 17px;
+  margin-bottom: 5px;
+}
+.navbar > .btn-group > .dropdown-menu > .dropdown-item > .email {
+  color: gray;
+  font-size: 12px;
+}
+
+/* -------------- date picker --------------- */
+.clear-date {
+  margin-top: -36px;
+  float: right;
+  margin-right: 5px;
+}
+.clear-dt-icon {
+  z-index: 1;
+  padding: 0px;
+  background: white;
+  border: none;
+  color: #6c757d82;
+}
+
+/* -------------- time picker --------------- */
+#time-picker-wrapper {
+  z-index: 10000 !important;
+}
+
+.bg-dark {
+  line-height: 1;
+  font-size: 0.8125rem;
+  padding: 0rem 1rem;
+  height: 54px;
+  background-color: white !important;
+  box-shadow: 0 4px 6px -6px #222;
+  z-index: 999;
+}
+.logo {
+  height: 30px;
+}
+.btn-outline-secondary {
+  color: white !important;
+}
+.btn-secondary {
+  margin-top: 0px;
+  background-color: #474d52 !important;
+}
+.btn-secondary:hover {
+  background-color: #2f3337 !important;
+}
+.inputBorder {
+  border-radius: 0;
+  padding: 0.375rem 0.375rem;
+  height: 30px;
+}
+
+/* register */
+.register-type-btn {
+  border-radius: 10px;
+  height: 40px;
+  background-color: #f2f2f2;
+  color: #595959;
+}
+.register-type-btn:active,
+.register-type-btn.active {
+  background-color: #6c757deb;
+  color: white;
+  display: block;
+}
+
+/* -------------- from ----------------- */
+.form-header {
+  margin-bottom: 20px;
+}
+.has-error {
+  color: red;
+}
+.alert {
+  margin-bottom: 0;
+  padding: 0rem 1rem;
+  border: none;
+  border-radius: 0;
+  font-size: 0.7rem;
+}
+.alert-danger {
+  color: red;
+  margin-top: -7px;
+  border-radius: 3px;
+  border: none;
+  margin-left: -10px;
+  background: none;
+}
+.conf-btn {
+  border-radius: 10px;
+  width: 80%;
+  background-color: #00b0f0;
+  border-color: #00b0f0;
+  color: white;
+}
+.conf-btn.focus,
+.conf-btn.active {
+  background-color: #1382aa;
+  border-color: #1382aa;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  color: white;
+}
+.agreement > a.agree {
+  color: #00b0f0;
+}
+
+.agreement {
+  color: #666666;
+  font-size: 13px;
+}
+
+.confirm {
+  padding-top: 10px;
+  margin-bottom: 25px;
+}
+
+/* --------------- modal --------------------- */
+.modal-header {
+  background-color: white !important;
+  padding: 2px 10px !important;
+  border-radius: 0px !important;
+  height: 52px !important;
+  color: #6c757d !important;
+  font-weight: bold;
+}
+.modal-header .close {
+  cursor: pointer !important;
+  margin-top: 10px !important;
+  padding: 5px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  margin-right: 0px !important;
+  font-weight: bolder;
+}
+.modal-title {
+  margin-bottom: 0;
+  line-height: 1.5;
+  font-size: 17px;
+  margin-top: 10px;
+  width: 100%;
+}
+.modal-content {
+  border: none !important;
+  border-radius: 0px !important;
+}
+/* stack modals backdrop */
+.modal-backdrop ~ .modal-backdrop {
+  z-index: 1051;
+}
+.modal-backdrop ~ .modal-backdrop ~ .modal-backdrop {
+  z-index: 1052;
+}
+.modal-backdrop ~ .modal-backdrop ~ .modal-backdrop ~ .modal-backdrop {
+  z-index: 1053;
+}
+#errorModal {
+  z-index: 1054;
+}
+#previewProfileModal,
+#loginModal {
+  z-index: 1052;
+}
+.confirm-modal .modal-dialog {
+  -webkit-transform: translate(0, -50%);
+  -o-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  top: 30%;
+  margin: 0 auto;
+}
+
+/* ---------- filter options --------- */
+.filter-title {
+  color: gray;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.btn-info {
+  background: #eaeff1;
+  text-transform: capitalize;
+  color: #595959;
+  margin-right: 5px;
+  border-color: #f0f6f7;
+}
+::ng-deep .btn-info:not(:disabled):not(.disabled):active,
+.btn-info:not(:disabled):not(.disabled).active,
+.show > .btn-info.dropdown-toggle {
+  color: white;
+  background-color: #26b1e2;
+  border-color: #26b1e2;
+}
+
+/* ------ mobile menu ------ */
+.mobileMenu {
+  text-align: center;
+  background-color: white;
+  padding-top: 8px;
+  border-bottom: 1px solid #ddd;
+}
+.mobileMenu > .current {
+  border-bottom: 3px solid #00b0f0;
+  padding-bottom: 5px;
+}
+.mobileMenu > .current a {
+  color: #00b0f0;
+}
+.mobileMenu a {
+  color: #595959;
+  text-decoration: none;
+  margin-top: 5px;
+}
+
+/* ---------- profile-pic and cover photo ---------- */
+.profile-pic {
+  /* width : auto; */
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover !important;
+  object-position: center 20% !important;
+  background-color: white !important;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 3px solid white;
+}
+.cover-photo {
+  width: 100%;
+  height: 150px;
+  cursor: pointer;
+  object-fit: cover !important;
+  background-color: white !important;
+}
+.upload-pic-text {
+  padding: 0px;
+  margin-bottom: -10px;
+}
+.profile-pic-section {
+  margin-top: -128px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+/* ------------ badge --------------- */
+.badge-secondary {
+  font-weight: normal !important;
+  font-size: 12px !important;
+  padding: 6px 10px !important;
+  margin-right: 7px !important;
+  margin-bottom: 7px !important;
+  color: #4b9de4 !important;
+  background: #e4f5fb !important;
+}
+
+/* ------------ button --------------- */
+.btn-streched {
+  line-height: 1.2;
+  font-size: 1rem;
+  min-width: 172px;
+  height: 35px;
+}
+.btn-streched-half-width-mb {
+  min-width: 46vw !important;
+  text-transform: capitalize !important;
+}
+.btn-streched-full-width-mb {
+  min-width: 170px !important;
+  text-transform: capitalize !important;
+}
+.material-btn-contained,
+.material-btn-outline {
+  border-radius: 20px;
+}
+
+/* ------------ upload image ------------ */
+.upload-image {
+  width: 652px;
+  height: 330px;
+  cursor: pointer;
+  object-position: center 20% !important;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  padding-bottom: -24px;
+  margin-bottom: -20px;
+  object-fit: contain;
+  background-color: lightgray;
+}
+.upload-describe-pic {
+  width: 880px;
+}
+.upload-describe-pic-input {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+.upload-img-del-btn {
+  border-radius: 50%;
+  border: 2px solid #e9ecef;
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 10px;
+  margin-top: -310px;
+  color: #333;
+  background: #dee2e6;
+  position: relative;
+}
+
+/* ------------------------------- */
+/* --------- job-details --------- */
+/* ------------------------------- */
+.job-details {
+  padding: 0px !important;
+  min-height: 91vh !important;
+  max-height: 91vh !important;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+  font-size: 15px !important;
+  background-color: white !important;
+  color: #7f7f7f;
+}
+.job-details .close-btn {
+  font-size: 17px;
+  margin-right: 10px;
+  margin-top: 10px;
+  color: #f8f9fa;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.job-details .logo-cover-section {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  margin-top: -48px !important;
+}
+.job-details .profile-info {
+  margin-top: -128px;
+  padding-left: 0px;
+  padding-right: 0px;
+  font-size: 16px;
+  text-transform: capitalize;
+}
+.job-details .section-title {
+  font-size: 16px !important;
+  color: #20487d !important;
+  font-weight: bold !important;
+  margin-bottom: 10px !important;
+}
+.job-details .job-title {
+  font-size: 18px !important;
+  font-weight: bold !important;
+  color: #20487d !important;
+  margin-top: -5px !important;
+}
+
+/* job heighlights */
+.job-heighlights {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.job-heighlights .section {
+  margin-top: 10px;
+  font-size: 15px;
+}
+.job-heighlights .section .item {
+  margin-right: 0px;
+}
+.job-heighlights .item .icon {
+  margin-right: 5px;
+  color: #376392;
+  width: 16px;
+}
+.job-heighlights .item .title {
+  color: #20487d;
+  font-weight: bold;
+}
+.job-heighlights .item .content {
+  margin-left: 23px;
+  font-size: 19px;
+}
+
+/* ------------------------------- */
+/* --------- company-details --------- */
+/* ------------------------------- */
+.company-details {
+  padding: 0px !important;
+  min-height: 91vh !important;
+  max-height: 91vh !important;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+  font-size: 14px !important;
+  background-color: white !important;
+  color: #7f7f7f;
+}
+.company-details .close-btn {
+  font-size: 17px;
+  margin-right: 10px;
+  margin-top: 10px;
+  color: #f8f9fa;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.company-details .logo-cover-section {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  margin-top: -48px !important;
+}
+.company-details .section-title {
+  font-size: 16px !important;
+  color: #20487d !important;
+  font-weight: bold !important;
+  margin-bottom: 10px !important;
+}
+
+/*----------- basic info --------- */
+.company-details .comp-basic-info {
+  font-size: 16px;
+  line-height: 1.2;
+  margin-top: 3px;
+}
+.company-details .comp-basic-info > .name {
+  font-weight: bold;
+  font-size: 17px;
+  color: black;
+}
+
+/* ---------- gallery ------------- */
+.company-details .work-image {
+  width: 718px !important;
+  height: 330px !important;
+  object-fit: contain;
+  background-color: lightgray;
+}
+.company-details .describe-pic {
+  border: 1px solid #ddd;
+  width: 718px;
+  height: 56px;
+  padding: 15px 13px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  margin-bottom: 10px;
+  background: #f8f9fa;
+}
+
+.company-details .comp-profile-info {
+  margin-top: -126px;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-transform: capitalize;
+}
+
+/* ------------------------------- */
+/* -------- worker-profile ------- */
+/* ------------------------------- */
+.worker-profile {
+  padding: 0px !important;
+  min-height: 90vh !important;
+  max-height: 90vh !important;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+  font-size: 14px !important;
+  background-color: white !important;
+}
+
+.worker-profile .logo-cover-section {
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-top: -48px;
+}
+
+/* ----------- section ----------- */
+.worker-profile .section-title {
+  font-size: 16px;
+  color: #20487d;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* ------- item -------- */
+.worker-profile .item-details {
+  padding-left: 5px;
+  padding-right: 15px;
+}
+.worker-profile .item-title {
+  font-weight: bold;
+}
+.worker-profile .item-faded {
+  color: gray;
+}
+
+/* --------- applicant --------- */
+.worker-profile .logo-cover-section-with-phn {
+  margin-top: -68px;
+}
+.worker-profile .profile-info {
+  margin-top: -128px;
+  padding-left: 0px;
+  padding-right: 0px;
+  font-size: 16px;
+  text-transform: capitalize;
+}
+.worker-profile .image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.worker-profile .name {
+  margin-top: 7px;
+  font-size: 17px;
+  text-transform: capitalize;
+  margin-left: -5px;
+}
+
+/*----------- basic info --------- */
+.worker-profile .basic-info {
+  line-height: 1.2;
+  margin-top: 3px;
+}
+.worker-profile .basic-info > .name {
+  font-weight: bold;
+  font-size: 19px;
+  line-height: 1.2;
+  margin-top: 3px;
+}
+.worker-profile .basic-info > .rating-jobs {
+  color: gray;
+  font-size: 17px;
+}
+.worker-profile .skill {
+  font-weight: bold;
+  font-size: 11px;
+  color: #20487d;
+  background: aliceblue;
+  padding: 4px 0px;
+  border-radius: 17px;
+  margin-right: 7px;
+  margin-bottom: 7px;
+  width: 165px;
+  display: inline-block;
+  border: 1px solid #eee;
+}
+
+/* ---------- gallery ------------- */
+.worker-profile .work-image {
+  width: 100% !important;
+  height: 330px !important;
+  object-fit: contain;
+  background-color: black;
+}
+.worker-profile .describe-pic {
+  border: 1px solid #ddd;
+  width: 100%;
+  height: 56px;
+  padding: 15px 13px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  margin-bottom: 10px;
+  background: #f8f9fa;
+}
+
+.worker-profile .close-btn {
+  font-size: 17px;
+  margin-right: 10px;
+  margin-top: 10px;
+  color: #f8f9fa;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.worker-profile .phone-btn {
+  margin-top: 30px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background: white;
+}
+.worker-profile .no-phone-btn {
+  margin-top: 30px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background: white;
+  padding: 3px 4px;
+}
+.worker-profile .no-phone-img {
+  height: 30px;
+}
+.worker-profile .add-phone {
+  margin-top: 30px;
+  margin-left: 10px;
+  border-radius: 4px;
+  background: white;
+  width: 29%;
+  padding: 8px;
+}
+
+/* --------- datepicker ---------- */
+.mat-datepicker-content .mat-calendar {
+  zoom: 0.75;
+}
+
+/* --------- pager ------------- */
+.pager-left {
+  padding-left: 120px;
+  padding-top: 35vh;
+}
+.pager-right {
+  padding-left: 120px;
+  padding-top: 35vh;
+}
+.previous-link {
+  color: darkgray;
+  background: white;
+  padding: 25px 40px 18px 40px;
+  border-radius: 50px;
+  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04),
+    0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 3px 4px 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  position: fixed;
+}
+.next-link {
+  color: darkgray;
+  background: white;
+  padding: 25px 40px 18px 40px;
+  border-radius: 50px;
+  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04),
+    0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 3px 4px 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  position: fixed;
+}
+
+/* ---------- company values ------- */
+.total-employees {
+  margin-top: -23px;
+  font-weight: bold;
+  color: #6c757d;
+}
+.started-in {
+  margin-top: 17px;
+  font-weight: bold;
+  color: #6c757d;
+}
+.annual-turnover {
+  margin-left: -13px;
+  margin-top: -5px;
+  font-weight: bold;
+  color: #6c757d;
+}
+
+/* ------- rating --------*/
+.custom-rating {
+  color: #ffc107 !important;
+  font-size: 15px;
+}
+
+/* ----------- write offer form --------- */
+.pay-scale-title {
+  color: gray;
+}
+
+/* advert options */
+.advert-option {
+  color: gray;
+}
+.old-advert-price {
+  color: gray;
+  margin-top: -5px;
+  font-size: 20px;
+}
+.new-advert-price {
+  color: gray;
+  margin-top: -10px;
+  font-size: 20px;
+}
+
+/* ----------- job---------- */
+.job {
+  cursor: pointer;
+}
+.job .tpn-sectn {
+  margin: 10px 0px 0px 0px;
+}
+.job .title {
+  padding-left: 7px;
+  padding-right: 0px;
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 5px;
+  color: #595959;
+}
+.job .title-marked {
+  padding-left: 7px;
+  padding-right: 0px;
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 5px;
+  color: #52188c;
+}
+.job .emp-photo {
+  width: 32px;
+  height: 32px;
+}
+.job .emp-name {
+  color: #a6a6a6;
+  font-size: 16px;
+  margin-left: 5px;
+  margin-top: 2px;
+}
+.job .cd-sctn {
+  font-size: 14px;
+  margin: 10px 0px;
+  color: #a6a6a6;
+}
+.job .city {
+  padding-left: 9px;
+  padding-right: 0px;
+}
+.job .city-icon {
+  margin-right: 10px;
+  line-height: initial;
+  color: #00c2e0;
+}
+.job .degree-icon {
+  margin-left: -3px;
+  margin-right: 3px;
+  color: #00c2e0;
+}
+.job .se-sctn {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.job .salary-icon {
+  margin-right: 5px;
+  color: #00c2e0;
+}
+.job .employment-type-icon {
+  margin-right: 5px;
+  color: #00c2e0;
+}
+.job .bd-sctn {
+  margin: 10px 0px;
+}
+.job .benefits {
+  color: #1abc9c;
+  font-size: 13px;
+}
+.job .deadline {
+  color: #e74c3c;
+  font-size: 13px;
+}
+
+/* ----------- share ------------ */
+.sfacebook {
+  margin-right: 5px;
+  background: #00000038;
+  padding: 5px;
+  border-radius: 50%;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.stwitter {
+  margin-right: 5px;
+  background: #00000038;
+  padding: 5px;
+  border-radius: 50%;
+}
+.slinkedin {
+  margin-right: 5px;
+  background: #00000038;
+  padding: 5px;
+  border-radius: 50%;
+}
+.spinterest {
+  margin-right: 5px;
+  background: #00000038;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+@media only screen and (max-width: 1023px) {
+  body {
+    max-width: 100vh;
+    max-height: 100vh;
+  }
+
+  #toast-container > div {
+    opacity:1;
+  }
+
+  .px-15 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .py-20 {
+    background: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 2px;
+  }
+  .form-section {
+    border: none;
+    padding: 0px;
+    border-radius: 0px;
+  }
+
+  /* ------------- page-bg ----------- */
+  .page-bg {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    min-height: 82vh;
+    background-color: #fbfbfb;
+  }
+
+  /* ------------- button ----------- */
+  .btn:focus,
+  .btn.focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+  }
+
+  /* ------------- card ----------- */
+  .card {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin: 7px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    z-index: 0;
+  }
+  .card-header {
+    border-top-left-radius: 8px !important;
+    border-top-right-radius: 8px !important;
+  }
+  .card-body {
+    padding: 15px;
+  }
+  .card-form {
+    box-shadow: 0 0px 2px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0px 2px rgba(0, 0, 0, 0.5);
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 4px;
+    z-index: 0;
+  }
+
+  /* ------------ header card ------------ */
+  .header-card {
+    margin: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    z-index: 1;
+    background: #eeeeee8c;
+  }
+
+  /* ------- or separator ----------- */
+  .or-seperator {
+    margin: 20px 0 10px;
+    margin-bottom: -1px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+  }
+  .or-seperator i {
+    padding: 0 10px;
+    background: #f7f7f7;
+    position: relative;
+    top: -11px;
+    z-index: 1;
+  }
+
+  /* ----------- social buttons ----------- */
+  .btn-social {
+    position: relative;
+    padding-left: 32px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  .btn-social > :first-child {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 28px;
+    line-height: 34px;
+    text-align: center;
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  .social-btn .btn {
+    margin: 10px 0;
+    font-size: 15px;
+    text-align: left;
+    line-height: 24px;
+  }
+  .social-btn .btn i {
+    float: left;
+    margin: 4px 15px 0 5px;
+    min-width: 15px;
+  }
+  .input-group-addon .fa {
+    font-size: 18px;
+  }
+  .btn-facebook {
+    color: #ffffff !important;
+    background-color: #3b5998;
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+  .btn-facebook:focus,
+  .btn-facebook.focus {
+    color: #ffffff;
+    background-color: #2d4373;
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+  .btn-facebook:hover {
+    color: #ffffff;
+    background-color: #2d4373;
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+  .btn-facebook:active,
+  .btn-facebook.active,
+  .open > .dropdown-toggle.btn-facebook {
+    color: #ffffff;
+    background-color: #2d4373;
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+  .btn-facebook:active,
+  .btn-facebook.active,
+  .open > .dropdown-toggle.btn-facebook {
+    background-image: none;
+  }
+  .btn-google {
+    color: #ffffff !important;
+    background-color: #dd4b39;
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+  .btn-google:focus,
+  .btn-google.focus {
+    color: #ffffff;
+    background-color: #c23321;
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+  .btn-google:hover {
+    color: #ffffff;
+    background-color: #c23321;
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+  .btn-google:active,
+  .btn-google.active,
+  .open > .dropdown-toggle.btn-google {
+    color: #ffffff;
+    background-color: #c23321;
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+  .btn-google:active,
+  .btn-google.active,
+  .open > .dropdown-toggle.btn-google {
+    background-image: none;
+  }
+
+  /* ------ form input invalid color remove ----- */
+  input.ng-invalid.ng-touched {
+    border-color: transparent;
+  }
+
+  /* -------------- nav ------------------ */
+  .navbar > .btn-group > .btn-secondary,
+  .btn-secondary:hover {
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
+  .navbar .dropdown-menu-right {
+    right: 0;
+    left: auto;
+  }
+  button.btn.btn-secondary.dropdown-toggle {
+    padding: 0px;
+  }
+  .navbar > .btn-group > .dropdown-menu {
+    text-align: right;
+  }
+  .navbar > .btn-group > .btn > .user-image {
+    width: auto;
+    height: 30px;
+    border-radius: 50%;
+  }
+  .navbar > .btn-group > .dropdown-menu > .dropdown-item > .user-name {
+    font-size: 17px;
+    margin-bottom: 5px;
+  }
+  .navbar > .btn-group > .dropdown-menu > .dropdown-item > .email {
+    color: gray;
+    font-size: 12px;
+  }
+
+  /* -------------- date picker --------------- */
+  .clear-date {
+    margin-top: -36px;
+    float: right;
+    margin-right: 5px;
+  }
+  .clear-dt-icon {
+    z-index: 1;
+    padding: 0px;
+    background: white;
+    border: none;
+    color: #6c757d82;
+  }
+
+  /* -------------- time picker --------------- */
+  #time-picker-wrapper {
+    z-index: 10000 !important;
+  }
+
+  .bg-dark {
+    line-height: 1;
+    font-size: 0.8125rem;
+    padding: 0rem 1rem;
+    height: 54px;
+    background-color: white !important;
+  }
+  .logo {
+    height: 21px;
+  }
+  .btn-outline-secondary {
+    color: white !important;
+  }
+  .btn-secondary {
+    margin-top: 0px;
+    background-color: #474d52 !important;
+  }
+  .btn-secondary:hover {
+    background-color: #2f3337 !important;
+  }
+  .inputBorder {
+    border-radius: 0;
+    padding: 0.375rem 0.375rem;
+    height: 30px;
+  }
+
+  /* register */
+  .register-type-btn {
+    border-radius: 10px;
+    height: 40px;
+    background-color: #f2f2f2;
+    color: #595959;
+  }
+  .register-type-btn:active,
+  .register-type-btn.active {
+    background-color: #6c757deb;
+    color: white;
+    display: block;
+  }
+
+  /* -------------- from ----------------- */
+  .form-header {
+    margin-bottom: 20px;
+  }
+  .has-error {
+    color: red;
+  }
+  .alert {
+    margin-bottom: 0;
+    padding: 0rem 1rem;
+    border: none;
+    border-radius: 0;
+    font-size: 0.7rem;
+  }
+  .alert-danger {
+    color: red;
+    margin-top: -7px;
+    border-radius: 3px;
+    border: none;
+    margin-left: -10px;
+    background: none;
+  }
+  .conf-btn {
+    border-radius: 10px;
+    width: 80%;
+    background-color: #00b0f0;
+    border-color: #00b0f0;
+    color: white;
+  }
+  .conf-btn.focus,
+  .conf-btn.active {
+    background-color: #1382aa;
+    border-color: #1382aa;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    color: white;
+  }
+  .agreement > a.agree {
+    color: #00b0f0;
+  }
+
+  .agreement {
+    color: #666666;
+    font-size: 13px;
+  }
+
+  .confirm {
+    padding-top: 10px;
+  }
+
+  /* --------------- modal --------------------- */
+  .modal-header {
+    background-color: white !important;
+    padding: 2px 10px !important;
+    border-radius: 0px !important;
+    height: 52px !important;
+    color: #6c757d !important;
+    font-weight: bold;
+  }
+  .modal-header .close {
+    cursor: pointer !important;
+    margin-top: 10px !important;
+    padding: 5px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    margin-right: 0px !important;
+    font-weight: bolder;
+  }
+  .modal-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    font-size: 17px;
+    margin-top: 10px;
+    width: 100%;
+  }
+  .modal-dialog {
+    margin: 0px !important;
+  }
+  .modal-content {
+    border: none !important;
+    border-radius: 0px !important;
+  }
+  /* stack modals backdrop */
+  .modal-backdrop ~ .modal-backdrop {
+    z-index: 1051;
+  }
+  .modal-backdrop ~ .modal-backdrop ~ .modal-backdrop {
+    z-index: 1052;
+  }
+  .modal-backdrop ~ .modal-backdrop ~ .modal-backdrop ~ .modal-backdrop {
+    z-index: 1053;
+  }
+  #errorModal {
+    z-index: 1054;
+  }
+  #previewProfileModal,
+  #loginModal {
+    z-index: 1052;
+  }
+  .auth-form {
+    padding: 0px !important;
+  }
+  .confirm-modal .modal-dialog {
+    -webkit-transform: translate(0, -50%);
+    -o-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    top: 30%;
+    margin: 0 auto;
+  }
+
+  /* ---------- filter options --------- */
+  .filter-title {
+    color: gray;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .btn-info {
+    background: #eaeff1;
+    text-transform: capitalize;
+    color: #595959;
+    margin-right: 5px;
+    border-color: #f0f6f7;
+  }
+  ::ng-deep .btn-info:not(:disabled):not(.disabled):active,
+  .btn-info:not(:disabled):not(.disabled).active,
+  .show > .btn-info.dropdown-toggle {
+    color: white;
+    background-color: #26b1e2;
+    border-color: #26b1e2;
+  }
+
+  /* ------ mobile-menu ------ */
+  .mobileMenu {
+    text-align: center;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+  }
+  .mobileMenu > .current {
+    border-bottom: 3px solid #00b0f0;
+    padding-bottom: 5px;
+  }
+  .mobileMenu > .current a {
+    color: #00b0f0;
+  }
+  .mobileMenu a {
+    color: #595959;
+    text-decoration: none;
+    margin-top: 5px;
+  }
+
+  /* ---------- profile-pic and cover photo ---------- */
+  .profile-pic {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    cursor: pointer;
+    object-fit: cover !important;
+    object-position: center 20% !important;
+    background-color: white !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 3px solid white;
+  }
+  .cover-photo {
+    width: 100%;
+    height: 100px;
+    cursor: pointer;
+    object-fit: cover !important;
+    background-color: white !important;
+  }
+  .upload-pic-text {
+    padding-left: 18px;
+    margin-bottom: -10px;
+  }
+  .profile-pic-section {
+    margin-top: -65px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  /* ------------ button --------------- */
+  .badge-secondary {
+    font-weight: normal !important;
+    font-size: 12px !important;
+    padding: 6px 10px !important;
+    margin-right: 7px !important;
+    margin-bottom: 7px !important;
+    color: #4b9de4 !important;
+    background: #e4f5fb !important;
+  }
+
+  .btn-streched {
+    line-height: 1.2;
+    font-size: 1rem;
+    min-width: 172px;
+    height: 35px;
+  }
+  .btn-streched-full-width-mb {
+    min-width: 95vw !important;
+    text-transform: capitalize !important;
+  }
+  .material-btn-contained,
+  .material-btn-outline {
+    border-radius: 20px;
+  }
+
+  /* ------------ upload image ------------ */
+  .upload-image {
+    width: 100% !important;
+    height: 287px;
+    cursor: pointer;
+    object-position: center 20% !important;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding-bottom: -24px;
+    margin-bottom: -20px;
+    object-fit: contain;
+    background-color: lightgray;
+  }
+  .upload-describe-pic {
+    width: 100% !important;
+    margin-top: -15px;
+  }
+  .upload-describe-pic-input {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+  }
+  .upload-img-del-btn {
+    border-radius: 50%;
+    border: 2px solid #e9ecef;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+    margin-top: -260px;
+    color: #333;
+    background: #dee2e6;
+    position: relative;
+  }
+
+  /* ------------------------------- */
+  /* --------- job-details --------- */
+  /* ------------------------------- */
+  .job-details {
+    padding: 0px !important;
+    min-height: 82vh !important;
+    max-height: 82vh !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    font-size: 13px !important;
+    background-color: white !important;
+    color: #7f7f7f;
+  }
+  .job-details .close-btn {
+    font-size: 17px;
+    margin-right: 10px;
+    margin-top: 10px;
+    color: #f8f9fa;
+    background: none;
+    border: none;
+  }
+  .job-details .logo-cover-section {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin-top: -48px !important;
+  }
+  .job-details .profile-info {
+    margin-top: -65px;
+    padding-left: 0px;
+    padding-right: 0px;
+    text-transform: capitalize;
+  }
+  .job-details .section-title {
+    font-size: 16px !important;
+    color: #20487d !important;
+    font-weight: bold !important;
+    margin-bottom: 10px !important;
+  }
+  .job-details .job-title {
+    font-size: 18px !important;
+    font-weight: bold !important;
+    color: #20487d !important;
+    margin-top: -5px !important;
+  }
+
+  /* job heighlights */
+  .job-heighlights {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .job-heighlights .section {
+    margin-top: 10px;
+    font-size: 13px;
+  }
+  .job-heighlights .section .item {
+    margin-right: 0px;
+  }
+  .job-heighlights .item .icon {
+    margin-right: 5px;
+    color: #376392;
+    width: 12px;
+  }
+  .job-heighlights .item .title {
+    color: #20487d;
+    font-weight: normal;
+  }
+  .job-heighlights .item .content {
+    margin-left: 20px;
+    font-size: 13px;
+  }
+
+  /* ------------------------------- */
+  /* --------- company-details --------- */
+  /* ------------------------------- */
+  .company-details {
+    padding: 0px !important;
+    min-height: 90.5vh !important;
+    max-height: 90.5vh !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    font-size: 13.7px !important;
+    background-color: white !important;
+    color: #7f7f7f;
+  }
+  .company-details .close-btn {
+    font-size: 17px;
+    margin-right: 10px;
+    margin-top: 10px;
+    color: #f8f9fa;
+    background: none;
+    border: none;
+  }
+  .company-details .phone-btn {
+    margin-top: 30px;
+    margin-left: 10px;
+    border-radius: 50%;
+    background: white;
+  }
+  .company-details .no-phone-btn {
+    margin-top: 30px;
+    margin-left: 10px;
+    border-radius: 50%;
+    background: white;
+    padding: 3px 4px;
+  }
+  .company-details .no-phone-img {
+    height: 30px;
+  }
+  .company-details .logo-cover-section {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin-top: -48px !important;
+  }
+  .company-details .logo-cover-section-with-phn {
+    margin-top: -68px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+  .company-details .section-title {
+    font-size: 16px !important;
+    color: #20487d !important;
+    font-weight: bold !important;
+    margin-bottom: 10px !important;
+  }
+
+  /*----------- basic info --------- */
+  .company-details .comp-basic-info {
+    font-size: 16px;
+    line-height: 1.2;
+    margin-top: 3px;
+  }
+  .company-details .comp-basic-info > .name {
+    font-weight: bold;
+    font-size: 17px;
+    color: black;
+  }
+
+  /* ---------- gallery ------------- */
+  .company-details .work-image {
+    width: 100vw !important;
+    height: 310px !important;
+    object-fit: contain;
+    background-color: lightgray;
+  }
+  .company-details .describe-pic {
+    border: 1px solid #ddd;
+    width: 100vw;
+    height: 56px;
+    padding: 15px 13px;
+    margin-top: -5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin-bottom: 10px;
+    background: #f8f9fa;
+  }
+  .company-details .comp-profile-info {
+    margin-top: -65px;
+    padding-left: 0px;
+    padding-right: 0px;
+    text-transform: capitalize;
+  }
+
+  /* ------------------------------- */
+  /* -------- worker-profile ------- */
+  /* ------------------------------- */
+  .worker-profile {
+    padding: 0px !important;
+    min-height: 82.5vh !important;
+    max-height: 82.5vh !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    font-size: 13.7px !important;
+    background-color: white !important;
+  }
+
+  .worker-profile .logo-cover-section {
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-top: -48px;
+  }
+
+  /* ----------- section ----------- */
+  .worker-profile .section-title {
+    font-size: 16px;
+    color: #20487d;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  /* ------- item -------- */
+  .worker-profile .item-details {
+    padding-left: 5px;
+    padding-right: 15px;
+  }
+  .worker-profile .item-title {
+    font-weight: bold;
+    /* font-size: 13px; */
+  }
+  .worker-profile .item-faded {
+    color: gray;
+  }
+
+  /* --------- applicant --------- */
+  .worker-profile .profile-info {
+    margin-top: -65px;
+    padding-left: 0px;
+    padding-right: 0px;
+    font-size: 16px;
+    text-transform: capitalize;
+  }
+  .worker-profile .image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  .worker-profile .name {
+    margin-top: 7px;
+    font-size: 17px;
+    text-transform: capitalize;
+    margin-left: -5px;
+  }
+
+  /*----------- basic info --------- */
+  .worker-profile .basic-info {
+    line-height: 1.2;
+    margin-top: 3px;
+  }
+  .worker-profile .basic-info > .name {
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 1.2;
+    margin-top: 3px;
+  }
+  .worker-profile .basic-info > .rating-jobs {
+    color: gray;
+    font-size: 15px;
+  }
+  .worker-profile .skill-section {
+    padding-left: 21px;
+  }
+  .worker-profile .skill {
+    font-weight: bold;
+    font-size: 11.5px;
+    color: #20487d;
+    background: aliceblue;
+    padding: 4px 0px;
+    border-radius: 17px;
+    margin-right: 7px;
+    margin-bottom: 7px;
+    width: 165px;
+    display: inline-block;
+    border: 1px solid #eee;
+  }
+
+  /* ---------- gallery ------------- */
+  .worker-profile .work-image {
+    width: 100vw !important;
+    height: 300px !important;
+    object-fit: contain;
+    background-color: lightgray;
+  }
+  .worker-profile .describe-pic {
+    border: 1px solid #ddd;
+    width: 100vw;
+    height: 56px;
+    padding: 15px 13px;
+    margin-top: -5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin-bottom: 10px;
+    background: #f8f9fa;
+  }
+
+  .worker-profile .close-btn {
+    font-size: 17px;
+    margin-right: 10px;
+    margin-top: 10px;
+    color: #f8f9fa;
+    background: none;
+    border: none;
+  }
+  .worker-profile .phone-btn {
+    margin-top: 30px;
+    margin-left: 10px;
+    border-radius: 50%;
+    background: white;
+  }
+  .worker-profile .no-phone-btn {
+    margin-top: 30px;
+    margin-left: 10px;
+    border-radius: 50%;
+    background: white;
+    padding: 3px 4px;
+  }
+  .worker-profile .no-phone-img {
+    height: 30px;
+  }
+  .worker-profile .add-phone {
+    margin-top: 30px;
+    margin-left: 10px;
+    border-radius: 4px;
+    background: white;
+    width: 60%;
+    padding: 8px;
+  }
+
+  /* datepicker */
+  .mat-datepicker-content .mat-calendar {
+    zoom: 0.75;
+  }
+
+  /* ---------- company values ------- */
+  .total-employees {
+    margin-left: -45px;
+    margin-top: -23px;
+    font-weight: bold;
+    color: #6c757d;
+  }
+  .started-in {
+    margin-left: -55px;
+    margin-top: 17px;
+    font-weight: bold;
+    color: #6c757d;
+  }
+  .annual-turnover {
+    margin-left: -60px;
+    margin-top: -5px;
+    font-weight: bold;
+    color: #6c757d;
+  }
+
+  /* ------- rating --------*/
+  .custom-rating {
+    color: #ffc107 !important;
+    font-size: 13px;
+  }
+
+  /* ----------- write offer form --------- */
+  .pay-scale-title {
+    color: gray;
+    font-size: 15px;
+  }
+
+  /* advert options */
+  .advert-option {
+    color: gray;
+  }
+  .old-advert-price {
+    color: gray;
+    margin-top: -5px;
+    font-size: 18px;
+  }
+  .new-advert-price {
+    color: gray;
+    margin-top: -8px;
+    font-size: 18px;
+  }
+
+  /* ----------- job---------- */
+  .job {
+  }
+  .job .tpn-sectn {
+    margin: 10px 0px 0px 0px;
+  }
+  .job .title {
+    padding-left: 7px;
+    padding-right: 0px;
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: #595959;
+  }
+  .job .emp-photo {
+    width: 32px;
+    height: 32px;
+  }
+  .job .emp-name {
+    color: #a6a6a6;
+    font-size: 16px;
+    margin-left: 5px;
+    margin-top: 2px;
+  }
+  .job .cd-sctn {
+    font-size: 14px;
+    margin: 10px 0px;
+    color: #a6a6a6;
+  }
+  .job .city {
+    padding-left: 9px;
+    padding-right: 0px;
+  }
+  .job .city-icon {
+    margin-right: 10px;
+    line-height: initial;
+    color: #00c2e0;
+  }
+  .job .degree-icon {
+    margin-left: -3px;
+    margin-right: 3px;
+    color: #00c2e0;
+  }
+  .job .se-sctn {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .job .salary-icon {
+    margin-right: 5px;
+    color: #00c2e0;
+  }
+  .job .employment-type-icon {
+    margin-right: 5px;
+    color: #00c2e0;
+  }
+  .job .bd-sctn {
+    margin: 10px 0px;
+  }
+  .job .benefits {
+    color: #1abc9c;
+    font-size: 13px;
+  }
+  .job .deadline {
+    color: #e74c3c;
+    font-size: 13px;
+  }
+
+  /* ----------- share ------------ */
+  .sfacebook {
+    margin-right: 5px;
+    background: #00000038;
+    padding: 5px;
+    border-radius: 50%;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .stwitter {
+    margin-right: 5px;
+    background: #00000038;
+    padding: 5px;
+    border-radius: 50%;
+  }
+  .slinkedin {
+    margin-right: 5px;
+    background: #00000038;
+    padding: 5px;
+    border-radius: 50%;
+  }
+  .spinterest {
+    margin-right: 5px;
+    background: #00000038;
+    padding: 5px;
+    border-radius: 50%;
+  }
+
+  /*---------- notificaion dot ------------*/
+  .notification-dot {
+    height: 10px;
+    width: 10px;
+    background-color: aqua;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  /* -------- messenger button --------- */
+  .msg-btn {
+    font-weight: normal !important;
+    color: #4b9de4 !important;
+    background: #e4f5fb !important;
+    border-radius: 50%;
+    border: 1px solid;
+    position: fixed;
+    bottom: 10vh;
+    right: 5px;
+    z-index: 99999;
+    width: 57px;
+    height: 53px;
+  }
+  .msg-btn .chat-icon {
+    background-repeat: no-repeat;
+    display: inline-block;
+    fill: currentColor;
+    font-size: 2;
+    font-size: 29px;
+    COLOR: #00b0f0;
+    margin-top: -5px;
+    margin-right: 5px;
+  }
+  /* notificaion */
+  .msg-btn .notification {
+    color: white;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+  }
+  .msg-btn > .notification .badge {
+    position: absolute;
+    top: -17px;
+    right: -11px;
+    padding: 4px 4px;
+    border-radius: 50%;
+    background: #e74c3c;
+    color: white;
+    font-size: 12px;
+    min-width: 20px;
+  }
+
+  .pagination-loader {
+    font-size: 15px;
+    color: gray;
+  }
+}
+
+@media (min-width: 1600px) {
+}
+
+
+/* @media (orientation: portrait) {
+  body { */
+    /* width:100vh; */
+/* 
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
+} */
+/* @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {
+  html {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+} */

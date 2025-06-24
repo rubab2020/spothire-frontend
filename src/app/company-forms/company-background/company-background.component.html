@@ -1,0 +1,178 @@
+<h5 class="header-card text-center">Company Background</h5>
+
+<div class="col-md-12 col-12 form-cotent">
+  <div class="form-content-background">
+    <div class="row">
+      <!-- pager left -->
+      <div class="col-md-3 pager-left" *ngIf="!isMobile">
+        <a class="previous-link" routerLink="../introduction" (click)="onSubmit(backgroundForm.value)">
+          <i class="fa fa-2x fa-arrow-left" aria-hidden="true"></i>
+        </a>
+      </div>
+  
+      <div class="col-md-6 col-12 form-compbackground mx-auto">
+        <div class="dots text-center">
+          <div class="dotstyle dotstyle-scaleup">
+            <ul>
+              <li routerLinkActive="active current">
+                <a routerLink="../introduction" (click)="onSubmit(backgroundForm.value)">Introduction</a>
+              </li>
+              <li routerLinkActive="active current">
+                <a routerLink="../company-background" (click)="onSubmit(backgroundForm.value)">Company Background</a>
+              </li>
+              <li routerLinkActive="active current">
+                <a routerLink="../company-value" (click)="onSubmit(backgroundForm.value)">Headcount and Photos</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+  
+        <form
+          class="form-section content-bg"
+          [ngClass]="(isMobile || i==0)?'mt-1':'mt-4'"
+          *ngIf="!loading; else showLoading"
+          #form="ngForm"
+          [formGroup]="backgroundForm"
+        >
+          <!-- industry -->
+          <div class="form-group">
+            <div class="input-group">
+              <label class="material-field">
+                <input
+                  formControlName="industry"
+                  type="text"
+                  [maxLength]="101"
+                  placeholder=" "
+                />
+                <span>Industry</span>
+              </label>
+              <div
+                *ngIf="backgroundForm.controls['industry'].touched"
+                class="alert alert-danger"
+              >
+                <div
+                  *ngIf="backgroundForm.controls['industry'].value.length > 100"
+                >
+                  *Maximum 100 characters
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- location -->
+          <div class="form-group">
+            <div class="input-group">
+              <label class="material-field">
+                <input
+                  formControlName="location"
+                  type="text"
+                  [maxLength]="151"
+                  placeholder=" "
+                />
+                <span>Location</span>
+              </label>
+            </div>
+  
+            <div
+              *ngIf="backgroundForm.controls['location'].touched"
+              class="alert alert-danger"
+            >
+              <div *ngIf="backgroundForm.controls['location'].value.length > 150">
+                *Maximum 150 characters
+              </div>
+            </div>
+          </div>
+  
+          <!-- company inception date -->
+          <div class="form-group">
+            <div class="input-group">
+              <label class="material-field">
+                <input
+                  formControlName="inception_date"
+                  matInput
+                  [matDatepicker]="datePicker"
+                  (click)="datePicker.open()"
+                  placeholder=" "
+                  readonly
+                />
+                <span>Company Inception Date</span>
+                <div class="input-group-append clear-date">
+                  <span
+                    class="input-group-text clear-dt-icon"
+                    (click)="resetDateInput()"
+                  >
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </label>
+              <mat-datepicker #datePicker></mat-datepicker>
+            </div>
+          </div>
+  
+          <!-- annual trunover -->
+          <div class="form-group">
+            <div class="input-group">
+              <label class="material-field">
+                <input
+                  formControlName="annual_turnover"
+                  type="number"
+                  placeholder=" "
+                />
+                <span>Annual Turnover (Taka)</span>
+              </label>
+            </div>
+          </div>
+        </form>
+  
+        <ng-template #showLoading>
+          <div class="card-form">
+            <content-loader
+              height="140"
+              speed="1"
+              primaryColor="#dddddd"
+              secondaryColor="#c0c0c0"
+            >
+              <svg:rect x="0" y="10" rx="4" ry="4" width="400" height="10" />
+              <svg:rect x="0" y="50" rx="4" ry="4" width="400" height="10" />
+              <svg:rect x="0" y="90" rx="4" ry="4" width="400" height="10" />
+              <svg:rect x="0" y="130" rx="4" ry="4" width="400" height="10" />
+            </content-loader>
+          </div>
+        </ng-template>
+      </div>
+  
+      <!-- pager right -->
+      <div class="col-md-3 pager-right" *ngIf="!isMobile">
+        <a
+          class="next-link"
+          routerLink="../company-value"
+          (click)="onSubmit(backgroundForm.value)"
+        >
+          <i class="fa fa-2x fa-arrow-right" aria-hidden="true"></i>
+        </a>
+      </div>
+  
+      <!-- pager for mobile -->
+      <div class="col-12 my-auto mx-auto pager" *ngIf="isMobile">
+        <ul>
+          <li class="previous">
+            <a
+              routerLink="../introduction"
+              (click)="onSubmit(backgroundForm.value)"
+              >&larr; Back</a
+            >
+          </li>
+          <li class="next">
+            <a
+              routerLink="../company-value"
+              (click)="onSubmit(backgroundForm.value)"
+              >Next &rarr;</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

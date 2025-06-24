@@ -1,0 +1,154 @@
+<!-- The Modal -->
+<div class="modal fade" id="loginModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="mt-2">Log in</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body auth-form">
+        <div class="col-12 login-form">
+          <form
+            #form="ngForm"
+            [formGroup]="loginForm"
+            (ngSubmit)="loginUser(loginForm.value)"
+          >
+            <br />
+
+            <!-- phone -->
+            <div class="form-group">
+              <div class="input-group">
+                <label class="material-field">
+                  <input
+                    formControlName="phone"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                  />
+                  <span>Phone Number 01XXXXXXXXX</span>
+                </label>
+                <div
+                  *ngIf="loginForm.get('phone').touched && loginForm.get('phone').invalid"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="loginForm.get('phone').errors.required">
+                    *Phone Number is required
+                  </div>
+                  <div *ngIf="loginForm.get('phone').errors.minlength">
+                    *Phone Number should be minimum
+                    {{ loginForm.get("phone").errors.minlength.requiredLength }} characters
+                  </div>
+                  <div *ngIf="loginForm.get('phone').errors.maxlength">
+                    *Phone Number should be maximum
+                    {{ loginForm.get("phone").errors.maxlength.requiredLength }} characters
+                  </div>
+                  <div *ngIf="loginForm.get('phone').errors.pattern">
+                    *Invalid Phone Number! e.g. 01XXXXXXXXX
+                  </div>
+                  <div *ngIf="loginForm.get('phone').errors.backend">
+                    *{{ loginForm.get("phone").errors.backend }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- passowrd -->
+            <div class="form-group">
+              <div class="input-group">
+                <label class="material-field password">
+                  <input
+                    #input
+                    formControlName="password"
+                    type="password"
+                    class="form-control"
+                    placeholder=" "
+                  />
+                  <span>Password</span>
+                </label>
+                <span class="input-group-append">
+                  <button 
+                    class="btn" 
+                    type="button" 
+                    (click)="showPassword(input)"
+                    style="height: 81%;
+                      color: gray !important;
+                      border: 1px solid #ddd;
+                      margin-top: 6px;"
+                  > 
+                    <i *ngIf="!togglePasswordIcon" class="fa fa-eye-slash" aria-hidden="true"></i> 
+                    <i *ngIf="togglePasswordIcon" class="fa fa-eye" aria-hidden="true"></i> 
+                  </button>
+                </span>
+              </div>
+              <div
+                *ngIf="
+                  loginForm.get('password').touched && loginForm.get('password').invalid
+                "
+                class="alert alert-danger"
+              >
+                <div *ngIf="loginForm.get('password').errors.required">
+                  *Password is required
+                </div>
+                <div *ngIf="loginForm.get('password').errors.backend">
+                  *{{ loginForm.get("password").errors.backend }}
+                </div>
+              </div>
+            </div>
+
+            <!-- forgot pass -->
+            <div class="clearfix">
+              <a
+                routerLink="/recover-password"
+                class="pull-right"
+                style="margin-top: -10px; margin-bottom: 10px; font-size: 14px;"
+              >
+                Forgot Password?
+              </a>
+            </div>
+
+            <!-- confirm -->
+            <div class="confirm text-center">
+              <ng-container *ngIf="!circleSpin; else loaderConfirm">
+                <button
+                  type="submit"
+                  class="btn btn-primary conf-btn"
+                  style="border-radius: 10px;"
+                >
+                  Confirm
+                </button>
+              </ng-container>
+              <ng-template #loaderConfirm>
+                <button
+                  type="submit"
+                  class="btn btn-primary conf-btn"
+                  style="border-radius: 10px;"
+                  disabled
+                >
+                  <i class="fa fa-circle-o-notch fa-spin"></i>
+                  Confirm
+                </button>
+              </ng-template>
+            </div>
+
+            <!-- register link -->
+            <div class="hint-text" style="font-size: 14px;">
+              Don't have an account?
+              <a
+                href="javascript:void(0)"
+                data-dismiss="modal"
+                (click)="showRegister()"
+              >
+                Register Now!
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

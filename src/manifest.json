@@ -1,0 +1,6 @@
+{
+  "short_name": "Notifications",
+  "name": "Yaywerk Notifications",
+  "start_url": "/",
+  "gcm_sender_id": "103953800507"
+}

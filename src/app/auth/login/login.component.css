@@ -1,0 +1,35 @@
+.login-form h2 {
+    margin: 0 0 15px;
+}
+.login-form .hint-text {
+    color: #777;
+    padding-bottom: 15px;
+    text-align: center;
+}
+.form-control, .btn {
+    min-height: 38px;
+    border-radius: 2px;
+}
+
+.password{
+    width: 90%;
+  }
+
+@media only screen and (max-width: 1023px) {
+    .login-form h2 {
+        margin: 0 0 15px;
+    }
+    .login-form .hint-text {
+        color: #777;
+        padding-bottom: 15px;
+        text-align: center;
+    }
+    .form-control, .btn {
+        min-height: 38px;
+        border-radius: 2px;
+    }
+
+    .password{
+        width: 87%;
+    }
+}

@@ -1,0 +1,53 @@
+.tooltip.tooltip-top,
+.tooltip.tooltip-bottom,
+.tooltip.tooltip-left,
+.tooltip.tooltip-right {
+  z-index: 100000;
+}
+
+.btn-streched{
+  min-width: 165px !important;
+}
+
+/* ---------- filter options --------- */
+.filter-title {
+  color: gray;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.btn-info {
+  background: #eaeff1;
+  text-transform: capitalize;
+  color: #595959;
+  margin-right: 5px;
+  border-color: #f0f6f7;
+  padding: 0px 10px;
+  width: 165px;
+}
+::ng-deep .btn-info:not(:disabled):not(.disabled):active,
+.btn-info:not(:disabled):not(.disabled).active,
+.show > .btn-info.dropdown-toggle {
+  color: white;
+  background-color: #26b1e2;
+  border-color: #26b1e2;
+}
+
+/* ---------- filter buttons ---------- */
+::ng-deep .btn-info:not(:disabled):not(.disabled):active,
+.btn-info:not(:disabled):not(.disabled).active,
+.show > .btn-info.dropdown-toggle {
+  color: white;
+  background-color: #26b1e2;
+  border-color: #26b1e2;
+}
+
+.modal-content{
+  width: 41vw;
+}
+
+@media only screen and (max-width: 1023px) {
+  .modal-content{
+    width: 100vw;
+  }
+}

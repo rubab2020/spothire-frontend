@@ -1,0 +1,86 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="">Spothire</a>
+</nav>
+
+<div class="container feed">
+  <div class="col-md-10 mx-auto">
+    <h4 class="mt-1"><b>Feedback Form</b></h4>
+    <p>We would love to hear your thoughts, concerns or problems with anything so we can improve!</p>
+    <mat-divider></mat-divider>
+
+    <form [formGroup]="feedbackForm" class="mt-3" (ngSubmit)="submitData()"  enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="describe">Feedback Type</label>
+        <br>
+        <label class="material-radio">
+          <input type="radio" formControlName="requestType" value="comment" (click)="hideAttachment()">
+          <span>Comments</span>
+        </label>
+        <label class="material-radio" style="margin-left:10px;">
+          <input type="radio" formControlName="requestType" value="bug" (click)="showAttachment()">
+          <span>Bug Reports</span>
+        </label>
+        <label class="material-radio">
+          <input type="radio" formControlName="requestType" value="question" (click)="hideAttachment()">
+          <span>Questions</span>
+        </label>
+        <div *ngIf="feedbackForm.get('requestType').touched && feedbackForm.get('requestType').invalid" class="alert alert-danger">
+          <div *ngIf="feedbackForm.get('requestType').errors.required">*Please Choose any one option</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <label class="material-field">
+            <input type="text" class="" formControlName="fullName" placeholder=" ">
+            <span>Full name</span>
+          </label>
+          <div *ngIf="feedbackForm.get('fullName').touched && feedbackForm.get('fullName').invalid" class="alert alert-danger">
+            <div *ngIf="feedbackForm.get('fullName').errors.required">*Name  is required</div>
+            <div *ngIf="feedbackForm.get('fullName').errors.maxlength">*Name should be maximum
+              {{feedbackForm.get('fullName').errors.minlength.requiredLength}} characters</div>
+            <div *ngIf="feedbackForm.get('fullName').errors.pattern">*Name should contain letters.</div>
+            <div *ngIf="feedbackForm.get('fullName').errors.backend">*{{feedbackForm.get('fullName').errors.backend}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <label class="material-field">
+            <input type="email" class="" formControlName="email"  placeholder=" ">
+            <span>Email</span>
+          </label>
+          <div *ngIf="feedbackForm.get('email').touched && feedbackForm.get('email').invalid" class="alert alert-danger">
+            <div *ngIf="feedbackForm.get('email').errors.required">*Email is required</div>
+				    <div *ngIf="feedbackForm.get('email').errors.pattern">*Invalid email address</div>
+				    <div *ngIf="feedbackForm.get('email').errors.backend">*{{indForm.get('email').errors.backend}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <label class="material-field">
+            <textarea class=" txtArea" formControlName="describe" placeholder=" "></textarea>
+            <span>Describe Feedback</span>
+          </label>
+          <div *ngIf="feedbackForm.get('describe').touched && feedbackForm.get('describe').invalid" class="alert alert-danger">
+            <div *ngIf="feedbackForm.get('describe').errors.required">*This field  is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="showAttchment">
+        <div class="input-group">
+          <label class="material-field">
+            <input type="file" class="" name="img" (change)="multiImg($event)" multiple>
+            <span>Attach a screenshot</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="confirm text-center">
+        <button type="submit" class="btn conf-btn">
+            Submit Feedback <i *ngIf="circleSpin" class="fa fa-circle-o-notch fa-spin"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<!-- todo: public jobs page and jobs page code are some. will make it common code in future -->
+<!---------------------- profile preview Modal ---------------------->
+<!-- <div *ngIf="jobs.length > 0" class="modal fade" id="previewProfileModal"> -->
+<!-- <div class="modal fade" id="previewProfileModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content"> -->
+      <!-- Modal body -->
+      <!-- <div
+        class="modal-body"
+        [ngClass]="
+          selectedJob?.employer.account_type == COMP_NAME
+            ? 'company-details'
+            : 'worker-profile'
+        "
+      >
+        <ng-container *ngIf="!previewProfLoading; else showProfileLoading"> -->
+          <!-- company -->
+          <!-- <ng-container
+            *ngIf="
+              selectedJob?.employer.account_type == COMP_NAME;
+              else indvProfile
+            "
+          >
+            <app-prv-comp-prof-content
+              [profile]="profile"
+              [logoCoverSctnClass]="getLogoCoverSectionClass()"
+            >
+            </app-prv-comp-prof-content>
+          </ng-container> -->
+
+          <!-- individual -->
+          <!-- <ng-template #indvProfile>
+            <app-prv-indv-prof-content
+              [profile]="profile"
+              [logoCoverSctnClass]="getLogoCoverSectionClass()"
+            >
+            </app-prv-indv-prof-content>
+          </ng-template>
+        </ng-container>
+
+        <ng-template #showProfileLoading>
+          <app-profile-loader></app-profile-loader>
+        </ng-template>
+
+        <br /><br />
+      </div>
+    </div>
+  </div>
+</div> -->

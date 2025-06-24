@@ -1,0 +1,185 @@
+<!-- The Modal -->
+<div class="modal fade" id="jobsFilterModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Filters</h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div
+          class="container"
+          (click)="$event.stopPropagation()"
+          style="margin-left: 5px; margin-right: 5px;"
+        >
+          <!-- reset -->
+          <div class="row">
+            <div class="col-12">
+              <button
+                class="btn material-btn-text"
+                style="text-transform: capitalize;"
+                (click)="cmnService.filterResetAll(); checkActionButtons()"
+              >
+                Reset All
+              </button>
+            </div>
+          </div>
+
+          <!-- options -->
+          <div class="row" style="margin: 20px; margin-bottom: 0px;">
+            <div class="12">
+              <!-- employment type -->
+              <ng-container *ngIf="filters['employment_types']?.length >= 1">
+                <div class="filter-title">
+                  <h6>Employment Type</h6>
+                </div>
+                <div class="filter-body">
+                  <ul style="list-style-type: none; margin-left: -25px;">
+                    <li
+                      *ngFor="
+                        let employment_types of filters['employment_types'];
+                        let i = index
+                      "
+                    >
+                      <label class="material-checkbox">
+                        <input
+                          type="checkbox"
+                          class="employment_types"
+                          id="employment_types_{{ i }}"
+                          value="{{ employment_types.name }}"
+                          (click)="checkActionButtons()"
+                        />
+                        <span>
+                          {{ employment_types.name }}
+                        </span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </ng-container>
+
+              <!-- salary -->
+              <ng-container *ngIf="filters['salary_ranges']?.length >= 1">
+                <div class="filter-title">
+                  <h6>Salary</h6>
+                </div>
+                <div class="filter-body">
+                  <ul style="list-style-type: none; margin-left: -25px;">
+                    <li
+                      *ngFor="
+                        let salary_ranges of filters['salary_ranges'];
+                        let i = index
+                      "
+                    >
+                      <label class="material-checkbox">
+                        <input
+                          type="checkbox"
+                          class="salary_ranges"
+                          id="salary_ranges_{{ i }}"
+                          attr.data-start="{{ salary_ranges.range.start }}"
+                          attr.data-end="{{ salary_ranges.range.end }}"
+                          (click)="checkActionButtons()"
+                        />
+                        <span>
+                          {{ salary_ranges.text }}
+                        </span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </ng-container>
+
+              <!-- deadline -->
+              <ng-container *ngIf="filters['deadline_durations']?.length >= 1">
+                <div class="filter-title">
+                  <h6>Deadline</h6>
+                </div>
+                <div class="filter-body">
+                  <ul style="list-style-type: none; margin-left: -25px;">
+                    <li
+                      *ngFor="
+                        let deadline_durations of filters['deadline_durations'];
+                        let i = index
+                      "
+                    >
+                      <label class="material-checkbox">
+                        <input
+                          type="checkbox"
+                          class="deadline_durations"
+                          id="deadline_durations_{{ i }}"
+                          value="{{ deadline_durations.days }}"
+                          (click)="checkActionButtons()"
+                        />
+                        <span>
+                          {{ deadline_durations.text }}
+                        </span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </ng-container>
+
+              <!-- location -->
+              <ng-container *ngIf="filters['location_names']?.length >= 1">
+                <div class="filter-title">
+                  <h6>Location</h6>
+                </div>
+                <div class="filter-body">
+                  <ul style="list-style-type: none; margin-left: -25px;">
+                    <li
+                      *ngFor="
+                        let location_names of filters['location_names'];
+                        let i = index
+                      "
+                    >
+                      <label class="material-checkbox">
+                        <input
+                          type="checkbox"
+                          class="location_names"
+                          id="location_names_{{ i }}"
+                          value="{{ location_names.name }}"
+                          (click)="checkActionButtons()"
+                        />
+                        <span>
+                          {{ location_names.name }}
+                        </span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="padding: 10px;">
+        <ng-container *ngIf="hasFitlerOption(filters)">
+          <button
+            class="btn material-btn-outline btn-streched"
+            style="text-transform: capitalize;"
+            data-dismiss="modal"
+            (click)="clearFilter()"
+          >
+            Clear
+          </button>
+          <button
+            class="btn material-btn-contained btn-streched"
+            style="text-transform: capitalize;"
+            data-dismiss="modal"
+            [disabled]="isActionBtnsDisabled"
+            (click)="applyFilter()"
+          >
+            Apply
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

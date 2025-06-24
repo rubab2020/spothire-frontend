@@ -1,0 +1,245 @@
+<div class="row">
+  <!-- phone -->
+  <div class="col-6" style="z-index: 999" *ngIf="profile?.hasOwnProperty('phone')">
+    <a [href]="'tel:' + cmnService.decode(profile?.phone)" *ngIf="profile?.phone != null; else noPhoneNum">
+      <button 
+        class="btn phone-btn">
+        <i class="fa fa-phone" aria-hidden="true"></i>
+      </button>
+    </a>
+    <ng-template #noPhoneNum>
+      <button class="btn no-phone-btn" disabled>
+        <img src="{{noPhone}}" class="no-phone-img">
+      </button>
+    </ng-template>
+  </div>
+  
+  <!-- close button -->
+  <div 
+    style="z-index: 999" 
+    *ngIf="!hideCloseButton" 
+    [ngClass]="profile?.hasOwnProperty('phone') ? 'col-6' : 'col-12'"
+  > 
+    <button 
+      type="button" 
+      class="close-btn pull-right" 
+      data-dismiss="modal">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>
+
+<!-- worker logo and cover photo -->
+<div class="row">
+  <div class="col-12" [ngClass]="logoCoverSctnClass">
+    <!-- cover photo -->
+    <img 
+      class="cover-photo img-responsive" 
+      [src]="profile?.cover_photo ? profile?.cover_photo : defaultCoverPhoto"
+      alt="Cover Photo" />
+
+    <!-- worker name and profile picture -->
+    <div class="row">
+      <div class="col-10 offset-1" [ngClass]="logoCoverSctnClass">
+        <img 
+          [src]="profile?.profile_picture ? profile?.profile_picture : defaultProfImg" 
+          class="profile-pic"
+          alt="Profile Picture"/> 
+
+        <!-- basic infos -->
+        <div class="text-center basic-info">
+          <span class="name">{{profile?.name}}</span>
+          <ng-container *ngIf="profile?.experiences?.length > 0 || profile?.qualifications?.length > 0">
+            <small *ngIf="cmnService.getEducationName(profile)" style="color: gray;">
+              <br>
+              {{cmnService.getEducationName(profile)}} 
+            </small>
+            <small *ngIf="cmnService.getInstituteName(profile)" style="color: gray;">
+              <br>
+              {{cmnService.getInstituteName(profile)}}
+            </small>
+          </ng-container>
+          
+          <br>
+
+          <!-- profile rating & jobs done -->
+          <small class="rating-jobs" *ngIf="profile?.rating > 0">
+            <!-- rating -->
+            <span class="custom-rating">
+              <ngb-rating [(rate)]="profile.rating" [readonly]="true" max="1"></ngb-rating>
+            </span>
+            {{profile?.rating}}
+            -
+            <!-- jobs done -->	
+            <i *ngIf="{ count: cmnService.countSiteEmployers(profile.experiences) } as employers">
+              {{employers.count}} {{employers.count == 1 ? 'job': 'jobs'}}
+            </i>
+          </small>
+        </div>	
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- skills -->
+<div class="row mt-4" *ngIf="profile?.skills?.length > 0">
+  <div class="col-md-11 mx-auto col-12 text-center justify-content-center skill-section">
+    <span class="skill" *ngFor="let skill of profile.skills; let i = index">
+      {{skill.name}}
+    </span>
+  </div>
+</div>
+
+<hr *ngIf="profile?.about" style="margin-left: -15px; margin-right: -15px; border-top: 7px solid #F2F3F5;">
+
+<!-- about me -->
+<div class="row mt-4" *ngIf="profile?.about">
+  <div class="col-11 mx-auto">
+    <p class="section-title">About Me:</p>
+    <p style="margin-bottom: 0px;">
+      {{ seeMore ? profile.about : profile.about.substr(0, 145) }}
+      <ng-container *ngIf="profile.about.length > 145">...
+        <a class="text-primary" (click)="seeMore = !seeMore;">
+          See {{ seeMore ? 'less' : 'more'}}
+        </a>
+      </ng-container>
+    </p>
+  </div>
+</div>
+
+<hr *ngIf="profile?.experiences?.length > 0" style="margin-left: -15px; margin-right: -15px; border-top: 7px solid #F2F3F5;">
+
+<!-- work experience -->
+<div class="row" *ngIf="profile?.experiences?.length > 0">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-11 mx-auto">
+        <p class="section-title">Work Experience:</p>
+      </div>
+    </div>
+
+    <ng-container *ngFor="let experience of profile.experiences; let expIndex = index">
+      <!-- info -->
+      <div class="row">
+        <div class="col-11 mx-auto">
+          <div class="row">
+            <div class="col-md-1 col-2">
+              <img
+                [src]="experience.employer_photo ? experience.employer_photo : defaultCompImg"
+                alt="Employer Photo" 
+                class="image">
+            </div>
+            <div class="col-md-9 col-7 item-details" style="padding-right: 0px;">
+              <div class="item-title">{{experience.occupation ? experience.occupation : 'Designation not set'}}</div>
+              <div>{{experience.employer ? experience.employer : 'Employer name not set'}}</div>
+              <div class="item-faded" *ngIf="experience.period_from; else noWorkDuration">
+                {{cmnService.dateFormat(experience.period_from)}} - 
+                {{experience.period_to ? cmnService.dateFormat(experience.period_to) : 'Continuing'}}
+              </div>
+              <ng-template #noWorkDuration>
+                Work duration not set
+              </ng-template>
+            </div>
+            <div class="col-md-2 col-3 custom-rating">
+              <ngb-rating *ngIf="experience?.rating > 0" [(rate)]="experience.rating" [readonly]="true" max="5"></ngb-rating>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- gallery -->
+      <div class="row mt-2" *ngIf="experience?.work_images?.length > 0">
+        <div class="col-12">
+          <swiper [config]="getSwiperConfig(expIndex)">
+            <!-- images -->
+            <div class="swiper-slide" *ngFor="let workImg of experience.work_images">
+              <img [src]="workImg.image" alt="Image" class="work-image">
+              <div class="describe-pic">{{workImg.description}}</div>
+            </div>
+          </swiper>    
+        </div>
+      </div>
+      
+      <ng-container *ngIf="expIndex < profile.experiences.length-1">
+        <br>
+      </ng-container>  
+    </ng-container>
+  </div>
+</div>
+
+<hr *ngIf="profile?.qualifications?.length > 0" style="margin-left: -15px; margin-right: -15px; border-top: 7px solid #F2F3F5;">
+
+<!-- qualificattions -->
+<div class="row" *ngIf="profile?.qualifications?.length > 0; let cntQual = index">
+  <div class="col-11 mx-auto">
+    <p class="section-title">Qualifications:</p>
+
+    <div class="row" *ngFor="let qualification of profile.qualifications">
+      <div class="col-md-1 col-2">
+        <img
+          [src]="defaultEducationImg"
+          alt="Education Photo" 
+          class="image">
+      </div>
+      <div class="col-md-11 col-10 item-details">
+        <div class="item-title">{{qualification.degree ? qualification.degree : "Degree not set"}}</div>
+        <div>{{qualification.institution ? qualification.institution : "Institution not set"}}</div>
+        <div *ngIf="qualification.result_cgpa; else noCgpa">
+          CGPA: {{qualification.result_cgpa}}
+          <ng-container *ngIf="qualification.cgpa_scale; else noCgpaScale">
+            out of <small>{{qualification.cgpa_scale}}</small>
+          </ng-container>
+          <ng-template $noCgpaScale>
+            CGPA scale not set
+          </ng-template>
+        </div>
+        <ng-template *ngIf="noCgpa">
+          CGPA not set
+        </ng-template>
+        <div class="item-faded" *ngIf="qualification.enrolled; else completionDate">
+          Continuing
+        </div>
+        <ng-template #completionDate>
+          <ng-container *ngIf="qualification.completing_date; else noDegreeDuration">
+            {{cmnService.dateFormat(qualification.completing_date)}}
+          </ng-container>
+          <ng-template #noDegreeDuration>
+            Degreee duration not set
+          </ng-template>
+        </ng-template>
+      </div>
+      <ng-container *ngIf="cntQual < profile.qualifications.length-1">
+        <br><br><br><br>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<hr *ngIf="profile?.awards?.length > 0" style="margin-left: -15px; margin-right: -15px; border-top: 7px solid #F2F3F5;">
+
+<!-- awards -->
+<div class="row" *ngIf="profile?.awards?.length > 0">
+  <div class="col-11 mx-auto">
+    <p class="section-title">Awards & Recognition:</p>
+
+    <div class="row" *ngFor="let award of profile.awards; let cntAwrd = index">
+      <div class="col-md-1 col-2">
+        <img
+          [src]="defaultAwardImg"
+          alt="Award Photo" 
+          class="image">
+      </div> 
+      <div class="col-md-11 col-10 item-details">
+        <div class="item-title">{{award.title ? award.title : 'Award title not set'}}</div>
+        <div>{{award.institute ? award.institute : 'Award Institution not set'}}</div>
+        <div class="item-faded" *ngIf="award.date; else noAwardDate">{{cmnService.dateFormat(award.date)}}</div>
+        <ng-template #noAwardDate>
+          Award date not set
+        </ng-template>
+      </div>
+      <ng-container *ngIf="cntAwrd < profile.awards.length-1">
+        <br><br><br><br>
+      </ng-container>
+    </div>
+  </div>
+</div>

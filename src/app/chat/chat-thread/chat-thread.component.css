@@ -1,0 +1,26 @@
+
+.text-small {
+  font-size: 0.9rem;
+}
+
+.text-application{
+  color: #b9b0b0 !important;
+}
+
+/* replacing default css of active list group item */
+.list-group-item.active {
+  background-color: #00b0f0 !important;
+  border-color: #00b0f0 !important;
+}
+
+.badge-count{
+  /* background-color: #e74c3c !important; */
+  background-color: #00b0f0 !important;
+}
+.badge-pill {
+  padding-right: 0.5em;
+  padding-left: 0.5em;
+  padding-top: 0.4em;
+  padding-bottom: 0.5em;
+  border-radius: 10rem;
+}

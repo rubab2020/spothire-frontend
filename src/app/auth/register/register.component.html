@@ -1,0 +1,168 @@
+<div class="modal fade" id="registerModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content register-modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="mt-2">Register as</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="row mt-2 mx-3">
+          <button
+            type="button"
+            class="col-6 btn register-type-btn"
+            [ngClass]="{ active: showIndividual }"
+            (click)="changeToIndividual()"
+          >
+            Individual
+          </button>
+          <button
+            type="button"
+            class="col-6 btn register-type-btn"
+            [ngClass]="{ active: showCompany }"
+            (click)="changeToCompany()"
+          >
+            Company
+          </button>
+        </div>
+
+        <form
+          #form="ngForm"
+          [formGroup]="regForm"
+          (ngSubmit)="createAccount(regForm.value)"
+          class="my-3"
+        >
+          <div class="col-12">
+            <!-- phone number -->
+            <div class="row">
+              <div class="col-12 form-group mt-2">
+                <label class="material-field">
+                  <input
+                    formControlName="phone"
+                    type="text"
+                    class="form-control"
+                    placeholder=" "
+                  />
+                  <span>Phone Number 01XXXXXXXXX</span>
+                </label>
+                <div
+                  *ngIf="regForm.get('phone').touched && regForm.get('phone').invalid"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="regForm.get('phone').errors.required">
+                    *Phone Number is required
+                  </div>
+                  <div *ngIf="regForm.get('phone').errors.minlength">
+                    *Phone Number should be minimum
+                    {{ regForm.get("phone").errors.minlength.requiredLength }} characters
+                  </div>
+                  <div *ngIf="regForm.get('phone').errors.maxlength">
+                    *Phone Number should be maximum
+                    {{ regForm.get("phone").errors.maxlength.requiredLength }} characters
+                  </div>
+                  <div *ngIf="regForm.get('phone').errors.pattern">
+                    *Invalid Phone Number! e.g. 01XXXXXXXXX
+                  </div>
+                  <div *ngIf="regForm.get('phone').errors.backend">
+                    *{{ regForm.get("phone").errors.backend }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- agreement -->
+            <div class="agreement text-center">
+              By clicking confirm you agree to our
+              <a
+                class="agree"
+                data-toggle="modal"
+                data-target="#policyModal"
+                (click)="showPolicyModal('terms-of-use')"
+              >
+                Terms of use </a
+              >,
+              <a
+                class="agree"
+                data-toggle="modal"
+                data-target="#policyModal"
+                (click)="showPolicyModal('privacy-policy')"
+              >
+                Privacy
+              </a>
+              and
+              <a
+                class="agree"
+                data-toggle="modal"
+                data-target="#policyModal"
+                (click)="showPolicyModal('cookie-policy')"
+              >
+                Cookie Policy </a
+              >.
+            </div>
+
+            <!-- confirm -->
+            <div class="confirm text-center">
+              <ng-container *ngIf="!circleSpin; else loaderConfirm">
+                <button type="submit" class="btn conf-btn">
+                  Register
+                </button>
+              </ng-container>
+              <ng-template #loaderConfirm>
+                <button type="submit" class="btn conf-btn" disabled>
+                  <i class="fa fa-circle-o-notch fa-spin"></i>
+                  Register
+                </button>
+              </ng-template>
+            </div>
+    
+            <!-- register link -->
+            <div class="hint-text text-center" style="font-size: 14px;">
+              Already have an account?
+              <a
+                href="javascript:void(0)"
+                data-dismiss="modal"
+                (click)="showLogin()"
+              >
+                Sign in
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal policy -->
+<div class="modal fade preview-modal" data-backdrop="" id="policyModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <a class="navbar-brand" routerLink="">
+          <img class="logo" src="assets/images/logo_sm.jpg" alt="image" />
+        </a>
+        <button type="button" class="close" (click)="closeModal()">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <app-terms-of-use
+          *ngIf="PolicyViewType == 'terms-of-use'"
+        ></app-terms-of-use>
+        <app-privacy-policy
+          *ngIf="PolicyViewType == 'privacy-policy'"
+        ></app-privacy-policy>
+        <app-cookie-policy
+          *ngIf="PolicyViewType == 'cookie-policy'"
+        ></app-cookie-policy>
+      </div>
+    </div>
+  </div>
+</div>

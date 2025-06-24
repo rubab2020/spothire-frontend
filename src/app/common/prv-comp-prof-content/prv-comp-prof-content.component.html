@@ -1,0 +1,150 @@
+<div class="row">
+  <!-- phone -->
+  <div class="col-6" style="z-index: 1" *ngIf="logoCoverSctnClass === 'logo-cover-section-with-phn'">
+    <a [href]="'tel:' + cmnService.decode(profile?.phone)" *ngIf="profile?.phone != null; else noPhoneNum">
+      <button class="btn phone-btn">
+        <i class="fa fa-phone" aria-hidden="true"></i>
+      </button>
+    </a>
+    <ng-template #noPhoneNum>
+      <button class="btn no-phone-btn" disabled>
+        <img src="{{noPhone}}" class="no-phone-img">
+      </button>
+    </ng-template>
+  </div>
+
+  <!-- close button -->
+  <div 
+    *ngIf="!hideCloseButton"
+    style="z-index: 1" 
+    [ngClass]="logoCoverSctnClass === 'logo-cover-section-with-phn' ? 'col-6' : 'col-12'"
+  > 
+    <button 
+      type="button" 
+      class="close-btn pull-right" 
+      data-dismiss="modal">
+    <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>
+
+<!-- company logo and cover photo -->
+<div class="row">
+  <div class="col-12" [ngClass]="logoCoverSctnClass">
+    <!-- cover photo -->
+    <img 
+      class="cover-photo img-responsive" 
+      [src]="profile?.cover_photo ? profile?.cover_photo : defaultCoverPhoto"
+      alt="Cover Photo" />
+
+    <!-- company name and profile picture -->
+    <div class="col-6 offset-3 comp-profile-info">
+      <img 
+        [src]="profile?.profile_picture ? profile?.profile_picture : defaultProfImg" 
+        class="profile-pic"
+        alt="Profile Picture"/>
+      <div class="text-center comp-basic-info">
+        <span class="name">{{profile?.name}}</span>
+        <small *ngIf="profile?.location">
+          <br>
+          {{profile.location}}
+        </small>
+        <small *ngIf="profile?.industry">
+          <br>
+          {{profile.industry}}
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- expertise -->
+<div class="row">
+  <div class="col-11 mx-auto text-center">
+    <span *ngIf="profile?.company_expertise" style="font-weight: bold;">
+      <br>
+      {{profile.company_expertise}}
+    </span>
+  </div>
+</div>
+
+<hr *ngIf="profile?.about" style="margin-left: -15px; margin-right: -15px; border-top: 7px solid #F2F3F5;">
+
+<!-- about company -->
+<div class="row" *ngIf="profile?.about" style="margin-top: 25px;">
+  <div class="col-11 mx-auto">
+    <p class="section-title">
+      About the Company:
+    </p>
+    <div class="row">
+      <div class="col-12">
+        {{ seeMore ? profile.about : profile.about.substr(0, 145) }}
+        <ng-container *ngIf="profile.about.length > 145">...
+          <a class="text-primary" (click)="seeMore = !seeMore;">
+            See {{ seeMore ? 'less' : 'more'}}
+          </a>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+<hr *ngIf="profile?.total_employees || profile?.annual_turnover || profile?.annual_turnover" style="margin-left: -15px; margin-right: -15px; border-top: 7px solid #F2F3F5;">
+
+<!-- info -->
+<div class="row">
+  <div class="col-md-4 offset-md-0 col-8 offset-3" *ngIf="profile?.total_employees">
+    <img 
+      style="width: 200px;
+      height: 230px;
+      object-fit: scale-down;"
+      src="../assets/images/company/team.jpg"/>
+    <div class="text-center total-employees">
+      No of Employees: {{profile.total_employees | number:'':'en'}}
+    </div>
+  </div>
+  <div class="col-md-4 offset-md-0 col-8 offset-3" *ngIf="profile?.inception_date">
+    <img
+      style="width: auto;
+        height: 190px;
+        object-fit: scale-down;
+        border-radius: 115px;"
+      src="../assets/images/company/launch.jpg"/>
+    <div class="text-center started-in">
+      Started In: {{cmnService.dateFormat(profile.inception_date)}}
+    </div>
+  </div>
+  <div class="col-md-4 offset-md-0 col-8 offset-3" *ngIf="profile?.annual_turnover">
+    <img 
+      style="width: 211px;
+      height: 214px;
+      object-fit: scale-down;
+      border-radius: 203px;" 
+      src="../assets/images/company/turnover.jpg"/>
+    <div class="text-center annual-turnover">
+      Annual Turnover: <span style="font-size: 14px; font-weight: bolder;">৳</span> {{profile.annual_turnover | number:'':'en'}}
+    </div>
+  </div>
+</div>
+
+<hr *ngIf="profile?.images?.length > 0" style="margin-left: -15px; margin-right: -15px; border-top: 7px solid #F2F3F5;">
+
+<!-- Company Activities -->
+<div class="row" *ngIf="profile?.images?.length > 0" style="margin-top: 40px;">
+  <div class="col-11 mx-auto">
+    <p class="section-title">
+      Company Activities:
+    </p>
+  </div>
+
+  <div class="col-md-12 col-12">
+    <swiper [config]="config">
+      <!-- images -->
+      <div class="swiper-slide" *ngFor="let image of profile.images">
+        <img [src]="image.image" alt="Image" class="work-image">
+        <div class="describe-pic">{{image?.description}}</div>
+      </div>
+    </swiper>
+  </div>
+</div>

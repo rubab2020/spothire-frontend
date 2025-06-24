@@ -1,0 +1,501 @@
+<ng-progress [color]="'#00ccff'" [thick]="true" [spinner]="false"></ng-progress>
+
+<div class="page-bg custom-scroll" *ngIf="!isMobile">
+  <div class="row mobileMenu" style="margin-right: 0px;">
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/jobs">Jobs</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/applied">Applied</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/hired">Hired</a>
+    </div>
+  </div>
+
+  <div class="col-10 mx-auto container-fluid">
+    <div class="row">
+      <!---------------------- application section ---------------------->
+      <div class="col-4" style="padding-left: 0px;">
+        <div
+          class="content-left rmve-inline-size"
+          style="height: 100%; width: 100% !important;"
+          infiniteScroll
+          [infiniteScrollDistance]="2"
+          [infiniteScrollThrottle]="500"
+          (scrolled)="onScrollDown()"
+          [scrollWindow]="false"
+        >
+          <!------------------- search ------------------>
+          <div class="row mt-2" style="margin-right: -10px; margin-left: -10px;">
+            <div class="col-12">
+              <div class="input-group">
+                <input
+                  (keyup)="onSearchChange($event.target.value)"
+                  id="search"
+                  type="text"
+                  class="form-control"
+                  placeholder="&#xF002; Search Job title or Company"
+                  style="
+                    font-family: arial, Fontawesome;
+                    font-size: 14px;
+                    border-radius: 20px;
+                  "
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- -------------- applications -------------- -->
+          <div class="row mt-1">
+            <div class="col-12">
+              <div class="mt-1">
+                <app-no-data-found *ngIf="noDataFound"></app-no-data-found>
+              </div>
+
+              <ng-container *ngIf="!applicationsLoading; else showApplicationsLoading">
+                <div
+                  [@listAnimation]="applications.length"
+                  *ngFor="
+                    let application of applications;
+                    let index = index;
+                    let last = last
+                  "
+                  class="card application"
+                  id="application{{index}}"
+                  (click)="previewJob(index)"
+                >
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-2">
+                        <img
+                          [src]="
+                            application.job.employer.profile_picture
+                              ? application.job.employer.profile_picture
+                              : defaultCompImg
+                          "
+                          alt="Employer Photo"
+                          class="worker-image"
+                        />
+                      </div>
+                      <div class="col-8" style="line-height: 1.4;">
+                        <div class="job-title">{{ application.job.job_title }}</div>
+                        <div class="employer-name">
+                          {{ application.job.employer.name }}
+                        </div>
+                        <!-- interview status -->
+                        <div
+                          class="interivew-timing mt-1"
+                          *ngIf="application.application_status == APPLICATION_STATUSES.interviewed"
+                        >
+                          <i
+                            *ngIf="
+                              application.interview_date || application.interview_time;
+                              else noDateTimeSet
+                            "
+                          >
+                            Interview
+                            {{ application.interview_date ? "on" : "at" }}
+                            {{
+                              application.interview_date
+                                ? cmnService.dateFormat(application.interview_date)
+                                : ""
+                            }}
+                            {{
+                              application.interview_time
+                                ? cmnService.formatTo12Hours(
+                                    application.interview_time
+                                  )
+                                : ""
+                            }}
+                          </i>
+                          <ng-template #noDateTimeSet>
+                            <i>Selected for Interview</i>
+                          </ng-template>
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <!-- notification dot -->
+                        <span
+                          *ngIf="chatNotifications[application.id]" 
+                          class="notification-dot appl-notif-dot"
+                        >
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #showApplicationsLoading>
+                <app-applications-loader></app-applications-loader>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- job detials -->
+      <div class="col-8 job-details content-right" *ngIf="applications && applications.length > 0">
+        <!-- chat -->
+        <app-chat-popup 
+          *ngIf="isChatPopupVisible"
+          [popupSender]="getMsgSenderInfo(selectedApplication?.job.employer.phone)"
+          (onClickCloseChat)="closeChat()"
+        >
+        </app-chat-popup>
+
+        <ng-container *ngIf="!isChatPopupVisible">
+          <app-prv-job-content
+            [profile]="selectedApplication?.job?.employer"
+            [job]="selectedApplication?.job"
+            [hideCloseButton]="true"
+            [logoCoverSctnClass]="getLogoCoverSectionClass()"
+            (onClick)="previewProfile($event)"
+          >
+          </app-prv-job-content>
+  
+          <!-- buttons -->
+          <div class="row action-btns">
+            <div class="col-12" style="margin-left: -15px;">
+              <!-- message button -->
+              <button 
+                *ngIf="showMsgBtn"
+                type="button" 
+                class="material-btn-outline material-btn-primary btn-streched" 
+                (click)="chat(selectedApplication?.job.employer.id, selectedApplication?.id)"
+                style="color: #00b0f0"
+              >
+                <span class="notification">
+                  <mat-icon class="chat-icon">chat</mat-icon> Message
+                  <span class="badge" *ngIf="chatNotifications[selectedApplication?.id]">
+                    {{ chatNotifications[selectedApplication?.id] }}
+                  </span>
+                </span>
+              </button>
+            
+              <!-- withdraw -->
+              <button
+                type="button"
+                class="material-btn-outline material-btn-danger btn-streched"
+                [ngClass]="{'btn-streched-full-width-mb': !showMsgBtn}"
+                data-toggle="modal"
+                data-target="#withdrawModal"
+              >
+                <mat-icon>close</mat-icon> Withdraw
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!------------------------ Mobile -------------------------->
+<div class="page-bg" *ngIf="isMobile">
+  <div class="row mobileMenu" style="margin-right: 0px;">
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/jobs">Jobs</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/applied">Applied</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/hired">Hired</a>
+    </div>
+  </div>
+
+  <div class="content-bg">
+    <!------------------- search ------------------>
+    <div class="row mt-2" style="margin-right: -10px; margin-left: -10px;">
+      <div class="col-12">
+        <div class="input-group">
+          <input
+            (keyup)="onSearchChange($event.target.value)"
+            id="search"
+            type="text"
+            class="form-control"
+            placeholder="&#xF002; Search Job title or Company"
+            style="
+              font-family: arial, Fontawesome;
+              font-size: 14px;
+              border-radius: 20px;
+            "
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- -------------- applications -------------- -->
+    <div class="row mt-1">
+      <div class="col-12">
+        <div class="mt-1">
+          <app-no-data-found *ngIf="noDataFound"></app-no-data-found>
+        </div>
+
+        <ng-container *ngIf="!applicationsLoading; else showApplicationsLoading">
+          <div
+            class="card"
+            *ngFor="
+              let application of applications;
+              let index = index;
+              let last = last
+            "
+            (click)="previewJobOnPopup($event, application, index)"
+            data-toggle="modal"
+            data-target="#previewJobModal"
+          >
+            <div class="card-body">
+              <div class="row">
+                <div class="col-2">
+                  <img
+                    [src]="
+                      application.job.employer.profile_picture
+                        ? application.job.employer.profile_picture
+                        : defaultCompImg
+                    "
+                    alt="Employer Photo"
+                    class="worker-image"
+                  />
+                </div>
+                <div class="col-8" style="line-height: 1.4;">
+                  <div class="job-title">{{ application.job.job_title }}</div>
+                  <div class="employer-name">
+                    {{ application.job.employer.name }}
+                  </div>
+                  <!-- interview status -->
+                  <div
+                    class="interivew-timing mt-1"
+                    *ngIf="application.application_status == APPLICATION_STATUSES.interviewed"
+                  >
+                    <i
+                      *ngIf="
+                        application.interview_date || application.interview_time;
+                        else noDateTimeSet
+                      "
+                    >
+                      Interview
+                      {{ application.interview_date ? "on" : "at" }}
+                      {{
+                        application.interview_date
+                          ? cmnService.dateFormat(application.interview_date)
+                          : ""
+                      }}
+                      {{
+                        application.interview_time
+                          ? cmnService.formatTo12Hours(
+                              application.interview_time
+                            )
+                          : ""
+                      }}
+                    </i>
+                    <ng-template #noDateTimeSet>
+                      <i>Selected for Interview</i>
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <!-- notification dot -->
+                  <span
+                    *ngIf="chatNotifications[application.id]" 
+                    class="notification-dot appl-notif-dot"
+                  >
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #showApplicationsLoading>
+          <app-applications-loader></app-applications-loader>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <!----------------------- job preview Modal ------------------------>
+  <div
+    *ngIf="applications && applications.length > 0"
+    class="modal fade"
+    id="previewJobModal"
+  >
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <!-- Modal body -->
+        <div class="modal-body job-details">
+          <app-prv-job-content
+            [profile]="selectedApplication?.job?.employer"
+            [job]="selectedApplication?.job"
+            [logoCoverSctnClass]="getLogoCoverSectionClass()"
+            (onClick)="previewProfile($event)"
+          >
+          </app-prv-job-content>
+        </div>
+
+        <!-- message button -->
+        <button
+          *ngIf="showMsgBtn"
+          type="button" 
+          class="btn btn-secondary msg-btn"
+          (click)="chat(selectedApplication?.job.employer.id, selectedApplication?.id)"
+        >
+          <span class="notification">
+            <mat-icon class="chat-icon">chat</mat-icon>
+            <span class="badge" *ngIf="chatNotifications[selectedApplication?.id]">
+              {{ chatNotifications[selectedApplication?.id] }}
+            </span>
+          </span>
+        </button>
+        <app-chat-popup 
+          *ngIf="isChatPopupVisible"
+          [popupSender]="getMsgSenderInfo(selectedApplication?.job.employer.phone)"
+          (onClickCloseChat)="closeChat()"
+        >
+        </app-chat-popup>
+
+        <!-- Modal footer -->
+        <div class="modal-footer" style="padding: 5px;">
+          <!-- withdraw -->
+          <button
+            type="button"
+            class="material-btn-outline material-btn-primary btn-streched-single-btn"
+            data-toggle="modal"
+            data-target="#withdrawModal"
+            style="text-transform: capitalize;"
+          >
+            Withdraw
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---------------------- profile preview Modal ---------------------->
+<div
+  *ngIf="applications && applications.length > 0"
+  class="modal fade"
+  id="previewProfileModal"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Modal body -->
+      <div
+        class="modal-body"
+        [ngClass]="
+          selectedApplication?.job?.employer.account_type == COMP_NAME
+            ? 'company-details'
+            : 'worker-profile'
+        "
+      >
+        <ng-container *ngIf="!previewProfLoading; else showProfileLoading">
+          <!-- company -->
+          <ng-container
+            *ngIf="
+              selectedApplication?.job?.employer.account_type == COMP_NAME;
+              else indvProfile
+            "
+          >
+            <app-prv-comp-prof-content
+              [profile]="profile"
+              [logoCoverSctnClass]="getLogoCoverSectionClass()"
+            >
+            </app-prv-comp-prof-content>
+          </ng-container>
+
+          <!-- individual -->
+          <ng-template #indvProfile>
+            <app-prv-indv-prof-content
+              [profile]="profile"
+              [logoCoverSctnClass]="getLogoCoverSectionClass()"
+            >
+            </app-prv-indv-prof-content>
+          </ng-template>
+        </ng-container>
+
+        <ng-template #showProfileLoading>
+          <app-profile-loader></app-profile-loader>
+        </ng-template>
+        <br /><br />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-------------------- withdraw modal ----------------->
+<div
+  *ngIf="applications && applications.length > 0"
+  class="modal fade"
+  id="withdrawModal"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">
+          Withdraw Job
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          style="margin-top: -11px;"
+        >
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <!------------- applicant -------------->
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <!-- profile picture -->
+              <div class="col-2">
+                <img
+                  [src]="
+                    selectedApplication?.job?.employer?.profile_picture
+                      ? selectedApplication?.job?.employer?.profile_picture
+                      : defaultProfImg
+                  "
+                  alt="Profile Picture"
+                  class="worker-image"
+                />
+              </div>
+
+              <!-- job title and applicant name -->
+              <div class="col-10" style="line-height: 1.4;">
+                <div class="job-title">
+                  {{ selectedApplication?.job?.job_title }}
+                </div>
+                <div class="employer-name">
+                  {{ selectedApplication?.job?.employer?.name }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="padding: 5px;">
+        <!-- withdraw -->
+        <button
+          type="button"
+          class="material-btn-contained btn-streched-single-btn"
+          style="text-transform: capitalize;"
+          [disabled]="circleSpin"
+          (click)="confirmWithdraw()"
+        >
+          Confirm
+          <i *ngIf="circleSpin" class="fa fa-circle-o-notch fa-spin"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

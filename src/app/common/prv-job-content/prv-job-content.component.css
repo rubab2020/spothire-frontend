@@ -1,0 +1,16 @@
+.phone-btn {
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background: white;
+}
+.no-phone-btn {
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background: white;
+  padding: 3px 4px;
+}
+.no-phone-img {
+  height: 30px;
+}

@@ -1,0 +1,23 @@
+<app-private-layout></app-private-layout>
+
+<!-- content -->
+<div class="container vertical-center">
+  <div class="row">
+    <div class="col">
+        <div class="title text-center"><h4>Looking to?</h4></div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-5 col-md-2 offset-md-4 hire">
+      <a routerLink="/hire/write-offer" (click)="handleHireOrServeEvent('hire-event')">
+        <button class="btn material-btn-contained hire-btn">Hire</button>
+      </a>
+    </div>
+    <div class="col-5 col-md-2 ml-3">
+      <a routerLink="/work/jobs" (click)="handleHireOrServeEvent('work-event')">
+        <button class=" btn material-btn-contained work-btn">Work</button>
+      </a>
+    </div>
+  </div>
+</div>

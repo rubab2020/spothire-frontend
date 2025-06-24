@@ -1,0 +1,179 @@
+<!-- <div class="page-bg"> -->
+<h5 class="header-card text-center">Headcount and Photos</h5>
+
+<div class="col-md-12 col-12 form-cotent">
+  <div class="form-content-background">
+    <div class="row">
+      <!-- pager left -->
+      <div class="col-md-3 pager-left" *ngIf="!isMobile">
+        <a class="previous-link" routerLink="../company-background" (click)="onSubmit(compValueForm.value, 'company-background')">
+          <i class="fa fa-2x fa-arrow-left" aria-hidden="true"></i>
+        </a>
+      </div>
+  
+      <div class="col-md-6 col-12 form-compvalue mx-auto">
+        <div class="dots text-center">
+          <div class="dotstyle dotstyle-scaleup">
+            <ul>
+              <li routerLinkActive="active current">
+                <a routerLink="../introduction" (click)="onSubmit(compValueForm.value, 'company-background')">Introduction</a>
+              </li>
+              <li routerLinkActive="active current">
+                <a routerLink="../company-background" (click)="onSubmit(compValueForm.value, 'company-background')">Company Background</a>
+              </li>
+              <li routerLinkActive="active current">
+                <a routerLink="../company-value" (click)="onSubmit(compValueForm.value, 'company-background')">Headcount and Photos</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <form 
+          class="form-section content-bg mt-3" 
+          *ngIf="!loading; else showLoading" 
+          #form="ngForm" 
+          [formGroup]="compValueForm"
+        >
+          <!-- number of employees -->
+          <div class="form-group">
+            <div class="input-group">
+              <label class="material-field">
+                <input 
+                  type="number"
+                  formControlName="total_employees"
+                  placeholder=" ">
+                <span>Number of Employees</span>
+              </label>
+            </div>
+          </div>
+  
+          <!-- upload pictures -->
+          <div class="form-group">
+            <h5>Upload Pictures</h5>
+            <p style="color: #aaa; margin-top: -10px;">
+              <small>(Showcase your office environment, products, activities, awards, etc.)</small>
+            </p>
+  
+            <div class="row" style="margin-top: -10px">
+              <div class="col-md-12 col-12">
+                <swiper [config]="config">
+                  <!-- images -->
+                  <div class="swiper-slide" *ngFor="let item of compValueForm.value.images; let imgIndex = index;">
+                    <label class="filebutton" id="showImg">
+                      <img 
+                        [src]="item.image"
+                        [id]="'prevImg_'+imgIndex" 
+                        alt="Image" 
+                        class="upload-image" />
+                      <span style="display:none">
+                        <input  
+                          type="file" 
+                          accept="image/*" 
+                          [id]="'img_'+imgIndex" 
+                          (change)="onFileChange($event, imgIndex)" 
+                          #fileInput>
+                      </span>
+                    </label>
+                    <button 
+                      type="button"
+                      [id]="'imgDelBtn_'+imgIndex" 
+                      class="upload-img-del-btn pull-right"
+                      (click)="deleteImage(imgIndex);"
+                    >
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <label class="material-field upload-describe-pic">
+                          <input 
+                            type="text"
+                            [id]="'description_'+imgIndex"
+                            class="form-control upload-describe-pic-input" 
+                            placeholder=" "
+                            value="{{item.description}}">
+                          <span>Describe The Picture</span>
+                        </label>
+                      </div>
+                    </div>
+                    <span><p *ngIf="imageError" style="color:red">Please upload Max 15 MB Size</p></span>
+                  </div>
+  
+                  <!-- new images -->
+                  <ng-container *ngIf="{ imagesLength: compValueForm.value.images.length } as varibales">
+                    <div
+                      class="swiper-slide"
+                      *ngFor="let item of createRange(MAX_IMAGE_UPLOAD-varibales.imagesLength); let uploadIndex = index;"
+                    >
+                      <label class="filebutton" id="showImg">
+                        <img 
+                          [src]="imageUpload"
+                          [id]="'prevImg_'+imageIndex(varibales.imagesLength, uploadIndex)" 
+                          alt="Image"
+                          class="upload-image" />
+                        <span style="display:none">
+                          <input  
+                            type="file" 
+                            accept="image/*" 
+                            [id]="'img_'+imageIndex(varibales.imagesLength, uploadIndex)" 
+                            (change)="onFileChange($event, imageIndex(varibales.imagesLength, uploadIndex))" 
+                            #fileInput>
+                        </span>
+                      </label>
+                      <button 
+                        type="button"
+                        [id]="'imgDelBtn_'+imageIndex(varibales.imagesLength, uploadIndex)" 
+                        class="upload-img-del-btn pull-right"
+                        (click)="deleteImage(imageIndex(varibales.imagesLength, uploadIndex));"
+                        style="display:none"
+                      >
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </button>
+                      <div class="form-group">
+                        <div class="input-group">
+                          <label class="material-field upload-describe-pic">
+                            <input 
+                              type="text"
+                              [id]="'description_'+imageIndex(varibales.imagesLength, uploadIndex)"
+                              class="form-control upload-describe-pic-input" 
+                              placeholder=" ">
+                            <span>Describe The Picture</span>
+                          </label>
+                        </div>
+                      </div>
+                      <span><p *ngIf="imageError" style="color:red">Please upload Max 15 MB Size</p></span>
+                    </div>
+                  </ng-container>
+                </swiper>
+              </div>
+            </div>
+          </div>
+        </form>
+  
+        <ng-template #showLoading>
+          <div class="card-form">
+            <content-loader height="140" speed="1" primaryColor="#dddddd" secondaryColor="#c0c0c0">
+              <svg:rect x="0" y="10" rx="4" ry="4" width="400" height="10" />
+              <svg:rect x="0" y="50" rx="4" ry="4" width="400" height="10" />
+              <svg:rect x="0" y="90" rx="4" ry="4" width="400" height="10" />
+              <svg:rect x="0" y="130" rx="4" ry="4" width="400" height="10" />
+            </content-loader>
+          </div>
+        </ng-template>
+      </div>
+  
+      <!-- pager right -->
+      <div class="col-md-3 pager-right" *ngIf="!isMobile">
+        <span class="next-link" (click)="onSubmit(compValueForm.value, 'finish-profile')">Finish</span>
+      </div>
+      
+      <!-- pager for mobile -->
+      <div class="col-12 my-auto mx-auto pager" *ngIf="isMobile">
+        <ul>
+          <li class="previous"><a routerLink="../company-background" (click)="onSubmit(compValueForm.value, 'company-background')">&larr; Back</a></li>
+          <li class="next"><span (click)="onSubmit(compValueForm.value, 'finish-profile')">Finish</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

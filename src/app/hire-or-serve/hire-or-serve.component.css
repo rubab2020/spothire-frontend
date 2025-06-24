@@ -1,0 +1,107 @@
+.hire-btn {
+    width: 160px;
+    height: 45px;
+    background-color: gray;
+} 
+.work-btn {
+    width: 160px;
+    height: 45px;
+    background-color: white; 
+    color: gray;
+}
+.title {
+    color: gray;
+    /* font-weight: bold; */
+}
+
+.vertical-center {
+    padding-top: 27vh;
+    padding-bottom: 10px;
+}
+
+@media only screen and (max-width: 1023px) {
+    .hire {
+        margin-left: 5vw;
+    }
+}
+
+/* .whole{
+    margin:0;
+  width:100%;
+  min-height:93.1vh;
+  background-color: #f2f2f2;
+}
+.bg-dark{
+    background-color: #161d29 !important;
+    line-height: 1;
+    font-size: 0.8125rem;
+    padding: 0.3rem 1rem;
+}
+.hireBlock, .workBlock{
+    background-color: #d9d9d9;
+    border-radius: 10px;
+}
+.hireBlock:hover, .workBlock:hover{
+    background-color: #004966;
+    color: white !important;
+}
+.hireBlock:focus, .workBlock:focus{
+    background-color: #003448;
+    color: white;
+}
+.hireBlock:active, .workBlock:active{
+    background-color: #003448;
+    color: white;
+}
+
+
+.hBlock, .wBlock{
+    text-align: center;
+    display: block;
+    color: #595959;
+    text-decoration: none;
+    height: 70px;
+    padding: 16px;
+    font-size: 24px;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+}
+.hBlock:hover, .wBlock:hover{
+    color: white !important;
+}
+.title{
+    padding-top: 25%;
+}
+.title h4{
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+}
+
+@media only screen and (max-width: 1023px) {
+    .hireBlock {
+        margin-bottom: 20px !important;
+    }
+    .ml-3{
+        margin-left: 0rem !important;
+    }
+    .ml-1{
+        margin-left: 0rem !important; 
+    }
+  }
+
+@media (min-width: 1600px) {
+    .bg-dark{
+       line-height: 2;
+       font-size: 1.1rem;
+       padding: 0.5rem 1rem;
+    }
+    .hBlock, .wBlock{ 
+        height: 90px;
+        padding: 20px;
+        font-size: 34px;
+    }
+    .title{
+        padding-top: 35%;
+    }
+    .title h4{
+        font-size: 3rem;
+    }
+} */

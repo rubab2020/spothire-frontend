@@ -1,0 +1,143 @@
+::ng-deep .content-bg{
+  background: white !important;
+}
+.form-cotent {
+  min-height: 83.5vh; 
+  background: url('../../../assets/images/landing-page/left-bg-star.png') !important;
+  overflow-x: hidden;
+  z-index: 1;
+}
+.form-content-background {
+  background: #f2f3f5b3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 83.5vh;
+}
+
+/* -------- stepper --------- */
+.dots{
+  background-color: #f2f3f54a !important;
+}
+
+a{
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* --------- button ----------- */
+.btn-streched-single-btn {
+  min-width: 342px !important;
+}
+.finish-btn{
+  color: #fff;
+  background-color: #00b0f0;
+  border-color: #00b0f0;
+}
+
+.upload-image {
+  width: 628px !important;
+}
+
+/* ----- pager ----- */
+.pager-right {
+  padding-left: 120px !important;
+}
+.next{
+  cursor: pointer;
+}
+
+/* ------ modal ---- */
+.modal-dialog{
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+.profile-pic, .cover-photo{
+  cursor: default;
+}
+
+/* ---------- gallery image ------- */
+::ng-deep .company-details .work-image {
+  width: 780px !important;
+}
+::ng-deep .company-details .describe-pic {
+  width: 780px !important;
+}
+
+@media only screen and (max-width: 1023px) {
+  .form-section {
+    padding: 10px;
+  }
+
+  .form-cotent {
+    min-height: 75vh; 
+  }
+  .form-content-background {
+    min-height: 75vh;
+  }
+
+  /* --------- button ----------- */
+  .btn-streched-single-btn {
+    min-width: 95vw !important;
+  }
+  /* .finish-btn{
+    color: #fff;
+    background-color: #00b0f0;
+    border-color: #00b0f0;
+  } */
+
+  /* --------- form ------------ */
+  ::ng-deep  .form-compvalue{
+    height: 67.1vh !important;
+    overflow-x: hidden;
+    overflow-y: scroll !important;
+  }
+
+  /* company details */
+  .company-details {
+    min-height: 81.9vh !important;
+    max-height: 81.9vh !important;
+  }
+
+  /* ---------- gallery image ------- */
+  ::ng-deep .company-details .work-image {
+    /* width: 330px !important; */
+    width: 100vw !important;
+  }
+  ::ng-deep .company-details .describe-pic {
+    /* width: 330px !important; */
+    width: 100vw !important;
+
+  }
+  
+  /* ------------ pager ------------ */
+  ::ng-deep .pager {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    bottom: 0rem !important;
+    align-self: flex-end !important;
+    margin-top: 0px !important;
+    padding-top: 7px !important;
+    padding-left: 10px;
+    padding-right: 23px;
+    height: 50px;
+    box-shadow: 0 -4px 6px -6px #222;
+    z-index: 1;
+    background: white;
+  }
+  .pager .previous a {
+    margin-left: -26px !important;
+  }
+
+  .dots{
+    bottom: 2vh !important;
+    background-color: white !important;
+  }
+
+  /* ------------ upload image ------------ */
+  .upload-image {
+    width: 100vw !important;
+  }
+}

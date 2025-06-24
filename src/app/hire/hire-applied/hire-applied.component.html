@@ -1,0 +1,1245 @@
+<ng-progress [color]="'#00ccff'" [thick]="true" [spinner]="false"></ng-progress>
+
+<div class="page-bg custom-scroll" *ngIf="!isMobile">
+  <div class="row mobileMenu" style="margin-right: 0px;">
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/hire/write-offer">Write</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/hire/applied">Applied</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/hire/hired">Hired</a>
+    </div>
+  </div>
+
+  <div class="col-10 mx-auto container-fluid">
+    <div class="row">
+      <!---------------------- application section ---------------------->
+      <div class="col-4" style="padding-left: 0px;">
+        <div
+          class="content-left rmve-inline-size"
+          style="
+            height: 100vh;
+            width: 100% !important;
+            overflow-y: auto;
+          "
+          infiniteScroll
+          [infiniteScrollDistance]="2"
+          [infiniteScrollThrottle]="500"
+          (scrolled)="onScrollDown()"
+          [scrollWindow]="false"
+        >
+          <!------------ filter --------------->
+          <div
+            *ngIf="isFiltersLoaded"
+            class="row mt-2 mb-1"
+            style="padding-left: 5px; padding-right: 5px;"
+          >
+            <div class="col-12">
+              <button
+                type="button"
+                class="btn btn-block filter-applied"
+                data-toggle="modal"
+                data-target="#filterModal"
+                (click)="showFilter()"
+              >
+                <i class="fa fa-filter" aria-hidden="true"></i> Filter
+                <i
+                  class="fa fa-arrows-v"
+                  aria-hidden="true"
+                  style="float: right; margin-top: 5px;"
+                ></i>
+              </button>
+              <app-hire-applied-filter-modal
+                [filters]="filtersData"
+                (onClickApplyFilter)="applyFilter()"
+                (onClickClearFilter)="removeFilter()"
+              ></app-hire-applied-filter-modal>
+            </div>
+          </div>
+
+          <!---------------- jobs ------------------>
+          <div class="row">
+            <div class="col-12">
+              <div class="mt-1">
+                <app-no-data-found *ngIf="noDataFound"></app-no-data-found>
+              </div>
+              
+              <ng-container *ngIf="!applicationsLoading; else showApplicationsLoading">
+                <!-- card -->
+                <div class="card" *ngFor="let job of jobs; let job_index = index" id="jobCard{{job_index}}">
+                  <!-- card header -->
+                  <div class="card-header" [ngClass]="getCardHeaderClass(job)">
+                    <div class="row">
+                      <div class="col-9 job-title" [ngClass]="getCardHeaderTitleClass(job)" (click)="previewJob(job_index)">
+                        <!-- title -->
+                        {{ job.job_title | truncate: [25] }}
+                        <ng-container *ngIf="job.is_temporary_unlocked">
+                          <br />
+                          <span style="color: black; font-size: 11px;">
+                            Clear Payment before {{ dateTimeFormat(job.temp_unlock_due_till) }}
+                          </span>
+                        </ng-container>
+                      </div>
+                      
+                      <!-- icons -->
+                      <div class="col-3 job-action-buttons">
+                        <!-- review icons -->
+                        <i
+                          *ngIf="job.review_status == REIVEW_STATUSES.pending"
+                          class="fa fa-exclamation-circle pending-job-icon"
+                          aria-hidden="true"
+                          placement="top"
+                          ngbPopover="Job Pending"
+                        >
+                        </i>
+                        <i
+                          *ngIf="job.review_status == REIVEW_STATUSES.rejected"
+                          class="fa fa-ban rejected-job-icon"
+                          aria-hidden="true"
+                          placement="top"
+                          ngbPopover="Job Rejected"
+                        >
+                        </i>
+
+                        <!-- collapse job -->
+                        <button
+                          class="material-btn-text"
+                          [ngClass]="getCardCollapseIconClass(job)"
+                          (click)="isCollapsedJob(job_index)"
+                          [attr.aria-expanded]="jobsCollapseStatus[job_index]"
+                        >
+                          <i *ngIf="!jobsCollapseStatus[job_index]" class="fa fa-caret-down" aria-hidden="true"></i>
+                          <i *ngIf="jobsCollapseStatus[job_index]" class="fa fa-caret-up" aria-hidden="true"></i>
+                        </button>
+
+                        <!-- count applicants -->
+                        <span
+                          *ngIf="job.review_status == REIVEW_STATUSES.approved && job.applicants.data.length > 0"
+                          class="appications-count"
+                        >
+                        <button type="button" class="btn btn-sm btn-light appl-candiates-cnt">
+                          <i class="fa fa-user"></i> 
+                          <span class="badge badge-light appl-candiates-cnt-badge">
+                            {{ job.applicants.pagination.total | thousandNumberFormat }}
+                          </span>
+                        </button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- card body -->
+                  <div 
+                    id="collapseJob{{ job_index }}"
+                    [ngbCollapse]="jobsCollapseStatus[job_index]"
+                    style="height: 100%;"
+                    infiniteScroll
+                    [infiniteScrollDistance]="2"
+                    [infiniteScrollThrottle]="500"
+                    (scrolled)="onScrollDown(job.applicants.pagination, job_index)"
+                    [scrollWindow]="false"
+                  >
+                    <div class="card-body">
+                      <ng-container *ngIf="job.applicants.data.length > 0; else noApplications">
+                        <span
+                          *ngFor="let applicant of job.applicants.data; let applicant_index = index"
+                          (click)="
+                            previewApplicantProfile(
+                              applicant.details.id, 
+                              applicant.application_status, 
+                              job_index, 
+                              applicant_index
+                            );
+                            $event.stopPropagation()
+                          "
+                        >
+                          <ng-container *ngIf="applicant_index > 0">
+                            <hr />
+                          </ng-container>
+
+                          <div class="row job-applicant" id="jobApplicant{{job_index}}{{applicant_index}}">
+                            <!-- profile picture -->
+                            <div class="col-2">
+                              <img
+                                [src]="
+                                  applicant.details.profile_picture
+                                  ? applicant.details.profile_picture
+                                  : defaultProfImg
+                                "
+                                alt=""
+                                class="applicant-image"
+                              />
+                            </div>
+
+                            <!-- info -->
+                            <div class="col-10" style="padding-left: 20px;">
+                              <div class="row">
+                                <!-- name -->
+                                <div class="col-10">
+                                  <div class="applicant-name">
+                                    {{ applicant.details.name }}
+                                  </div>
+                                </div>
+
+                                <!-- shortlist -->
+                                <div class="col-2 favourite-btn" style="padding-right: 5px;">
+                                  <button
+                                    *ngIf="!applicant.is_short_listed; else favourited_icon"
+                                    (click)="toggleFavourite(applicant.application_id,job_index,applicant_index);
+                                      $event.stopPropagation()
+                                    "
+                                    class="btn btn-sm"
+                                    style="background: none; color: #757575; border: none; float: right;"
+                                  >
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                  </button>
+                                  <ng-template #favourited_icon>
+                                    <!-- unfavourite -->
+                                    <button
+                                      (click)="toggleFavourite(applicant.application_id,job_index,applicant_index);
+                                        $event.stopPropagation()
+                                      "
+                                      class="btn btn-sm"
+                                      style="background: none; color: #757575; border: none; float: right;"
+                                    >
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                    </button>
+                                  </ng-template>
+                                </div>
+                              </div>
+
+                              <!-- counters -->
+                              <div class="row">
+                                <div class="col-10">
+                                  <div>
+                                    <span class="badge badge-secondary">
+                                      Skill | {{ applicant.counts.matched_skills }}
+                                    </span>
+                                    <span class="badge badge-secondary">
+                                      Exp | {{ applicant.counts.experiences }}
+                                    </span>
+                                    <span class="badge badge-secondary">
+                                      Edu | {{ applicant.counts.qualifications }}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div class="col-2">
+                                  <!-- chat notification dot -->
+                                  <span
+                                    *ngIf="
+                                      notifUniqueApplicationsIds[applicant.application_id]
+                                      && chatNotifications[applicant.application_id]
+                                    " 
+                                    class="notification-dot appl-notif-dot chat-notif-dot"
+                                  >
+                                  </span>
+                                </div>
+                              </div>
+
+                              <!-- interview status -->
+                              <div class="row">
+                                <div
+                                  class="col-12 mt-1"
+                                  *ngIf="applicant.application_status == APPLICATION_STATUSES.interviewed"
+                                  style="color: #e70f91; font-size: 12px; text-align: right;"
+                                >
+                                  <i *ngIf="applicant.interview_date || applicant.interview_time; else noDateTimeSet">
+                                    Interview
+                                    {{ applicant.interview_date ? "on" : "at" }}
+                                    {{ applicant.interview_date ? cmnService.dateFormat(applicant.interview_date) : "" }}
+                                    {{ applicant.interview_time ? cmnService.formatTo12Hours(applicant.interview_time) : ""}}
+                                  </i>
+                                  <ng-template #noDateTimeSet>
+                                    <i>Selected for Interview</i>
+                                  </ng-template>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </span>
+
+                        <!-- loading new paginated applicants -->
+                        <span *ngIf="paginationLoading">
+                          <div class="row">
+                            <div class="col-1 offset-5">
+                              <i class="fa fa-circle-o-notch fa-spin pagination-loader"></i>
+                            </div>
+                          </div>
+                        </span>
+                      </ng-container>
+                      <ng-template #noApplications>No applications found</ng-template>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #showApplicationsLoading>
+                <app-applications-loader></app-applications-loader>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- job detials -->
+      <div class="col-8 content-right">
+        <ng-container *ngIf="workerProfile; else noContent">
+          <!-- chat -->
+          <app-chat-popup 
+            *ngIf="isChatPopupVisible"
+            [popupSender]="getMsgSenderInfo(workerProfile.phone)"
+            (onClickCloseChat)="closeChat()"
+          >
+          </app-chat-popup>
+
+          <ng-container *ngIf="!isChatPopupVisible">
+            <div [ngClass]="selectedApplicant?.account_type == COMP_NAME ? 'company-details' : 'worker-profile'">
+              <!-- company -->
+              <ng-container
+                *ngIf="selectedApplicant?.account_type == COMP_NAME; else indvProfile"
+              >
+                <app-prv-comp-prof-content
+                  [profile]="workerProfile"
+                  [logoCoverSctnClass]="getLogoCoverSectionClass()"
+                  [hideCloseButton]="true"
+                ></app-prv-comp-prof-content>
+              </ng-container>
+  
+              <!-- individual -->
+              <ng-template #indvProfile>
+                <app-prv-indv-prof-content
+                  [profile]="workerProfile"
+                  [logoCoverSctnClass]="getLogoCoverSectionClass()"
+                  [hideCloseButton]="true"
+                ></app-prv-indv-prof-content>
+              </ng-template>
+            </div>
+  
+            <!-- buttons -->
+            <ng-container *ngIf="!isJobPaymentCompleted(); else actionButtons">
+              <!-- due date experied alert -->
+              <ng-container *ngIf="isPendingPaymentExpired(); else clearPayment">
+                <span style="color: black; font-size: 20px;"
+                  >Due payment expired.</span
+                >
+                <button
+                  type="button"
+                  class="material-btn-outline material-btn-primary"
+                  data-toggle="modal"
+                  data-target="#contactSupportModal"
+                >
+                  Contact Support
+                </button>
+              </ng-container>
+              <!-- clear payment -->
+              <ng-template #clearPayment>
+                <button
+                  type="button"
+                  class="material-btn-outline material-btn-primary btn-streched-full-width-mb"
+                  data-toggle="modal"
+                  data-target="#dueAmountShowModal"
+                >
+                  <i class="fa fa-arrows-v"></i> Clear Payment
+                </button>
+              </ng-template>
+            </ng-container>
+    
+            <!-- action buttons -->
+            <ng-template #actionButtons>
+              <div *ngIf="showInterviewBtn || showAssignBtn || showDeclineBtn">
+                <div class="inline-buttons mx-auto" style="margin-top: 8px;">
+                  <!-- message button -->
+                  <button 
+                    type="button" 
+                    class="material-btn-outline material-btn-primary btn-streched" 
+                    *ngIf="showMsgBtn"
+                    (click)="chat(selectedApplicant.applicant_id, selectedApplicant.application_id)"
+                  >
+                    <span class="notification">
+                      <mat-icon class="chat-icon">chat</mat-icon> Message
+                      <span class="badge" *ngIf="chatNotifications[selectedApplicant.application_id]">
+                        {{ chatNotifications[selectedApplicant.application_id] }}
+                      </span>
+                    </span>
+                  </button>
+  
+                  <button
+                    type="button"
+                    class="material-btn-outline btn-streched"
+                    *ngIf="showInterviewBtn"
+                    data-toggle="modal"
+                    data-target="#interviewModal"
+                  >
+                    <mat-icon>people</mat-icon> Interview
+                  </button>
+  
+                  <button
+                    type="button"
+                    class="material-btn-outline material-btn-success btn-streched"
+                    *ngIf="showAssignBtn"
+                    data-toggle="modal"
+                    data-target="#assignModal"
+                    style="font-weight: bold;"
+                  >
+                    <mat-icon>check_circle</mat-icon> Hire
+                  </button>
+  
+                  <button
+                    type="button"
+                    class="material-btn-outline material-btn-danger btn-streched"
+                    *ngIf="showDeclineBtn"
+                    data-toggle="modal"
+                    data-target="#declineModal"
+                  >
+                    <mat-icon>close</mat-icon> Decline
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
+          
+        </ng-container>
+
+        <ng-template #noContent>
+          <img 
+            src="assets/images/content.jpg" 
+            alt=""
+            style="width: auto;
+            height: 350px;
+            margin-left: 80px;
+            margin-top: 10vh;">
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+
+<!---------------------- MOBILE ----------------------------------->
+<div class="page-bg" *ngIf="isMobile">
+  <div class="row mobileMenu" style="margin-right: 0px;">
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/hire/write-offer">Write</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/hire/applied">Applied</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/hire/hired">Hired</a>
+    </div>
+  </div>
+
+  <div class="content-bg">
+    <!------------ filter --------------->
+    <div
+      *ngIf="isFiltersLoaded"
+      class="row mt-2 mb-1"
+      style="padding-left: 5px; padding-right: 5px;"
+    >
+      <div class="col-12">
+        <button
+          type="button"
+          class="btn btn-block filter-applied"
+          data-toggle="modal"
+          data-target="#filterModal"
+          (click)="showFilter()"
+        >
+          <i class="fa fa-filter" aria-hidden="true"></i> Filter
+          <i
+            class="fa fa-arrows-v"
+            aria-hidden="true"
+            style="float: right; margin-top: 5px;"
+          ></i>
+        </button>
+        <app-hire-applied-filter-modal
+          [filters]="filtersData"
+          (onClickApplyFilter)="applyFilter()"
+          (onClickClearFilter)="removeFilter()"
+        ></app-hire-applied-filter-modal>
+      </div>
+    </div>
+
+    <!---------------- jobs ------------------>
+    <div class="row">
+      <div class="col-12">
+        <div class="mt-1">
+          <app-no-data-found *ngIf="noDataFound"></app-no-data-found>
+        </div>
+        
+        <ng-container *ngIf="!applicationsLoading; else showApplicationsLoading">
+          <!-- card -->
+          <div class="card" *ngFor="let job of jobs; let job_index = index" id="jobCard{{job_index}}">
+            <!-- card header -->
+            <div class="card-header" [ngClass]="getCardHeaderClass(job)">
+              <div class="row">
+                <div class="col-9" [ngClass]="getCardHeaderTitleClass(job)" (click)="previewJob(job_index)">
+                  <!-- title -->
+                  {{ job.job_title | truncate: [25] }}
+                  <ng-container *ngIf="job.is_temporary_unlocked">
+                    <br />
+                    <span style="color: black; font-size: 11px;">
+                      Clear Payment before {{ dateTimeFormat(job.temp_unlock_due_till) }}
+                    </span>
+                  </ng-container>
+                </div>
+                
+                <!-- icons -->
+                <div class="col-3 job-action-buttons">
+                  <!-- review icons -->
+                  <i
+                    *ngIf="job.review_status == REIVEW_STATUSES.pending"
+                    class="fa fa-exclamation-circle pending-job-icon"
+                    aria-hidden="true"
+                    placement="top"
+                    ngbPopover="Job Pending"
+                  >
+                  </i>
+                  <i
+                    *ngIf="job.review_status == REIVEW_STATUSES.rejected"
+                    class="fa fa-ban rejected-job-icon"
+                    aria-hidden="true"
+                    placement="top"
+                    ngbPopover="Job Rejected"
+                  >
+                  </i>
+
+                  <!-- collapse job -->
+                  <button
+                    class="material-btn-text"
+                    [ngClass]="getCardCollapseIconClass(job)"
+                    (click)="isCollapsedJob(job_index)"
+                    [attr.aria-expanded]="jobsCollapseStatus[job_index]"
+                  >
+                    <i *ngIf="!jobsCollapseStatus[job_index]" class="fa fa-caret-down" aria-hidden="true"></i>
+                    <i *ngIf="jobsCollapseStatus[job_index]" class="fa fa-caret-up" aria-hidden="true"></i>
+                  </button>
+
+                  <!-- count applicants -->
+                  <span
+                    *ngIf="job.review_status == REIVEW_STATUSES.approved && job.applicants.data.length > 0"
+                    class="appications-count"
+                  >
+                  <button type="button" class="btn btn-sm btn-light appl-candiates-cnt">
+                    <i class="fa fa-user"></i> 
+                    <span class="badge badge-light appl-candiates-cnt-badge">
+                      {{ job.applicants.pagination.total | thousandNumberFormat }}
+                    </span>
+                  </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- card body -->
+            <div 
+              id="collapseJob{{ job_index }}" 
+              [ngbCollapse]="jobsCollapseStatus[job_index]"
+              style="height: 100%;"
+              infiniteScroll
+              [infiniteScrollDistance]="2"
+              [infiniteScrollThrottle]="500"
+              (scrolled)="onScrollDown(job.applicants.pagination, job_index)"
+              [scrollWindow]="false"
+            >
+              <div class="card-body">
+                <ng-container *ngIf="job.applicants.data.length > 0; else noApplications">
+                  <span
+                    *ngFor="let applicant of job.applicants.data; let applicant_index = index"
+                    (click)="
+                      previewApplicantProfileOnPopup(
+                        applicant.details.id, 
+                        applicant.application_status, 
+                        job_index, 
+                        applicant_index
+                      );
+                      $event.stopPropagation()
+                    "
+                  >
+                    <ng-container *ngIf="applicant_index > 0">
+                      <hr />
+                    </ng-container>
+
+                    <div class="row job-applicant">
+                      <!-- profile picture -->
+                      <div class="col-2">
+                        <img
+                          [src]="
+                            applicant.details.profile_picture
+                            ? applicant.details.profile_picture
+                            : defaultProfImg
+                          "
+                          alt=""
+                          class="applicant-image"
+                        />
+                      </div>
+
+                      <!-- info -->
+                      <div class="col-10" style="padding-left: 20px;">
+                        <div class="row">
+                          <!-- name -->
+                          <div class="col-10">
+                            <div class="applicant-name">
+                              {{ applicant.details.name }}
+                            </div>
+                          </div>
+
+                          <!-- shortlist -->
+                          <div class="col-2 favourite-btn" style="padding-right: 5px;">
+                            <button
+                              *ngIf="!applicant.is_short_listed; else favourited_icon"
+                              (click)="toggleFavourite(applicant.application_id,job_index,applicant_index);
+                                $event.stopPropagation()
+                              "
+                              class="btn btn-sm"
+                              style="background: none; color: #757575; border: none; float: right;"
+                            >
+                              <i class="fa fa-heart-o" aria-hidden="true"></i>
+                            </button>
+                            <ng-template #favourited_icon>
+                              <!-- unfavourite -->
+                              <button
+                                (click)="toggleFavourite(applicant.application_id,job_index,applicant_index);
+                                  $event.stopPropagation()
+                                "
+                                class="btn btn-sm"
+                                style="background: none; color: #757575; border: none; float: right;"
+                              >
+                                <i class="fa fa-heart" aria-hidden="true"></i>
+                              </button>
+                            </ng-template>
+                          </div>
+                        </div>
+
+                        <!-- counters -->
+                        <div class="row">
+                          <div class="col-10">
+                            <div>
+                              <span class="badge badge-secondary">
+                                Skill | {{ applicant.counts.matched_skills }}
+                              </span>
+                              <span class="badge badge-secondary">
+                                Exp | {{ applicant.counts.experiences }}
+                              </span>
+                              <span class="badge badge-secondary">
+                                Edu | {{ applicant.counts.qualifications }}
+                              </span>
+                            </div>
+                          </div>
+                          <div class="col-2">
+                            <!-- chat notification dot -->
+                            <span
+                              *ngIf="
+                                notifUniqueApplicationsIds[applicant.application_id]
+                                && chatNotifications[applicant.application_id]
+                              " 
+                              class="notification-dot appl-notif-dot chat-notif-dot"
+                            >
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- interview status -->
+                        <div class="row">
+                          <div
+                            class="col-12 mt-1"
+                            *ngIf="applicant.application_status == APPLICATION_STATUSES.interviewed"
+                            style="color: #e70f91; font-size: 12px; text-align: right;"
+                          >
+                            <i *ngIf="applicant.interview_date || applicant.interview_time; else noDateTimeSet">
+                              Interview
+                              {{ applicant.interview_date ? "on" : "at" }}
+                              {{ applicant.interview_date ? cmnService.dateFormat(applicant.interview_date) : "" }}
+                              {{ applicant.interview_time ? cmnService.formatTo12Hours(applicant.interview_time) : ""}}
+                            </i>
+                            <ng-template #noDateTimeSet>
+                              <i>Selected for Interview</i>
+                            </ng-template>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </span>
+
+                  <!-- loading new paginated applicants -->
+                  <span *ngIf="paginationLoading">
+                    <div class="row">
+                      <div class="col-1 offset-5">
+                        <i class="fa fa-circle-o-notch fa-spin pagination-loader"></i>
+                      </div>
+                    </div>
+                  </span>
+                </ng-container>
+                <ng-template #noApplications>No applications found</ng-template>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #showApplicationsLoading>
+          <app-applications-loader></app-applications-loader>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--------------------- job preview Modal -------------------------->
+<div *ngIf="selectedJob" class="modal fade" id="jobPreviewModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Modal body -->
+      <div class="modal-body job-details">
+        <app-prv-job-content
+          [profile]="user"
+          [job]="selectedJob"
+        ></app-prv-job-content>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="padding: 5px;">
+        <!-- apply -->
+        <span *ngIf="selectedJob.review_status == REIVEW_STATUSES.pending">
+          <button
+            type="button"
+            class="material-btn-outline material-btn-primary btn-streched-lg"
+            [routerLink]="['../write-offer']"
+            [queryParams]="{ id: selectedJob.id }"
+            data-dismiss="modal"
+          >
+            Edit
+          </button>
+        </span>
+
+        <!-- delete -->
+        <button
+          type="button"
+          [ngClass]="
+            selectedJob.review_status == REIVEW_STATUSES.pending
+              ? 'btn-streched-lg'
+              : 'btn-streched-single-btn'
+          "
+          class="material-btn-outline material-btn-danger"
+          (click)="deleteJob(selectedJob)"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ---------- preview profile Modal ------------- -->
+<div class="modal fade" id="previewProfileModal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <!-- Modal body -->
+      <div
+        class="modal-body"
+        [ngClass]="selectedApplicant?.account_type == COMP_NAME ? 'company-details' : 'worker-profile'"
+      >
+        <!-- company -->
+        <ng-container
+          *ngIf="selectedApplicant?.account_type == COMP_NAME; else indvProfile"
+        >
+          <app-prv-comp-prof-content
+            [profile]="workerProfile"
+            [logoCoverSctnClass]="getLogoCoverSectionClass()"
+          ></app-prv-comp-prof-content>
+        </ng-container>
+
+        <!-- individual -->
+        <ng-template #indvProfile>
+          <app-prv-indv-prof-content
+            [profile]="workerProfile"
+            [logoCoverSctnClass]="getLogoCoverSectionClass()"
+          ></app-prv-indv-prof-content>
+        </ng-template>
+      </div>
+
+      <!-- message button -->
+      <button 
+        type="button" 
+        class="btn btn-secondary msg-btn" 
+        *ngIf="showMsgBtn"
+        (click)="chat(selectedApplicant.applicant_id, selectedApplicant.application_id)"
+      >
+        <span class="notification">
+          <mat-icon class="chat-icon">chat</mat-icon>
+          <span class="badge" *ngIf="chatNotifications[selectedApplicant.application_id]">
+            {{ chatNotifications[selectedApplicant.application_id] }}
+          </span>
+        </span>
+      </button>
+      <app-chat-popup 
+        *ngIf="isChatPopupVisible"
+        [popupSender]="getMsgSenderInfo(workerProfile.phone)"
+        (onClickCloseChat)="closeChat()"
+      >
+      </app-chat-popup>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="padding: 5px;">
+        <!-- action buttons -->
+          <div *ngIf="showInterviewBtn || showAssignBtn || showDeclineBtn">
+            <div class="inline-buttons mx-auto">
+              <button
+                type="button"
+                class="material-btn-outline material-btn-primary btn-streched"
+                *ngIf="showInterviewBtn"
+                data-toggle="modal"
+                data-target="#interviewModal"
+              >
+                Interview
+              </button>
+              <button
+                type="button"
+                class="material-btn-outline material-btn-success btn-streched-hire"
+                *ngIf="showAssignBtn"
+                data-toggle="modal"
+                data-target="#assignModal"
+                style="font-weight: bold;"
+              >
+                Hire
+              </button>
+              <button
+                type="button"
+                class="material-btn-outline material-btn-danger btn-streched"
+                *ngIf="showDeclineBtn"
+                data-toggle="modal"
+                data-target="#declineModal"
+              >
+                Decline
+              </button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-------------- hire modal ----------------->
+<div class="modal fade" id="assignModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-title">Hire Applicant</div>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          style="margin-top: -11px;"
+        >
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body modal-bg" style="height: 76vh;">
+        <!------------- applicant -------------->
+        <div class="card">
+          <div class="card-body">
+            <div class="row applicant">
+              <!-- profile picture -->
+              <div class="col-2">
+                <img
+                  [src]="
+                    selectedApplicant?.picture
+                      ? selectedApplicant.picture
+                      : defaultProfImg
+                  "
+                  alt="Profile Picture"
+                  class="applicant-image"
+                />
+              </div>
+
+              <!-- job title and applicant name -->
+              <div class="col-10" style="line-height: 1.4;">
+                <div class="applicant-name">{{ selectedApplicant?.name }}</div>
+                <div class="job-name">
+                  Job: {{ selectedApplicant?.job_title }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="padding: 5px;">
+        <!-- assign -->
+        <button
+          type="button"
+          class="material-btn-contained btn-streched-full-width-mb"
+          style="text-transform: capitalize;"
+          [disabled]="circleSpinHire"
+          (click)="confirmHiringApplicant()"
+        >
+          Confirm
+          <i *ngIf="circleSpinHire" class="fa fa-circle-o-notch fa-spin"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---------------- interview modal ---------------->
+<div class="modal fade" id="interviewModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-title">Interview Applicant</div>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          style="margin-top: -11px;"
+        >
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body modal-bg" style="height: 76vh;">
+        <!------------- applicant -------------->
+        <div class="card">
+          <div class="card-body">
+            <div class="row applicant">
+              <!-- profile picture -->
+              <div class="col-2">
+                <img
+                  [src]="
+                    selectedApplicant?.picture
+                      ? selectedApplicant.picture
+                      : defaultProfImg
+                  "
+                  alt="Profile Picture"
+                  class="applicant-image"
+                />
+              </div>
+
+              <!-- job title and applicant name -->
+              <div class="col-10" style="line-height: 1.4;">
+                <div class="applicant-name">{{ selectedApplicant?.name }}</div>
+                <div class="job-name">
+                  Job: {{ selectedApplicant?.job_title }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="card"
+          style="
+            margin-top: 20px;
+            margin-bottom: -10px;
+            background-color: white;
+          "
+        >
+          <div
+            class="card-body"
+            style="padding-top: 10px; padding-left: 0px; padding-right: 0px;"
+          >
+            <!-- form -->
+            <div class="row">
+              <div class="col-10 offset-1">
+                <h5 style="color: gray;">Set Interview Date & Time</h5>
+
+                <!-- date -->
+                <div class="form-group">
+                  <div class="input-group">
+                    <label class="material-field">
+                      <input
+                        id="interviewDate"
+                        matInput
+                        [matDatepicker]="datePicker"
+                        (click)="datePicker.open()"
+                        placeholder=" "
+                        readonly
+                        required
+                      />
+                      <span>Date</span>
+                      <div class="input-group-append clear-date">
+                        <span
+                          class="input-group-text clear-dt-icon"
+                          (click)="resetDateInput()"
+                        >
+                          <i class="fa fa-times" aria-hidden="true"></i>
+                        </span>
+                      </div>
+                    </label>
+                    <mat-datepicker #datePicker></mat-datepicker>
+                  </div>
+                </div>
+
+                <!-- time -->
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="material-field">
+                      <input
+                        type="time"
+                        id="interviewTime"
+                        value="{{ selectedApplicant?.interview_time }}"
+                        placeholder=" "
+                        required
+                      />
+                      <span>Time</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="padding: 5px;">
+        <!-- interview -->
+        <button
+          type="submit"
+          class="material-btn-contained btn-streched-full-width-mb"
+          style="text-transform: capitalize;"
+          [disabled]="circleSpinInterview"
+          (click)="confirmInterview()"
+        >
+          Confirm
+          <i
+            *ngIf="circleSpinInterview"
+            class="fa fa-circle-o-notch fa-spin"
+          ></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-------------- decline modal ----------------->
+<div class="modal fade" id="declineModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-title">Decline Applicant</div>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          style="margin-top: -11px;"
+        >
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body modal-bg" style="height: 76vh;">
+        <!------------- applicant -------------->
+        <div class="card">
+          <div class="card-body">
+            <div class="row applicant">
+              <!-- profile picture -->
+              <div class="col-2">
+                <img
+                  [src]="
+                    selectedApplicant?.picture
+                      ? selectedApplicant.picture
+                      : defaultProfImg
+                  "
+                  alt="Profile Picture"
+                  class="applicant-image"
+                />
+              </div>
+
+              <!-- job title and applicant name -->
+              <div class="col-10" style="line-height: 1.4;">
+                <div class="applicant-name">{{ selectedApplicant?.name }}</div>
+                <div class="job-name">
+                  Job: {{ selectedApplicant?.job_title }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="padding: 5px;">
+        <!-- deny -->
+        <button
+          type="button"
+          class="material-btn-contained btn-streched-full-width-mb"
+          style="text-transform: capitalize;"
+          [disabled]="circleSpinDecline"
+          (click)="confirmDecline()"
+        >
+          Confirm
+          <i *ngIf="circleSpinDecline" class="fa fa-circle-o-notch fa-spin"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--------------------- delete job modal -------------------------->
+<div *ngIf="selectedJob" class="modal fade confirm-modal" id="jobDeleteModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-title">Delete Job</div>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          style="margin-top: -11px;"
+        >
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        Are you sure you want to delete ‘{{ selectedJob.job_title }}’?
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="padding: 5px;">
+        <button class="material-btn-text btn-streched-lg" data-dismiss="modal">
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="material-btn-contained btn-streched-lg"
+          style="text-transform: capitalize;"
+          [disabled]="circleSpinDelete"
+          (click)="confirmJobDelete(selectedJob.id)"
+        >
+          Confirm
+          <i *ngIf="circleSpinDelete" class="fa fa-circle-o-notch fa-spin"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--------------------- Due amount show modal -------------------------->
+<div
+  class="modal fade"
+  id="dueAmountShowModal"
+  *ngIf="selectedApplicant != undefined"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-title">Outstanding Balance</div>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          style="margin-top: -11px;"
+        >
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div
+        class="modal-body"
+        style="
+          padding: 20px;
+          font-size: 22px;
+          text-align: center;
+          padding-top: 40%;
+        "
+      >
+        Please Clear your outstanding balance of BDT
+        {{ selectedApplicant["due_amount"] }} in orde to contact all applciants
+        via phone call and isntant message under this job post.
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="padding: 5px;">
+        <button
+          type="button"
+          class="material-btn-contained btn-streched-full-width-mb"
+          data-dismiss="modal"
+          data-toggle="modal"
+          data-target="#paymentModal"
+          style="text-transform: capitalize;"
+        >
+          Clear Outstanding Balance
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--------------------- payment modal -------------------------->
+<div class="modal fade" id="paymentModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-title">Bill Payment</div>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          style="margin-top: -11px;"
+        >
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" style="padding: 5px; font-size: 15px;">
+        <mat-tab-group>
+          <mat-tab label="Cash in Hand">
+            <div style="padding: 20px;">
+              Unlock job instantly right after selecting this payment option.
+              After that you will be able to view all applicants' mobile number
+              and instant message option on this job.
+              <br />
+              <br />
+              Please complete payment within 48 hours after selecting this
+              option otherwise, this job will be locked again.
+              <br />
+              <br />
+              Contact Address: 2nd Floor, House: 14(Sazanas), Road: 32,
+              Gulshan-1.
+              <br />
+              <br />
+              Hotline: +880 1792-465877
+            </div>
+            <br />
+            <div>
+              <button
+                type="button"
+                class="material-btn-contained btn-streched-full-width-mb"
+                data-dismiss="modal"
+                (click)="confirmPayment('hand')"
+                style="text-transform: capitalize;"
+              >
+                Confirm Payment
+              </button>
+            </div>
+          </mat-tab>
+          <mat-tab label="Bkash">
+            <div style="padding: 20px;">
+              This service will be availabe soon.
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-contact-us></app-contact-us>
+
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

@@ -1,0 +1,42 @@
+<!-- todo: public jobs page and jobs page code are some. will make it common code in future -->
+<!-- -------------- jobs -------------- -->
+<!-- <div class="row">
+  <div class="col-12">
+    <ng-container *ngIf="!jobsLoading; else showJobsLoading">
+      <ng-container *ngIf="jobs.length > 0; else noJobsFound">
+        <div
+          [@listAnimation]="jobs.length"
+          *ngFor="let job of jobs; let i = index"
+          (click)="showJobOnPopup(i)"
+          data-toggle="modal"
+          data-target="#previewJobModal"
+        >
+          <app-job-card
+            [job]="job"
+            [jobsSeen]="jobsSeen"
+            (onClickFavourite)="favouriteJob($event)"
+            (onClickUnFavourite)="unfavouriteJob($event)"
+          >
+          </app-job-card>
+        </div> -->
+
+        <!-- loading new paginated jobs -->
+        <!-- <span *ngIf="paginationLoading">
+          <div class="row">
+            <div class="col-1 offset-5">
+              <i class="fa fa-circle-o-notch fa-spin pagination-loader"></i>
+            </div>
+          </div>
+        </span>
+      </ng-container>
+      <ng-template #noJobsFound>
+        <div class="mt-2">
+          <app-no-data-found></app-no-data-found>
+        </div>
+      </ng-template>
+    </ng-container>
+    <ng-template #showJobsLoading>
+      <app-job-loader></app-job-loader>
+    </ng-template>
+  </div>
+</div> -->

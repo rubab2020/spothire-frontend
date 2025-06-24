@@ -1,0 +1,43 @@
+/* ---------- error modal ---------- */
+#fieldsErrorModal .modal-dialog {
+  transform: translate(0,-50%);
+  top: 50%;
+  margin: 0 auto;
+}
+#fieldsErrorModal .modal-header{
+  /* background-color: #dd4b39 !important; */
+  padding: 5px 10px !important;
+  border-radius: 0px !important;
+  height: 55px !important;
+  /* color: white !important; */
+  padding-top: 5px !important;
+}
+#fieldsErrorModal .modal-content {
+  min-height: 100%;
+}
+#fieldsErrorModal .modal-body {
+  padding: 25px;
+}
+
+@media only screen and (max-width: 1023px) {
+  /* ---------- fiels error modal ---------- */
+    #fieldsErrorModal .modal-dialog {
+      transform: translate(0,-50%);
+      top: 50%;
+      margin: 0 auto;
+  }
+  #fieldsErrorModal .modal-header{
+      /* background-color: #dd4b39 !important; */
+      padding: 5px 10px !important;
+      border-radius: 0px !important;
+      height: 55px !important;
+      /* color: white !important; */
+      padding-top: 5px !important;
+  }
+  #fieldsErrorModal .modal-content {
+      min-height: 100%;
+  }
+  #fieldsErrorModal .modal-body {
+      padding: 25px;
+  }
+}

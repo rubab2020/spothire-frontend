@@ -1,0 +1,149 @@
+<h5 class="header-card text-center">Awards and Recognition</h5>
+
+<div class="col-md-12 col-12  form-cotent">
+  <div class="form-content-background">
+    <div class="row">
+      <!-- pager left -->
+      <div class="col-md-3 pager-left" *ngIf="!isMobile">
+        <a class="previous-link" routerLink="../qualification" (click)="onSubmit(awardForm.value, 'back-page')">
+          <i class="fa fa-2x fa-arrow-left" aria-hidden="true"></i>
+        </a>
+      </div>
+  
+      <div class="col-md-6 col-12 form-award mx-auto">
+        <div class="dots text-center">
+          <div class="dotstyle dotstyle-scaleup">
+            <ul>
+              <li routerLinkActive="active current"><a routerLink="../about-yourself" (click)="onSubmit(awardForm.value, 'back-page')">About</a></li>
+              <li routerLinkActive="active current"><a routerLink="../work-experience" (click)="onSubmit(awardForm.value, 'back-page')">Work Experience</a></li>
+              <li routerLinkActive="active current"><a routerLink="../qualification" (click)="onSubmit(awardForm.value, 'back-page')">Qualification</a></li>
+              <li routerLinkActive="active current"><a routerLink="../award" (click)="onSubmit(awardForm.value, 'back-page')">Projects and Recognition</a></li>
+            </ul>
+          </div>
+        </div>
+        <form *ngIf="!loading; else showLoading" #awdForm="ngForm" [formGroup]="awardForm">
+          <div formArrayName="awards">
+            <div 
+              class="card-form  content-bg"
+              [ngClass]="(isMobile || i==0)?'mt-1':'mt-4'"
+              *ngFor="let awardrow of awardForm['controls'].awards['controls']; let i=index;let last=last;let first=first;"  
+              [formGroupName]="i"
+            >
+              <!-- title -->
+              <div class="form-group">
+                <div class="input-group">
+                  <label class="material-field">
+                    <input  
+                      formControlName="title" 
+                      type="text" 
+                      [maxLength]="1001"
+                      placeholder=" ">
+                    <span>Title</span>
+                  </label>
+                  <div *ngIf="awardForm.controls.awards.controls[i].controls.title.touched" class="alert alert-danger">
+                    <div *ngIf="awardForm.controls.awards.controls[i].controls.title.value.length > 1000">*Maximum 1000 characters</div>
+                  </div>
+                </div>
+              </div>
+  
+              <!-- institution -->
+              <div class="form-group">
+                <div class="input-group">
+                  <label class="material-field">
+                    <input  
+                      formControlName="institution"
+                      type="text"
+                      [maxLength]="1001"
+                      placeholder=" ">
+                    <span>Institution</span>
+                  </label>
+                  <div *ngIf="awardForm.controls.awards.controls[i].controls.institution.touched" class="alert alert-danger">
+                    <div *ngIf="awardForm.controls.awards.controls[i].controls.institution.value.length > 1000">*Maximum 1000 characters</div>
+                  </div>
+                </div>
+              </div>
+  
+              <!-- date -->
+              <div class="form-group">
+                <div class="input-group">
+                  <label class="material-field">
+                    <input 
+                      formControlName="date" 
+                      matInput 
+                      [matDatepicker]="datePicker" 
+                      (click)="datePicker.open()" 
+                      placeholder=" " 
+                      readonly>
+                    <span>Date</span>
+                    <div class="input-group-append clear-date">
+                      <span class="input-group-text clear-dt-icon" (click)="resetDateInput(i)">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </span>
+                    </div>
+                  </label>
+                  <mat-datepicker #datePicker></mat-datepicker>
+                </div>
+              </div>
+              
+              <!-- delete -->
+              <div class="row justify-content-center">
+                <button type="button" class="material-btn-text material-btn-danger" [routerLink]="" *ngIf="countCheckAward > 0" (click)="deleteRow(i)">
+                  <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                </button>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row mb-2 justify-content-center" style="margin-top: -10px;">
+            <button type="button" class="material-btn-outline material-btn-primary" [routerLink]="" (click)="addRow()" style="margin-right: 5px;">
+              <i class="fa fa-plus" aria-hidden="true"></i> Add More
+            </button>
+          </div>
+        </form>
+  
+        <ng-template #showLoading>
+          <div class="card-form">
+            <content-loader height="140" speed="1" primaryColor="#dddddd" secondaryColor="#c0c0c0">
+              <svg:rect x="0" y="10" rx="4" ry="4" width="400" height="10" />
+              <svg:rect x="0" y="50" rx="4" ry="4" width="400" height="10" />
+          
+              <svg:rect x="0" y="90" rx="4" ry="4" width="180" height="10" />
+              <svg:rect x="225" y="90" rx="4" ry="4" width="180" height="10" />
+          
+              <svg:rect x="0" y="130" rx="4" ry="4" width="180" height="10" />
+              <svg:rect x="225" y="130" rx="4" ry="4" width="180" height="10" />
+            </content-loader>
+          </div>
+          <div class="card-form" style="margin-top: 20px;">
+            <content-loader height="140" speed="1" primaryColor="#dddddd" secondaryColor="#c0c0c0">
+              <svg:rect x="0" y="10" rx="4" ry="4" width="400" height="10" />
+              <svg:rect x="0" y="50" rx="4" ry="4" width="400" height="10" />
+          
+              <svg:rect x="0" y="90" rx="4" ry="4" width="180" height="10" />
+              <svg:rect x="225" y="90" rx="4" ry="4" width="180" height="10" />
+          
+              <svg:rect x="0" y="130" rx="4" ry="4" width="180" height="10" />
+              <svg:rect x="225" y="130" rx="4" ry="4" width="180" height="10" />
+            </content-loader>
+          </div>
+        </ng-template>
+      </div>
+  
+      <!-- pager right -->
+      <div class="col-md-3 pager-right" *ngIf="!isMobile">
+        <span class="next-link" (click)="onSubmit(awardForm.value, 'finish-profile')">Finish</span>
+      </div>
+      
+      <!-- pager for mobile -->
+      <div class="col-12 my-auto mx-auto pager" *ngIf="isMobile">
+        <ul>
+          <li class="previous"><a routerLink="../qualification" (click)="onSubmit(awardForm.value, 'back-page')">&larr; Back</a></li>
+          <li class="next"><span (click)="onSubmit(awardForm.value, 'finish-profile')">Finish</span></li>
+        </ul>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<!-- --------------- site error modal ---------------- -->
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

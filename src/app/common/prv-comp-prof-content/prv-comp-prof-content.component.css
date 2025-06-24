@@ -1,0 +1,26 @@
+.phone-btn {
+  margin-top: 30px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background: white;
+}
+.no-phone-btn {
+  margin-top: 30px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background: white;
+  padding: 3px 4px;
+}
+.no-phone-img {
+  height: 30px;
+}
+.logo-cover-section {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  margin-top: -48px !important;
+}
+.logo-cover-section-with-phn {
+  margin-top: -68px;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}

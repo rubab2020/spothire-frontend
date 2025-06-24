@@ -1,0 +1,7 @@
+@media only screen and (max-width: 1023px) {
+  .no-data-found {
+    object-fit: cover;
+    width: auto;
+    height: 320px;
+  }
+}

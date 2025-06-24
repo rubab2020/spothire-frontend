@@ -1,0 +1,683 @@
+<ng-progress [color]="'#00ccff'" [thick]="true" [spinner]="false"></ng-progress>
+
+<div class="page-bg custom-scroll" *ngIf="!isMobile">
+  <div class="row mobileMenu" style="margin-right: 0px;">
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/jobs">Jobs</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/applied">Applied</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/hired">Hired</a>
+    </div>
+  </div>
+
+  <div class="col-10 mx-auto container-fluid">
+    <div class="row">
+      <!---------------------- application section ---------------------->
+      <div class="col-4" style="padding-left: 0px;">
+        <div
+          class="content-left rmve-inline-size"
+          style="height: 100%; width: 100% !important;"
+          infiniteScroll
+          [infiniteScrollDistance]="2"
+          [infiniteScrollThrottle]="500"
+          (scrolled)="onScrollDown()"
+          [scrollWindow]="false"
+        >
+          <!------------------- search ------------------>
+          <div class="row mt-2" style="margin-right: -10px; margin-left: -10px;">
+            <div class="col-12">
+              <div class="input-group">
+                <input
+                  (keyup)="onSearchChange($event.target.value)"
+                  id="search"
+                  type="text"
+                  class="form-control"
+                  placeholder="&#xF002; Search Job title or Company"
+                  style="
+                    font-family: arial, Fontawesome;
+                    font-size: 14px;
+                    border-radius: 20px;
+                  "
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- -------------- applications -------------- -->
+          <div class="row mt-1">
+            <div class="col-12">
+              <div class="mt-1">
+                <app-no-data-found *ngIf="noDataFound"></app-no-data-found>
+              </div>
+
+              <ng-container *ngIf="!applicationsLoading; else showApplicationsLoading">
+                <div
+                  [@listAnimation]="applications.length"
+                  class="card application"
+                  id="application{{index}}"
+                  *ngFor="
+                    let application of applications;
+                    let index = index;
+                    let last = last
+                  "
+                  (click)="previewJob(index)"
+                >
+                  <div class="card-body">
+                    <div
+                      class="row"
+                    >
+                      <!-- profile picture -->
+                      <div class="col-2">
+                        <img
+                          [src]="
+                            application.job.employer.profile_picture
+                              ? application.job.employer.profile_picture
+                              : defaultCompImg
+                          "
+                          alt="Employer Photo"
+                          class="worker-image"
+                        />
+                      </div>
+      
+                      <!-- name -->
+                      <div
+                        class="col-7"
+                        style="line-height: 1.4; padding-right: 0px;"
+                      >
+                        <div class="job-title">{{ application.job.job_title }}</div>
+                        <div class="employer-name">
+                          {{ application.job.employer.name }}
+                        </div>
+                        <!-- rated info -->
+                        <div *ngIf="application?.rating > 0">
+                          <small style="color: #bfbfbf;">
+                            <i
+                              >You have been rated {{ application.rating }} star{{
+                                application.rating > 1 ? "s" : ""
+                              }}</i
+                            >
+                          </small>
+                        </div>
+                        <!-- rated info -->
+                        <div *ngIf="application.is_job_completed">
+                          <small style="color: #2ecc71;">
+                            <i>Completed</i>
+                          </small>
+                        </div>
+                      </div>
+      
+                      <div
+                        class="col-3 text-right custom-rating"
+                        style="padding: 0px; padding-right: 5px;"
+                      >
+                        <!-- rating -->
+                        <ngb-rating
+                          *ngIf="application?.rating > 0"
+                          [(rate)]="application.rating"
+                          [readonly]="true"
+                          max="{{ application.rating }}"
+                        >
+                        </ngb-rating>
+                        <span *ngIf="application?.rating > 0" style="color: #bfbfbf;">
+                          ({{ application.rating }})
+                        </span>
+      
+                        <!-- notification dot -->
+                        <span
+                          *ngIf="chatNotifications[application.id]" 
+                          class="notification-dot appl-notif-dot"
+                        >
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #showApplicationsLoading>
+                <app-applications-loader></app-applications-loader>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- job detials -->
+      <div class="col-8 job-details content-right" *ngIf="applications && applications.length > 0">
+        <!-- chat -->
+        <app-chat-popup 
+          *ngIf="isChatPopupVisible"
+          [popupSender]="getMsgSenderInfo(selectedApplication?.job.employer.phone)"
+          (onClickCloseChat)="closeChat()"
+        >
+        </app-chat-popup>
+
+        <ng-container *ngIf="!isChatPopupVisible">
+          <app-prv-job-content
+            [profile]="selectedApplication?.job?.employer"
+            [job]="selectedApplication?.job"
+            [hideCloseButton]="true"
+            [logoCoverSctnClass]="getLogoCoverSectionClass()"
+            (onClick)="previewProfile($event)"
+          >
+          </app-prv-job-content>
+  
+          <!-- buttons -->
+          <div class="row action-btns">
+            <div class="col-12" style="margin-left: -15px;">
+                <!-- message button -->
+                <button 
+                  type="button" 
+                  class="material-btn-outline material-btn-primary btn-streched" 
+                  (click)="chat(selectedApplication?.job.employer.id, selectedApplication?.id)"
+                  style="color: #00b0f0"
+                >
+                  <span class="notification">
+                    <mat-icon class="chat-icon">chat</mat-icon> Message
+                    <span class="badge" *ngIf="chatNotifications[selectedApplication?.id]">
+                      {{ chatNotifications[selectedApplication?.id] }}
+                    </span>
+                  </span>
+                </button>
+  
+                <!-- request rating -->
+                <button
+                  *ngIf="
+                    selectedApplication?.rating_status === null &&
+                    user.user_type == INDV_NAME
+                  "
+                  type="button" 
+                  class="material-btn-outline btn-streched"
+                  data-toggle="modal"
+                  data-target="#ratingRequestModal"
+                  style="text-transform: capitalize; color: #ffc107;"
+                >
+                  <mat-icon>star_border</mat-icon>
+                  Request Rating
+                </button>
+  
+                <!-- pending rating -->
+                <button
+                  *ngIf="selectedApplication?.rating_status === RATING_STATUSES.pending"
+                  type="button" 
+                  class="material-btn-outline btn-streched"
+                  disabled
+                  style="text-transform: capitalize; color: #ffc107;"
+                >
+                  <mat-icon>star_border</mat-icon>
+                  Rating Pending
+                </button>
+              
+                <!-- discontinue -->
+                <button
+                  *ngIf="!selectedApplication?.is_job_completed"
+                  type="button"
+                  class="material-btn-outline material-btn-danger btn-streched"
+                  data-toggle="modal"
+                  data-target="#discontinueModal"
+                >
+                  <mat-icon>close</mat-icon> Discontinue
+                </button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!------------------------ Mobile -------------------------->
+<div class="page-bg" *ngIf="isMobile">
+  <div class="row mobileMenu" style="margin-right: 0px;">
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/jobs">Jobs</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/applied">Applied</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/hired">Hired</a>
+    </div>
+  </div>
+
+  <div class="content-bg">
+    <!------------------- search ------------------>
+    <div class="row mt-2" style="margin-right: -10px; margin-left: -10px;">
+      <div class="col-12">
+        <div class="input-group">
+          <input
+            (keyup)="onSearchChange($event.target.value)"
+            id="search"
+            type="text"
+            class="form-control"
+            placeholder="&#xF002; Search Job title or Company"
+            style="
+              font-family: arial, Fontawesome;
+              font-size: 14px;
+              border-radius: 20px;
+            "
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- -------------- applications -------------- -->
+    <div class="row mt-1">
+      <div class="col-12">
+        <div class="mt-1">
+          <app-no-data-found *ngIf="noDataFound"></app-no-data-found>
+        </div>
+
+        <ng-container *ngIf="!applicationsLoading; else showApplicationsLoading">
+          <div
+            class="card"
+            *ngFor="
+              let application of applications;
+              let i = index;
+              let last = last
+            "
+            (click)="showJobOnPopup($event, application, i)"
+            data-toggle="modal"
+            data-target="#previewJobModal"
+          >
+            <div class="card-body">
+              <div
+                class="row"
+              >
+                <!-- profile picture -->
+                <div class="col-2">
+                  <img
+                    [src]="
+                      application.job.employer.profile_picture
+                        ? application.job.employer.profile_picture
+                        : defaultCompImg
+                    "
+                    alt="Employer Photo"
+                    class="worker-image"
+                  />
+                </div>
+
+                <!-- name -->
+                <div
+                  class="col-7"
+                  style="line-height: 1.4; padding-right: 0px;"
+                >
+                  <div class="job-title">{{ application.job.job_title }}</div>
+                  <div class="employer-name">
+                    {{ application.job.employer.name }}
+                  </div>
+                  <!-- rated info -->
+                  <div *ngIf="application?.rating > 0">
+                    <small style="color: #bfbfbf;">
+                      <i
+                        >You have been rated {{ application.rating }} star{{
+                          application.rating > 1 ? "s" : ""
+                        }}</i
+                      >
+                    </small>
+                  </div>
+                  <!-- rated info -->
+                  <div *ngIf="application.is_job_completed">
+                    <small style="color: #2ecc71;">
+                      <i>Completed</i>
+                    </small>
+                  </div>
+                </div>
+
+                <div
+                  class="col-3 text-right custom-rating"
+                  style="padding: 0px; padding-right: 5px;"
+                >
+                  <!-- rating -->
+                  <ngb-rating
+                    *ngIf="application?.rating > 0"
+                    [(rate)]="application.rating"
+                    [readonly]="true"
+                    max="{{ application.rating }}"
+                  >
+                  </ngb-rating>
+                  <span *ngIf="application?.rating > 0" style="color: #bfbfbf;">
+                    ({{ application.rating }})
+                  </span>
+
+                  <!-- notification dot -->
+                  <span
+                    *ngIf="chatNotifications[application.id]" 
+                    class="notification-dot appl-notif-dot"
+                  >
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #showApplicationsLoading>
+          <app-applications-loader></app-applications-loader>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <!----------------------- job preview Modal ------------------------>
+  <div
+    *ngIf="applications && applications.length > 0"
+    class="modal fade"
+    id="previewJobModal"
+  >
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <!-- Modal body -->
+        <div class="modal-body job-details">
+          <app-prv-job-content
+            [profile]="selectedApplication?.job?.employer"
+            [job]="selectedApplication?.job"
+            [logoCoverSctnClass]="getLogoCoverSectionClass()"
+            (onClick)="previewProfile($event)"
+          >
+          </app-prv-job-content>
+        </div>
+
+        <!-- message button -->
+        <button
+          type="button" 
+          class="btn btn-secondary msg-btn"
+          (click)="chat(selectedApplication?.job.employer.id, selectedApplication?.id)"
+        >
+          <span class="notification">
+            <mat-icon class="chat-icon">chat</mat-icon>
+            <span class="badge" *ngIf="chatNotifications[selectedApplication?.id]">
+              {{ chatNotifications[selectedApplication?.id] }}
+            </span>
+          </span>
+        </button>
+        <app-chat-popup 
+          *ngIf="isChatPopupVisible"
+          [popupSender]="getMsgSenderInfo(selectedApplication?.job.employer.phone)"
+          (onClickCloseChat)="closeChat()"
+        >
+        </app-chat-popup>
+
+        <!-- Modal footer -->
+        <div class="modal-footer" style="padding: 5px;">
+          <div class="inline-buttons mx-auto">
+            <!-- request rating -->
+            <button
+              *ngIf="
+                selectedApplication?.rating_status === null &&
+                user.user_type == INDV_NAME
+              "
+              type="button"
+              class="material-btn-outline material-btn-primary btn-streched-large"
+              data-toggle="modal"
+              data-target="#ratingRequestModal"
+            >
+              Request Rating
+            </button>
+
+            <!-- pending rating -->
+            <button
+              *ngIf="
+                selectedApplication?.rating_status === RATING_STATUSES.pending
+              "
+              type="button"
+              class="material-btn-outline btn-streched-large"
+              disabled
+            >
+              Rating Pending
+            </button>
+
+            <!-- discontinue -->
+            <button
+              *ngIf="!selectedApplication?.is_job_completed"
+              type="button"
+              class="material-btn-outline material-btn-danger"
+              [ngClass]="{
+                'btn-streched': selectedApplication?.rating_status == null,
+                'btn-streched-single-btn':
+                  selectedApplication?.rating_status == RATING_STATUSES.rated
+              }"
+              data-toggle="modal"
+              data-target="#discontinueModal"
+            >
+              Discontinue
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---------------------- profile preview Modal ---------------------->
+<div
+  *ngIf="applications && applications.length > 0"
+  class="modal fade"
+  id="previewProfileModal"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Modal body -->
+      <div
+        class="modal-body"
+        [ngClass]="
+          selectedApplication?.job?.employer.account_type == COMP_NAME
+            ? 'company-details'
+            : 'worker-profile'
+        "
+      >
+        <ng-container *ngIf="!previewProfLoading; else showProfileLoading">
+          <!-- company -->
+          <ng-container
+            *ngIf="
+              selectedApplication?.job?.employer.account_type == COMP_NAME;
+              else indvProfile
+            "
+          >
+            <app-prv-comp-prof-content
+              [profile]="profile"
+              [logoCoverSctnClass]="getLogoCoverSectionClass()"
+            >
+            </app-prv-comp-prof-content>
+          </ng-container>
+
+          <!-- individual -->
+          <ng-template #indvProfile>
+            <app-prv-indv-prof-content
+              [profile]="profile"
+              [logoCoverSctnClass]="getLogoCoverSectionClass()"
+            >
+            </app-prv-indv-prof-content>
+          </ng-template>
+        </ng-container>
+
+        <ng-template #showProfileLoading>
+          <content-loader
+            height="315"
+            speed="1"
+            primaryColor="#dddddd"
+            secondaryColor="#c0c0c0"
+          >
+            <svg:rect x="0" y="0" rx="4" ry="4" width="400" height="100" />
+
+            <svg:circle cx="210" cy="75" r="60" />
+
+            <svg:rect x="140" y="150" rx="4" ry="4" width="140" height="5" />
+            <svg:rect x="120" y="160" rx="4" ry="4" width="180" height="5" />
+
+            <svg:rect x="0" y="190" rx="4" ry="4" width="300" height="5" />
+            <svg:rect x="0" y="200" rx="4" ry="4" width="350" height="5" />
+            <svg:rect x="0" y="210" rx="4" ry="4" width="400" height="5" />
+
+            <svg:rect x="0" y="240" rx="4" ry="4" width="300" height="5" />
+            <svg:rect x="0" y="250" rx="4" ry="4" width="350" height="5" />
+            <svg:rect x="0" y="260" rx="4" ry="4" width="400" height="5" />
+
+            <svg:rect x="0" y="290" rx="4" ry="4" width="300" height="5" />
+            <svg:rect x="0" y="300" rx="4" ry="4" width="350" height="5" />
+            <svg:rect x="0" y="310" rx="4" ry="4" width="400" height="5" />
+          </content-loader>
+        </ng-template>
+
+        <br /><br />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!----------------- rating request modal ------------------->
+<div
+  *ngIf="applications && applications.length > 0"
+  class="modal fade"
+  id="ratingRequestModal"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">
+          Request Rating
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          style="margin-top: -11px;"
+        >
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <!------------- applicant -------------->
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <!-- profile picture -->
+              <div class="col-2">
+                <img
+                  [src]="
+                    selectedApplication?.job?.employer?.profile_picture
+                      ? selectedApplication?.job?.employer?.profile_picture
+                      : defaultProfImg
+                  "
+                  alt="Profile Picture"
+                  class="worker-image"
+                />
+              </div>
+
+              <!-- job title and applicant name -->
+              <div class="col-10" style="line-height: 1.4;">
+                <div class="job-title">
+                  {{ selectedApplication?.job?.job_title }}
+                </div>
+                <div class="employer-name">
+                  {{ selectedApplication?.job?.employer?.name }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="padding: 5px;">
+        <button
+          type="button"
+          class="material-btn-contained btn-streched-single-btn"
+          style="text-transform: capitalize;"
+          [disabled]="circleSpinRatingReqst"
+          (click)="confirmRatingRequest()"
+        >
+          Confirm
+          <i
+            *ngIf="circleSpinRatingReqst"
+            class="fa fa-circle-o-notch fa-spin"
+          ></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!----------------- discontinue modal ------------------>
+<div
+  *ngIf="applications && applications.length > 0"
+  class="modal fade"
+  id="discontinueModal"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">
+          Discontinue Job
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          style="margin-top: -11px;"
+        >
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <!------------- applicant -------------->
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <!-- profile picture -->
+              <div class="col-2">
+                <img
+                  [src]="
+                    selectedApplication?.job?.employer?.profile_picture
+                      ? selectedApplication?.job?.employer?.profile_picture
+                      : defaultProfImg
+                  "
+                  alt="Profile Picture"
+                  class="worker-image"
+                />
+              </div>
+
+              <!-- job title and applicant name -->
+              <div class="col-10" style="line-height: 1.4;">
+                <div class="job-title">
+                  {{ selectedApplication?.job?.job_title }}
+                </div>
+                <div class="employer-name">
+                  {{ selectedApplication?.job?.employer?.name }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="padding: 5px;">
+        <button
+          type="button"
+          class="material-btn-contained btn-streched-single-btn"
+          style="text-transform: capitalize;"
+          [disabled]="circleSpinDiscontinue"
+          (click)="confirmDiscontinue()"
+        >
+          Confirm
+          <i
+            *ngIf="circleSpinDiscontinue"
+            class="fa fa-circle-o-notch fa-spin"
+          ></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

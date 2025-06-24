@@ -1,0 +1,234 @@
+::ng-deep .page-bg {
+}
+::ng-deep .content-bg{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    /* margin-top: 20px; */
+    background: white;
+}
+.form-cotent {
+    min-height: 83vh; 
+    background: url('../../../assets/images/landing-page/left-bg-star.png') !important;
+    overflow-x: hidden;
+    z-index: 1;
+}
+.form-content-background {
+    background: #f2f3f5b3;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 83vh;
+}
+
+/* --------- button ----------- */
+button{
+    border: none;
+}
+.btn-streched-single-btn {
+    min-width: 347px !important;
+}
+.finish-btn{
+    color: #fff;
+    background-color: #00b0f0;
+    border-color: #00b0f0;
+}
+.material-btn-outline {
+    background: #f0f6f7;
+    text-transform: capitalize;
+    color: #595959;
+}
+.badge-secondary {
+    color: #a6a6a6;
+    background-color: #f9e4e4;
+}
+
+/* -------- mat stepper --------- */
+::ng-deep .mat-horizontal-stepper-header-container{
+    height: 50px !important;
+    padding-left: 47% !important;
+    background-color: #f2f3f5b3;
+}
+::ng-deep .mat-step-header {
+    overflow: hidden !important;
+    outline: 0 !important;
+    cursor: pointer !important;
+    position: relative !important;
+    width: 30px !important;
+    padding-left: 3px !important;
+}
+::ng-deep .mat-horizontal-stepper-header {
+    display: flex !important;
+    height: 35px !important;
+    overflow: hidden !important;
+    align-items: center !important;
+    width: 5px !important;
+}
+::ng-deep .mat-stepper-horizontal-line {
+    border-top-width: none !important;
+    border-top-style: none !important;
+    flex: none !important;
+}
+::ng-deep .mat-horizontal-content-container {
+    padding: 0px !important;
+    /* padding-top: 15px !important; */
+}
+/* icon */
+::ng-deep .mat-step-header .mat-step-icon{
+    color: #737373 !important;
+    background-color: #737373 !important;
+    transform: scale(0.8) !important;
+}
+::ng-deep .mat-step-header .mat-step-icon-not-touched{
+    color: #bfbfbf !important;
+    background-color: #bfbfbf !important;
+}
+::ng-deep .mat-step-icon-not-touched {
+    height: 15px !important;
+    width: 15px !important;
+}
+
+/* ---------- select ---------- */
+::ng-deep  .ng-select .ng-control {
+    border: none !important;
+    color: gray !important;
+    margin-top: -7px;
+    margin-bottom: -7px;
+}
+.material-field > .ng-select {
+    padding: 15px 0px 15px !important;
+}
+
+/* ---------- pager ---------- */
+::ng-deep .pager {
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 1rem;
+    align-self: flex-end;
+    height: 44px;
+    border-top: 1px solid #ddd;
+    background: white;
+    margin-top: -13px;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding: 3px 16px;
+}
+.pager-left, .pager-right{
+    padding-top: 28vh !important;
+}
+
+/* ------ modal ---- */
+.modal-dialog{
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+.profile-pic, .cover-photo{
+    cursor: default;
+}
+
+@media only screen and (max-width: 1023px) {
+    ::ng-deep .page-bg {
+        min-height: 82vh !important;
+        max-height: 82vh !important;
+        overflow: hidden !important;
+    }
+    ::ng-deep .content-bg{
+        height: 75vh !important;
+        overflow-x: hidden !important;
+        overflow-y: scroll !important;
+        padding: 10px;
+    }
+    
+    .material-btn-outline {
+        background: #f0f6f7;
+        text-transform: capitalize;
+        color: #595959;
+    }
+    
+    .badge-secondary {
+        color: #a6a6a6;
+        background-color: #f9e4e4;
+    }
+
+    /* -------- mat stepper --------- */
+    ::ng-deep .mat-horizontal-stepper-header-container {
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        width: 100px;
+        padding-left: 0px;
+        padding-left: 0px !important;
+        margin-left: 43%;
+        position: fixed;
+        bottom: 2.5vh;
+        z-index: 1;
+        height: 26px !important;
+        padding-top: -24px;
+        background-color: white;
+    }
+    ::ng-deep .mat-horizontal-stepper-header{ 
+        display: flex !important;
+        height: 35px !important;
+        overflow: hidden !important;
+        align-items: center !important;
+        width: 5px !important;
+        margin-bottom: 0px !important;
+    }
+    ::ng-deep .mat-step-header {
+        overflow: hidden !important;
+        outline: 0 !important;
+        cursor: pointer !important;
+        position: relative !important;
+        /* width: 30px !important; */
+        padding-left: 3px !important;
+    }
+
+    ::ng-deep .mat-stepper-horizontal-line {
+        border-top-width: none !important;
+        border-top-style: none !important;
+        flex: none !important;
+    }
+    ::ng-deep .mat-horizontal-content-container {
+        padding: 0px !important;
+    }
+    /* icon */
+    ::ng-deep .mat-step-header .mat-step-icon{
+        color: #737373 !important;
+        background-color: #737373 !important;
+        transform: scale(0.6) !important;
+        margin-left: -5px;
+    }
+    ::ng-deep .mat-step-icon-not-touched {
+        height: 12px !important;
+        width: 12px !important;
+    }
+
+
+    /* ---------- select ---------- */
+    ::ng-deep  .ng-select .ng-control {
+        border: none !important;
+        color: gray !important;
+        margin-top: -7px;
+        margin-bottom: -7px;
+    }
+    .material-field > .ng-select {
+        padding: 15px 0px 15px !important;
+    }
+
+    /* ---------- pager ---------- */
+    ::ng-deep .pager {
+        position: -webkit-sticky;
+        position: sticky;
+        bottom: 1rem;
+        align-self: flex-end;
+        height: 44px;
+        border-top: 1px solid #ddd;
+        background: white;
+        margin-top: -13px;
+        margin-left: -15px;
+        margin-right: -15px;
+        padding: 8px 16px;
+    }
+}

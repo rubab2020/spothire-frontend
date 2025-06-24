@@ -1,0 +1,280 @@
+<div class="row">
+  <!-- phone -->
+  <div class="col-6" style="z-index: 1" *ngIf="logoCoverSctnClass === 'logo-cover-section-with-phn'">
+    <a [href]="'tel:' + cmnService.decode(profile?.phone)" *ngIf="profile?.phone != null; else noPhoneNum">
+      <button class="btn phone-btn">
+        <i class="fa fa-phone" aria-hidden="true"></i>
+      </button>
+    </a>
+    <ng-template #noPhoneNum>
+      <button class="btn no-phone-btn" disabled>
+        <img src="{{noPhone}}" class="no-phone-img">
+      </button>
+    </ng-template>
+  </div>
+
+  <!-- close button -->
+  <div 
+    *ngIf="!hideCloseButton"
+    style="z-index: 1" 
+    [ngClass]="logoCoverSctnClass === 'logo-cover-section-with-phn' ? 'col-6' : 'col-12'"
+  > 
+    <button 
+      type="button" 
+      class="close-btn pull-right" 
+      data-dismiss="modal">
+    <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>
+
+<ng-container *ngIf="hideCloseButton && logoCoverSctnClass !== 'logo-cover-section-with-phn'">
+  <br><br>
+</ng-container>
+
+<div class="container-fluid">
+  <!-- company logo and cover photo -->
+  <div class="row">
+    <div class="col-12 logo-cover-section">
+      <!-- cover photo -->
+      <img 
+        class="cover-photo img-responsive" 
+        [src]="profile?.cover_photo ? profile?.cover_photo : defaultCoverPhoto"
+        alt="Cover Photo" />
+
+      <!-- company name and profile picture -->
+      <div class="col-12 profile-info">
+        <img 
+          [src]="profile?.profile_picture ? profile?.profile_picture : defaultProfImg" 
+          class="profile-pic"
+          alt="Profile Picture"
+          (click)="showProfile(profile.id)" />
+          
+        <div class="text-center employer-name"
+          (click)="showProfile(profile.id)"
+        >
+          {{profile?.name}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- job title -->
+  <br>
+  <p class="text-center job-title">{{job?.job_title}}</p>
+  
+  <hr style="margin-left: -15px; margin-right: -15px; border-top: 7px solid #F2F3F5;">
+
+  <!-- ------------------------------------->
+  <!-- -------- job heighlights ------------>
+  <!-- ------------------------------------->
+  <div class="job-heighlights">
+    <div class="row section">
+      <div class="col-6 item">
+        <!-- emplooyement type -->
+        <div>
+          <i class="fa fa-briefcase icon"></i>
+          <span class="title">Work Type</span>
+          <br>
+          <div class="content">
+            <small>{{job?.employment_type}}</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 item">
+        <!-- salary range -->
+        <div>
+          <i class="fa fa-money icon"></i>
+          <span class="title">Salary:</span>
+          <br>
+          <div class="content">
+            <small>
+              <ng-container *ngIf="job?.is_salary_negotiable == true; else salary_range">
+                Negotiable
+              </ng-container>
+              <ng-template #salary_range>
+                <span style="font-weight: 900;">৳</span>
+                {{job?.salary_from | number}}
+                {{
+                  job?.salary_to 
+                  ? ' - ' + (job?.salary_to | number)
+                  : ''
+                }}
+                / {{job?.salary_type}}
+              </ng-template>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row section">
+      <div class="col-6 item">
+        <div>
+          <i class="fa fa-calendar icon"></i>
+          <span class="title">Date:</span>
+          <br>
+          <div class="content">
+            <!-- start date -->
+            <small *ngIf="job?.start_date">
+              {{cmnService.dateFormat(job?.start_date)}}
+            </small>
+            <!-- end date -->
+            <small *ngIf="job?.end_date">
+              - {{cmnService.dateFormat(job?.end_date)}}
+            </small>
+            <!-- no date -->
+            <small *ngIf="!job?.start_date && !job?.end_date">
+              Not Set
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 item">
+        <!-- min qualifications -->
+        <div>
+          <i class="fa fa-graduation-cap icon"></i>
+          <span class="title">Min Qualification:</span>
+          <br>
+          <div class="content">
+            <small>
+              {{
+                job?.min_qualification 
+                ? job?.min_qualification 
+                : 'Not Set'
+              }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row section">
+      <div class="col-6 item">
+        <!-- department -->
+        <div>
+          <i class="fa fa-industry icon"></i>
+          <span class="title">Department:</span>
+          <br>
+          <div class="content">
+            <small>
+              {{
+                job?.department 
+                ? job?.department 
+                : 'Not Set'
+              }}
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 item">
+        <!--  min experience -->
+        <div>
+          <i class="fa fa-puzzle-piece icon"></i>
+          <span class="title">Min Experience:</span>
+          <br>
+          <div class="content">
+            <small>
+              {{
+                job?.min_experience
+                ? job?.min_experience 
+                : 'Not Set'
+              }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row section">
+      <div class="col-6 item">
+        <!-- application deadline -->
+        <div>
+          <i class="fa fa-hourglass-half icon"></i>
+          <span class="title">Application Deadline:</span>
+          <br>
+          <div class="content">
+            <small>
+              {{ job?.advert_deadline 
+                ? cmnService.dateFormat(job?.advert_deadline)
+                : cmnService.getApplicationDeadline(job?.advert_duration)
+              }}
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 item">
+        <!-- location -->
+        <div>
+          <i class="fa fa-map-marker icon" style="line-height: initial;"></i>
+          <span class="title">Location:</span>
+          <br>
+          <div class="content">
+            <small>
+              {{
+                job?.address
+                ? job?.address
+                : 'Not Set'
+              }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr *ngIf="job?.skills?.length > 0;" style="margin-left: -15px; margin-right: -15px; border-top: 7px solid #F2F3F5;">
+
+  <!-- skills -->
+  <div class="row" *ngIf="job?.skills?.length > 0;">
+    <div class="col-12">
+      <p class="section-title">Skills Required:</p>
+      <div class="row">
+        <div class="col-12">
+          <span 
+            *ngFor="let skill of job.skills"
+            class="badge badge-secondary">
+            {{skill.hasOwnProperty('name') ? skill.name : skill}}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr *ngIf="job?.description" style="margin-left: -15px; margin-right: -15px; border-top: 7px solid #F2F3F5;">
+
+  <!-- work description -->
+  <div class="row" *ngIf="job?.description">
+    <div class="col-12">
+      <p class="section-title">
+        Work Description/ Responsibilites:
+      </p>
+      <div [innerHTML]="job.description"></div>
+    </div>
+  </div>
+
+  <hr *ngIf="job?.requirements" style="margin-left: -15px; margin-right: -15px; border-top: 7px solid #F2F3F5;">
+
+  <!-- requirements -->
+  <div class="row" *ngIf="job?.requirements">
+    <div class="col-12">
+      <p class="section-title">Requirements:</p>
+      <div [innerHTML]="job.requirements"></div>
+    </div>
+  </div>
+
+  <hr *ngIf="job?.benefits?.length > 0;" style="margin-left: -15px; margin-right: -15px; border-top: 7px solid #F2F3F5;">
+
+  <!-- benefits -->
+  <div class="row" *ngIf="job?.benefits?.length > 0;">
+    <div class="col-12">
+      <p class="section-title">Benefits:</p>
+      <span 
+        *ngFor="let benefit of job.benefits" 
+        class="badge badge-secondary"
+      >
+        {{benefit.hasOwnProperty('name') ? benefit.name : benefit}}
+      </span>
+    </div>
+  </div>
+</div>

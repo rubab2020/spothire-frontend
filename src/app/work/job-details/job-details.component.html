@@ -1,0 +1,221 @@
+<app-public-header *ngIf="!user"></app-public-header>
+<app-private-header *ngIf="user"></app-private-header>
+
+<ng-progress [color]="'#00ccff'" [thick]="true" [spinner]="false"></ng-progress>
+
+<!-- -------------- overlay ------------- -->
+<div *ngIf="showOverlay" id="workOverlay" style="display: block;">
+  <div id="text">Sorry, Job not found !</div>
+</div>
+
+<div class="page-bg custom-scroll" *ngIf="!isMobile">
+  <div class="form-content">
+    <div class="form-content-background">
+      <div class="row">
+        <div class="col-8 offset-2" *ngIf="!isJobLoading; else showJobDetailsLoading">
+          <div class="job-details">
+            <app-prv-job-content
+              [profile]="job?.employer"
+              [job]="job"
+              [hideCloseButton]="true"
+              (onClick)="showProfile($event)"
+            >
+            </app-prv-job-content>
+          </div>
+    
+          <!-- action buttons -->
+          <div
+            class="col-12 my-auto mx-auto pager"
+            style="padding: 7px !important; height: 55px;"
+          >
+            <!-- apply for public user -->
+            <button
+              *ngIf="!user; else loggedinUser"
+              type="button"
+              class="material-btn-contained btn-streched-large"
+              style="float: left;"
+              (click)="applyJob(job)"
+              data-toggle="modal"
+              data-target="#loginModal"
+            >
+              Apply
+            </button>
+            <ng-template #loggedinUser>
+              <button
+                *ngIf="
+                  !job?.is_owner_job && job?.is_job_appliable;
+                  else alreadyApplied
+                "
+                type="button"
+                class="material-btn-contained btn-streched-large"
+                style="float: left;"
+                (click)="applyJob(job)"
+              >
+                Apply
+              </button>
+              <ng-template #alreadyApplied>
+                <button
+                  type="button"
+                  class="material-btn-contained btn-streched-large"
+                  style="float: left;"
+                  disabled
+                >
+                  Applied
+                </button>
+              </ng-template>
+            </ng-template>
+    
+            <!-- share -->
+            <app-job-share [job]="job" style="width: 38%;"></app-job-share>
+          </div>
+        </div>
+    
+        <ng-template #showJobDetailsLoading>
+          <content-loader
+            height="315"
+            speed="1"
+            primaryColor="#dddddd"
+            secondaryColor="#c0c0c0"
+          >
+            <svg:rect x="0" y="0" rx="4" ry="4" width="400" height="100" />
+    
+            <svg:circle cx="210" cy="75" r="60" />
+    
+            <svg:rect x="140" y="150" rx="4" ry="4" width="140" height="5" />
+            <svg:rect x="120" y="160" rx="4" ry="4" width="180" height="5" />
+    
+            <svg:rect x="0" y="190" rx="4" ry="4" width="300" height="5" />
+            <svg:rect x="0" y="200" rx="4" ry="4" width="350" height="5" />
+            <svg:rect x="0" y="210" rx="4" ry="4" width="400" height="5" />
+    
+            <svg:rect x="0" y="240" rx="4" ry="4" width="300" height="5" />
+            <svg:rect x="0" y="250" rx="4" ry="4" width="350" height="5" />
+            <svg:rect x="0" y="260" rx="4" ry="4" width="400" height="5" />
+    
+            <svg:rect x="0" y="290" rx="4" ry="4" width="300" height="5" />
+            <svg:rect x="0" y="300" rx="4" ry="4" width="350" height="5" />
+            <svg:rect x="0" y="310" rx="4" ry="4" width="400" height="5" />
+          </content-loader>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ---------------- mobile --------------- -->
+<div class="page-bg" *ngIf="isMobile">
+  <div class="row">
+    <div class="col-12" *ngIf="!isJobLoading; else showJobLoading">
+      <div class="job-details">
+        <app-prv-job-content
+          [profile]="job?.employer"
+          [job]="job"
+          (onClick)="showProfile($event)"
+        >
+        </app-prv-job-content>
+      </div>
+
+      <!-- action buttons -->
+      <div
+        class="col-12 my-auto mx-auto pager"
+        style="padding: 7px !important; height: 55px;"
+      >
+        <!-- apply for public user -->
+        <button
+          *ngIf="!user; else loggedinUser"
+          type="button"
+          class="material-btn-contained btn-streched-large"
+          style="float: left;"
+          (click)="applyJob(job)"
+          data-toggle="modal"
+          data-target="#loginModal"
+        >
+          Apply
+        </button>
+        <ng-template #loggedinUser>
+          <button
+            *ngIf="
+              !job?.is_owner_job && job?.is_job_appliable;
+              else alreadyApplied
+            "
+            type="button"
+            class="material-btn-contained btn-streched-large"
+            style="float: left;"
+            (click)="applyJob(job)"
+          >
+            Apply
+          </button>
+          <ng-template #alreadyApplied>
+            <button
+              type="button"
+              class="material-btn-contained btn-streched-large"
+              style="float: left;"
+              disabled
+            >
+              Applied
+            </button>
+          </ng-template>
+        </ng-template>
+
+        <!-- share -->
+        <app-job-share [job]="job"></app-job-share>
+      </div>
+    </div>
+
+    <ng-template #showJobLoading>
+      <div class="col-12">
+        <app-job-loader></app-job-loader>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<!---------------------- profile preview Modal ---------------------->
+<div *ngIf="job" class="modal fade" id="previewProfileModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Modal body -->
+      <div
+        class="modal-body"
+        [ngClass]="
+          job?.employer.account_type == COMP_NAME
+            ? 'company-details'
+            : 'worker-profile'
+        "
+      >
+        <ng-container *ngIf="!previewProfLoading; else showProfileLoading">
+          <!-- company -->
+          <ng-container
+            *ngIf="job?.employer.account_type == COMP_NAME; else indvProfile"
+          >
+            <app-prv-comp-prof-content
+              [profile]="profile"
+              [logoCoverSctnClass]="getLogoCoverSectionClass()"
+            >
+            </app-prv-comp-prof-content>
+          </ng-container>
+
+          <!-- individual -->
+          <ng-template #indvProfile>
+            <app-prv-indv-prof-content
+              [profile]="profile"
+              [logoCoverSctnClass]="getLogoCoverSectionClass()"
+            >
+            </app-prv-indv-prof-content>
+          </ng-template>
+        </ng-container>
+
+        <ng-template #showProfileLoading>
+          <app-profile-loader></app-profile-loader>
+        </ng-template>
+
+        <br /><br />
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-login></app-login>
+<app-register></app-register>
+
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

@@ -1,0 +1,30 @@
+p{
+  margin-top: 0;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+}
+
+/* ------- card --------- */
+.card-body{
+  padding: 0.15rem 0.25rem !important;
+}
+
+::ng-deep .selected .card {
+  background-color: aliceblue;
+}
+.card:hover {
+  background-color: aliceblue;
+}
+
+@media only screen and (max-width: 1023px) {
+  p{
+      margin-top: 0;
+      margin-bottom: 5px;
+      text-transform: capitalize;
+  }
+
+  /* ------- card --------- */
+  .card-body{
+    padding: 0.15rem 0.25rem !important;
+  }
+}

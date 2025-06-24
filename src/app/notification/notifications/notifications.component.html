@@ -1,0 +1,75 @@
+<app-private-layout></app-private-layout>
+
+<div *ngIf="!isMobile">
+  <main>
+    <div class="row rounded-lg overflow-hidden shadow">
+      <!-- Users box-->
+      <div class="col-6 offset-3 px-0">
+        <div class="bg-white">
+          <div class="bg-gray px-4 py-2 bg-light">
+            <p class="h5 mb-0 py-1">Notifications</p>
+          </div>
+          <ng-container *ngIf="!notifsLoading; else showNotifsLoading">
+            <ng-container *ngIf="notifications.length > 0; else noNotifsFound">
+              <div 
+                *ngFor="let notification of notifications" 
+                routerLink="{{ getRouterLink(notification.clickAction) }}"
+                (click)="markNotifAsSeen(notification)"
+              >
+                <div class="list-group rounded-0">
+                  <app-notification  [notification]="notification"></app-notification>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #noNotifsFound>
+              <div style="padding: 30px;">No Notifications Found</div>
+            </ng-template>
+          </ng-container>
+          <ng-template #showNotifsLoading>
+            <div style="padding: 20px;">
+              <app-applications-loader></app-applications-loader>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div *ngIf="isMobile">
+  <main>
+    <div class="row rounded-lg overflow-hidden shadow">
+      <!-- Users box-->
+      <div class="col-12 px-0">
+        <div class="bg-white">
+          <div class="bg-gray px-4 py-2 bg-light">
+            <p class="h5 mb-0 py-1">Notifications</p>
+          </div>
+          <ng-container *ngIf="!notifsLoading; else showNotifsLoading">
+            <ng-container *ngIf="notifications.length > 0; else noNotifsFound">
+              <div 
+                *ngFor="let notification of notifications" 
+                routerLink="{{ getRouterLink(notification.clickAction) }}"
+                (click)="markNotifAsSeen(notification)"
+              >
+                <div class="list-group rounded-0">
+                  <app-notification  [notification]="notification"></app-notification>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #noNotifsFound>
+              <div style="padding: 30px;">No Notifications Found</div>
+            </ng-template>
+          </ng-container>
+          <ng-template #showNotifsLoading>
+            <div style="padding: 20px;">
+              <app-applications-loader></app-applications-loader>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

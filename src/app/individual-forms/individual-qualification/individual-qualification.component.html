@@ -1,0 +1,197 @@
+<h5 class="header-card text-center">Qualification</h5>
+
+<div class="col-md-12 col-12 form-cotent">
+  <div class="form-content-background">
+    <div class="row">
+      <!-- pager left -->
+      <div class="col-md-3 pager-left" *ngIf="!isMobile">
+        <a class="previous-link" routerLink="../work-experience" (click)="onSubmit(qualificationForm.value)">
+          <i class="fa fa-2x fa-arrow-left" aria-hidden="true"></i>
+        </a>
+      </div>
+  
+      <div class="col-md-6 col-12 form-qualification mx-auto">
+        <div class="dots text-center">
+          <div class="dotstyle dotstyle-scaleup">
+            <ul>
+              <li routerLinkActive="active current"><a routerLink="../about-yourself" (click)="onSubmit(qualificationForm.value)">About</a></li>
+              <li routerLinkActive="active current"><a routerLink="../work-experience" (click)="onSubmit(qualificationForm.value)">Work Experience</a></li>
+              <li routerLinkActive="active current"><a routerLink="../qualification" (click)="onSubmit(qualificationForm.value)">Qualification</a></li>
+              <li routerLinkActive="active current"><a routerLink="../award" (click)="onSubmit(qualificationForm.value)">Projects and Recognition</a></li>
+            </ul>
+          </div>
+        </div>
+        <form *ngIf="!loading; else showLoading"  #form="ngForm" [formGroup]="qualificationForm">
+          <div formArrayName="qualifications">
+            <div 
+              class="card-form content-bg"
+              [ngClass]="(isMobile || i==0)?'mt-1':'mt-4'"
+              *ngFor="let itemrow of qualificationForm['controls'].qualifications['controls']; let i=index;let first=first;let last=last;"  
+              [formGroupName]="i"
+            >
+              <div class="form-group">
+                <div class="input-group">
+                  <label class="material-field">
+                    <input 
+                      formControlName="degree"
+                      type="text" 
+                      class="form-control"
+                      list="degreeList"
+                      [maxLength]="101"
+                      placeholder=" ">
+                      <span>Degree</span>
+                  </label>
+                  <datalist id="degreeList">
+                    <option *ngFor="let item of degreeList;">{{item.degree}}</option>
+                  </datalist>
+                  <div *ngIf="qualificationForm.controls.qualifications.controls[i].controls.degree.touched" class="alert alert-danger">
+                    <div *ngIf="qualificationForm.controls.qualifications.controls[i].controls.degree.value.length > 100">*Maximum 100 characters</div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="form-group">
+                <div class="input-group">
+                  <label class="material-field">
+                    <input 
+                      formControlName="institution"
+                      type="text" 
+                      list="institution_list"
+                      class="form-control"
+                      [maxLength]="101"
+                      placeholder=" ">
+                      <span>Institution</span>
+                  </label>
+                </div>
+                <datalist id="institution_list">
+                  <option *ngFor="let institution_data of institutionList;">{{institution_data.institution_name}}</option>
+                </datalist>
+                <div *ngIf="qualificationForm.controls.qualifications.controls[i].controls.institution.touched" class="alert alert-danger">
+                  <div *ngIf="qualificationForm.controls.qualifications.controls[i].controls.institution.value.length > 100">*Maximum 100 characters</div>
+                </div>
+              </div>
+        
+              <div class="row">
+                <div class="col-2" style="padding-right: 0px;">
+                  <h6 style="margin-top: 15px;">CGPA</h6>
+                </div>
+                  <div class="col-4 form-group" style="padding: 0px;">
+                    <label class="material-field">
+                      <input 
+                        formControlName="result_cgpa"
+                        type="number"
+                        step=0.01 
+                        class="form-control inputBorder" 
+                        id="result_cgpa"
+                        placeholder=" ">
+                        <span>Point</span>
+                    </label>
+                  </div>
+                  <div class="col-1" style="margin-top: 20px; font-weight: bold;">/</div>
+                  <div class="col-4 form-group" style="padding-left:0px;">
+                    <label class="material-field">
+                      <select 
+                        formControlName="cgpa_scale"
+                        type="text" 
+                        id="cgpa_scale"
+                        placeholer=" "
+                      >
+                        <option value="" selected>Select</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select>
+                      <span>Scale Of</span>
+                    </label>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5 col-7 form-group" style="padding-right: 0px;">
+                  <div class="input-group">
+                    <label class="material-field">
+                      <input 
+                        formControlName="date" 
+                        matInput 
+                        [matDatepicker]="datePicker" 
+                        (click)="datePicker.open()" 
+                        placeholder=" " 
+                        readonly>
+                      <span>Completion Date</span>
+                      <div class="input-group-append clear-date">
+                        <span class="input-group-text clear-dt-icon" (click)="resetDateInput(i)">
+                          <i class="fa fa-times" aria-hidden="true"></i>
+                        </span>
+                      </div>
+                    </label>
+                    <mat-datepicker #datePicker></mat-datepicker>
+                  </div>
+                </div>
+                <div class="col-md-3 col-5 form-group" style="margin-top: 20px;">
+                  <label class="material-switch">
+                    <input type="checkbox" formControlName="enrollment_data" (change)="onChangeEnrolled($event,i)">
+                    <span>Enrolled</span>
+                  </label>
+                </div>
+              </div>
+              <!-- delete -->
+              <div class="row justify-content-center">
+                <button type="button" class="material-btn-text material-btn-danger" [routerLink]="" *ngIf="countCheck > 0" (click)="deleteRow(i)">
+                  <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- add more -->
+          <div class="row mb-2 justify-content-center" style="margin-top: -10px;">
+            <button type="button" class="material-btn-outline material-btn-primary" [routerLink]="" (click)="addNewRow()" style="margin-right: 5px;">
+              <i class="fa fa-plus" aria-hidden="true"></i> Add More
+            </button>
+          </div>
+        </form>
+  
+        <ng-template #showLoading>
+          <div class="card-form">
+            <content-loader height="140" speed="1" primaryColor="#dddddd" secondaryColor="#c0c0c0">
+              <svg:rect x="0" y="10" rx="4" ry="4" width="400" height="10" />
+              <svg:rect x="0" y="50" rx="4" ry="4" width="400" height="10" />
+          
+              <svg:rect x="0" y="90" rx="4" ry="4" width="180" height="10" />
+              <svg:rect x="225" y="90" rx="4" ry="4" width="180" height="10" />
+          
+              <svg:rect x="0" y="130" rx="4" ry="4" width="180" height="10" />
+              <svg:rect x="225" y="130" rx="4" ry="4" width="180" height="10" />
+            </content-loader>
+          </div>
+          <div class="card-form" style="margin-top: 20px;">
+            <content-loader height="140" speed="1" primaryColor="#dddddd" secondaryColor="#c0c0c0">
+              <svg:rect x="0" y="10" rx="4" ry="4" width="400" height="10" />
+              <svg:rect x="0" y="50" rx="4" ry="4" width="400" height="10" />
+          
+              <svg:rect x="0" y="90" rx="4" ry="4" width="180" height="10" />
+              <svg:rect x="225" y="90" rx="4" ry="4" width="180" height="10" />
+          
+              <svg:rect x="0" y="130" rx="4" ry="4" width="180" height="10" />
+              <svg:rect x="225" y="130" rx="4" ry="4" width="180" height="10" />
+            </content-loader>
+          </div>
+        </ng-template>
+      </div>
+  
+      <!-- pager right -->
+      <div class="col-md-3 pager-right" *ngIf="!isMobile">
+        <a class="next-link" routerLink="../award" (click)="onSubmit(qualificationForm.value)">
+          <i class="fa fa-2x fa-arrow-right" aria-hidden="true"></i>
+        </a>
+      </div>
+      
+      <!-- pager for mobile -->
+      <div class="col-12 my-auto mx-auto pager" *ngIf="isMobile" style="background: white;">
+        <ul>
+          <li class="previous"><a routerLink="../work-experience" (click)="onSubmit(qualificationForm.value)">&larr; Back</a></li>
+          <li class="next"><a routerLink="../award" (click)="onSubmit(qualificationForm.value)">Next &rarr;</a></li>
+        </ul>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

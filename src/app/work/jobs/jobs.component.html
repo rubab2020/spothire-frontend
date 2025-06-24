@@ -1,0 +1,430 @@
+<ng-progress [color]="'#00ccff'" [thick]="true" [spinner]="false"></ng-progress>
+
+<div class="page-bg custom-scroll" *ngIf="!isMobile">
+  <div class="row mobileMenu" style="margin-right: 0px;">
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/jobs">Jobs</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/applied">Applied</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/hired">Hired</a>
+    </div>
+  </div>
+
+  <div class="col-10 mx-auto container-fluid">
+    <div class="row">
+      <!---------------------- jobs section ---------------------->
+      <div class="col-4" style="padding-left: 0px;">
+        <div
+          class="content-left rmve-inline-size"
+          style="height: 100%; width: 100% !important;"
+          infiniteScroll
+          [infiniteScrollDistance]="2"
+          [infiniteScrollThrottle]="500"
+          (scrolled)="onScrollDown()"
+          [scrollWindow]="false"
+        >
+          <!-- ----------------- search, filter, favourites ---------------- -->
+          <div class="row mt-2 pb-1 filter-section">
+            <div class="col-12">
+              <div class="input-group">
+                <!-- search -->
+                <input
+                  [(ngModel)]="searchFieldSelected"
+                  (keyup)="onChangeSearch($event.target.value)"
+                  type="text"
+                  class="form-control"
+                  placeholder="&#xF002; Search Job title or Company"
+                  style="
+                    font-family: arial, Fontawesome;
+                    font-size: 14px;
+                    border-radius: 20px;
+                  "
+                />
+        
+                <!-- ------------- filter ------------- -->
+                <button
+                  type="button"
+                  data-toggle="dropdown"
+                  class="material-btn-contained material-cntnd-btn-filter fitler-btn-design"
+                  [ngClass]="{
+                    'header-btn-selected': isActiveFilterBtn === true
+                  }"
+                  data-toggle="modal"
+                  data-target="#jobsFilterModal"
+                  (click)="showFilter()"
+                >
+                  <i class="fa fa-filter" aria-hidden="true"></i>
+                </button>
+                <app-jobs-filter-modal
+                  [filters]="filters"
+                  (onClickApplyFilter)="applyFilter()"
+                  (onClickClearFilter)="removeFilter()"
+                ></app-jobs-filter-modal>
+        
+                <!-- favourites -->
+                <button
+                  type="button"
+                  class="material-btn-contained material-cntnd-btn-favourite"
+                  (click)="getFavourites()"
+                  style="
+                    border-radius: 50%;
+                    margin-left: 5px;
+                    padding: 0px;
+                    min-width: 38px;
+                  "
+                >
+                  <i class="fa fa-heart" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- -------------- jobs -------------- -->
+          <div class="row jobs-section">
+            <div class="col-12">
+              <ng-container *ngIf="!jobsLoading; else showJobsLoading">
+                <ng-container *ngIf="jobs.length > 0; else noJobsFound">
+                  <div
+                    [@listAnimation]="jobs.length"
+                    *ngFor="let job of jobs; let index = index"
+                    id="job{{index}}"
+                    class="job"
+                    (click)="showJob(index)"
+                  >
+                    <app-job-card
+                      [job]="job"
+                      (onClickFavourite)="favouriteJob($event)"
+                      (onClickUnFavourite)="unfavouriteJob($event)"
+                    >
+                    </app-job-card>
+                  </div>
+
+                  <!-- loading new paginated jobs -->
+                  <span *ngIf="paginationLoading">
+                    <div class="row">
+                      <div class="col-1 offset-5">
+                        <i class="fa fa-circle-o-notch fa-spin pagination-loader"></i>
+                      </div>
+                    </div>
+                  </span>
+                </ng-container>
+                <ng-template #noJobsFound>
+                  <div class="mt-2">
+                    <app-no-data-found></app-no-data-found>
+                  </div>
+                </ng-template>
+              </ng-container>
+
+              <ng-template #showJobsLoading>
+                <app-job-loader></app-job-loader>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!---------------------- job details --------------->
+      <div class="col-8 job-details content-right" id="jobPreivew" *ngIf="jobs.length > 0">
+        <ng-container *ngIf="!jobsLoading; else showJobDetailsLoading">
+          <app-prv-job-content
+            [profile]="selectedJob?.employer"
+            [job]="selectedJob"
+            [hideCloseButton]="true"
+            (onClick)="showProfile($event)"
+          >
+          </app-prv-job-content>
+
+          <span *ngIf="!selectedJob?.is_owner_job">
+            <!-- buttons -->
+            <div class="row action-btns">
+              <div class="col-12" style="margin-left: -15px;">
+                <div 
+                  class="btn-group special" 
+                  role="group" 
+                  aria-label="Basic example" 
+                >
+                  <!-- apply -->
+                  <ng-container *ngIf="!circleSpin; else loaderApplyButton">
+                    <button
+                      type="button"
+                      class="btn btn-light btn-block action-btns" 
+                      style="text-transform: capitalize; color: #00b0f0; border: 1px solid #ddd; border-radius: 20px;"
+                      (click)="applyJob(selectedJob)"
+                    >
+                      <mat-icon>check_circle_outline</mat-icon>
+                      Apply
+                    </button>
+                  </ng-container>
+                  <ng-template #loaderApplyButton>
+                    <button
+                      type="button"
+                      class="btn btn-light btn-block action-btns" 
+                      style="text-transform: capitalize; color: #00b0f0; border: 1px solid #ddd; border-radius: 20px;"
+                      disabled
+                    >
+                      <i class="fa fa-circle-o-notch fa-spin"></i>
+                      Apply
+                    </button>
+                  </ng-template>
+        
+                  <!-- share -->
+                  <app-job-share [job]="selectedJob" class="share-btn"></app-job-share>
+                </div>
+              </div>
+            </div>
+          </span>
+        </ng-container>
+
+        <ng-template #showJobDetailsLoading>
+          <content-loader
+            height="315"
+            speed="1"
+            primaryColor="#dddddd"
+            secondaryColor="#c0c0c0"
+          >
+            <svg:rect x="0" y="0" rx="4" ry="4" width="400" height="100" />
+
+            <svg:circle cx="210" cy="75" r="60" />
+
+            <svg:rect x="140" y="150" rx="4" ry="4" width="140" height="5" />
+            <svg:rect x="120" y="160" rx="4" ry="4" width="180" height="5" />
+
+            <svg:rect x="0" y="190" rx="4" ry="4" width="300" height="5" />
+            <svg:rect x="0" y="200" rx="4" ry="4" width="350" height="5" />
+            <svg:rect x="0" y="210" rx="4" ry="4" width="400" height="5" />
+
+            <svg:rect x="0" y="240" rx="4" ry="4" width="300" height="5" />
+            <svg:rect x="0" y="250" rx="4" ry="4" width="350" height="5" />
+            <svg:rect x="0" y="260" rx="4" ry="4" width="400" height="5" />
+
+            <svg:rect x="0" y="290" rx="4" ry="4" width="300" height="5" />
+            <svg:rect x="0" y="300" rx="4" ry="4" width="350" height="5" />
+            <svg:rect x="0" y="310" rx="4" ry="4" width="400" height="5" />
+          </content-loader>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!------------------------ Mobile -------------------------->
+<div class="page-bg" *ngIf="isMobile">
+  <div class="row mobileMenu" style="margin-right: 0px;">
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/jobs">Jobs</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/applied">Applied</a>
+    </div>
+    <div class="col" routerLinkActive="active current">
+      <a class="navLink" routerLink="/work/hired">Hired</a>
+    </div>
+  </div>
+
+  <!-- class="content-bg" -->
+  <div
+    style="height: 100%;"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="500"
+    (scrolled)="onScrollDown()"
+    [scrollWindow]="false"
+  >
+    <!-- ----------------- search, filter, favourites ---------------- -->
+    <div class="row mt-2 filter-section">
+      <div class="col-12">
+        <div class="input-group">
+          <!-- search -->
+          <input
+            [(ngModel)]="searchFieldSelected"
+            (keyup)="onChangeSearch($event.target.value)"
+            type="text"
+            class="form-control"
+            placeholder="&#xF002; Search Job title or Company"
+            style="
+              font-family: arial, Fontawesome;
+              font-size: 14px;
+              border-radius: 20px;
+            "
+          />
+
+          <!-- ------------- filter ------------- -->
+          <button
+            type="button"
+            data-toggle="dropdown"
+            class="material-btn-contained material-cntnd-btn-filter fitler-btn-design"
+            [ngClass]="{
+              'header-btn-selected':
+                isActiveFilterBtn === true && isActiveFavouriteBtn === false
+            }"
+            data-toggle="modal"
+            data-target="#jobsFilterModal"
+            (click)="showFilter()"
+          >
+            <i class="fa fa-filter" aria-hidden="true"></i>
+          </button>
+          <app-jobs-filter-modal
+            [filters]="filters"
+            (onClickApplyFilter)="applyFilter()"
+            (onClickClearFilter)="removeFilter()"
+          ></app-jobs-filter-modal>
+
+          <!-- favourites -->
+          <button
+            type="button"
+            [ngClass]="{
+              'header-btn-selected':
+                isActiveFavouriteBtn === true && isActiveFilterBtn === false
+            }"
+            class="material-btn-contained material-cntnd-btn-favourite"
+            (click)="getFavourites()"
+            style="
+              border-radius: 50%;
+              margin-left: 5px;
+              padding: 0px;
+              min-width: 38px;
+            "
+          >
+            <i class="fa fa-heart" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- -------------- jobs -------------- -->
+    <div class="row">
+      <div class="col-12">
+        <ng-container *ngIf="!jobsLoading; else showJobsLoading">
+          <ng-container *ngIf="jobs.length > 0; else noJobsFound">
+            <div
+              [@listAnimation]="jobs.length"
+              *ngFor="let job of jobs; let i = index"
+              (click)="showJobOnPopup(i)"
+              data-toggle="modal"
+              data-target="#previewJobModal"
+            >
+              <app-job-card
+                [job]="job"
+                [jobsSeen]="jobsSeen"
+                (onClickFavourite)="favouriteJob($event)"
+                (onClickUnFavourite)="unfavouriteJob($event)"
+              >
+              </app-job-card>
+            </div>
+
+            <!-- loading new paginated jobs -->
+            <span *ngIf="paginationLoading">
+              <div class="row">
+                <div class="col-1 offset-5">
+                  <i class="fa fa-circle-o-notch fa-spin pagination-loader"></i>
+                </div>
+              </div>
+            </span>
+          </ng-container>
+          <ng-template #noJobsFound>
+            <div class="mt-2">
+              <app-no-data-found></app-no-data-found>
+            </div>
+          </ng-template>
+        </ng-container>
+        <ng-template #showJobsLoading>
+          <app-job-loader></app-job-loader>
+        </ng-template>
+      </div>
+    </div>
+
+    <!---------------------- job preview Modal ---------------------->
+    <div *ngIf="jobs.length > 0" class="modal fade" id="previewJobModal">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <!-- Modal body -->
+          <div class="modal-body job-details">
+            <app-prv-job-content
+              [profile]="selectedJob?.employer"
+              [job]="selectedJob"
+              (onClick)="showProfile($event)"
+            >
+            </app-prv-job-content>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer" style="padding: 0px;">
+            <!-- apply -->
+            <span *ngIf="!selectedJob?.is_owner_job">
+              <ng-container *ngIf="!circleSpin; else loaderApplyButton">
+                <button
+                  type="button"
+                  class="material-btn-contained btn-streched-large"
+                  (click)="applyJob(selectedJob)"
+                >
+                  Apply
+                </button>
+              </ng-container>
+              <ng-template #loaderApplyButton>
+                <button
+                  type="button"
+                  class="material-btn-contained btn-streched-large"
+                  disabled
+                >
+                  <i class="fa fa-circle-o-notch fa-spin"></i>
+                  Apply
+                </button>
+              </ng-template>
+            </span>
+
+            <!-- share -->
+            <app-job-share [job]="selectedJob"></app-job-share>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---------------------- profile preview Modal ---------------------->
+<div *ngIf="jobs.length > 0" class="modal fade" id="previewProfileModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Modal body -->
+      <div
+        class="modal-body"
+        [ngClass]="
+          selectedJob?.employer.account_type == COMP_NAME
+            ? 'company-details'
+            : 'worker-profile'
+        "
+      >
+        <ng-container *ngIf="!previewProfLoading; else showProfileLoading">
+          <!-- company -->
+          <ng-container *ngIf="selectedJob?.employer.account_type == COMP_NAME; else indvProfile">
+            <app-prv-comp-prof-content
+              [profile]="profile"
+              [logoCoverSctnClass]="getLogoCoverSectionClass()"
+            >
+            </app-prv-comp-prof-content>
+          </ng-container>
+
+          <!-- individual -->
+          <ng-template #indvProfile>
+            <app-prv-indv-prof-content
+              [profile]="profile"
+              [logoCoverSctnClass]="getLogoCoverSectionClass()"
+            >
+            </app-prv-indv-prof-content>
+          </ng-template>
+        </ng-container>
+
+        <ng-template #showProfileLoading>
+          <app-profile-loader></app-profile-loader>
+        </ng-template>
+
+        <br /><br />
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

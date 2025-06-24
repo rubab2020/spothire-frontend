@@ -1,0 +1,199 @@
+::ng-deep .content-bg{
+  background: white !important;
+}
+.form-cotent {
+  min-height: 90.5vh; 
+  background: url('../../../assets/images/landing-page/left-bg-star.png') !important;
+  overflow-x: hidden;
+  z-index: 1;
+}
+.form-content-background {
+  background: #f2f3f5b3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 90.5vh; 
+}
+
+/* -------- stepper --------- */
+.dots{
+  background-color: #f2f3f54a !important;
+}
+
+/* --------- form ------------ */
+::ng-deep  .form-aboutyourself{
+    /* height: 74vh !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden; */
+  }
+  
+  .profile-pic-section{
+    margin-top: -120px;
+  }
+  .profile-pic{
+    width : 100%;
+    height : 190px;
+    cursor: pointer;
+    object-fit: cover !important;
+    object-position: center 20% !important;
+    background-color: white !important;
+    display:block;
+    margin:auto;
+  }
+  .cover-photo{
+    width: 46vw;
+    height : 160px;
+    cursor: pointer;
+    object-fit: cover !important;
+    object-position: center 20% !important;
+    background-color: white !important;
+  }
+  .carousel-caption{
+    right: 5% !important;
+    left: 73% !important;
+    bottom: 125px !important;
+    padding: 0px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+  }
+  
+  /* ------------ pager ------------ */
+  ::ng-deep .pager {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    bottom: 0rem !important;
+    align-self: flex-end !important;
+    margin-top: 0px !important;
+    padding-top: 7px !important;
+    height: 40px;
+    box-shadow: 0 -4px 6px -6px #222;
+    z-index: 1;
+  }
+  .pager-left{
+    padding-top: 36vh !important;
+  }
+  
+  /* ---------- select ---------- */
+  ::ng-deep  .ng-select .ng-control {
+    border: none !important;
+    color: gray !important;
+    margin-top: -7px;
+    margin-bottom: -7px;
+  }
+  .material-field > .ng-select {
+    padding: 15px 0px 15px !important;
+  }
+  
+  .skip-now{
+    background-color: #00b0f0 !important;
+    padding: 18px 40px 18px 40px !important;
+  }
+  a{
+    text-decoration: none;
+  }
+  
+  @media only screen and (max-width: 1023px) {
+    .lr-padding {
+      padding: 0px 15px;
+    }
+    .form-cotent {
+      min-height: 82vh; 
+    }
+    .form-content-background {
+      min-height: 82vh;
+    }
+
+    .form-group {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    /* .form-content-background{
+      background: white;
+    } */
+    
+    /* --------- form ------------ */
+    ::ng-deep  .form-aboutyourself{
+        height: 74vh !important;
+        overflow-y: scroll !important;
+        overflow-x: hidden;
+    }
+  
+    .profile-pic-section{
+        margin-top: -105px;    
+    }
+    .cover-photo-section{
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+    .profile-pic{
+      width: 52vw;
+      height : 27vh;
+      cursor: pointer;
+      object-fit: cover !important;
+      object-position: center 20% !important;
+      background-color: white !important;
+    }
+    .cover-photo{
+        width : 100%;
+        height : 120px;
+        cursor: pointer;
+        object-fit: cover !important;
+        object-position: center 20% !important;
+        background-color: white !important;
+    }
+    .carousel-caption{
+        right: 5% !important;
+        left: 70% !important;
+        bottom: 95px !important;
+        padding: 0px;
+        font-size: 16px;
+        color: white;
+        cursor: pointer;
+    }
+    
+    /* ------------ pager ------------ */
+    ::ng-deep .pager {
+        position: -webkit-sticky !important;
+        position: sticky !important;
+        bottom: 0rem !important;
+        align-self: flex-end !important;
+        margin-top: 0px !important;
+        padding-top: 6px !important;
+        padding-left: 10px;
+        padding-right: 23px;
+        height: 50px;
+        box-shadow: 0 -4px 6px -6px #222;
+        z-index: 1;
+        background: white;
+    }
+  
+    /* ---------- select ---------- */
+    ::ng-deep  .ng-select .ng-control {
+        border: none !important;
+        color: gray !important;
+        margin-top: -7px;
+        margin-bottom: -7px;
+    }
+    .material-field > .ng-select {
+        padding: 15px 0px 15px !important;
+    }
+  
+    .skip-now{
+        float: left;
+        border-radius: 20px;
+        margin-left: 12px;
+        width: 90px;
+        height: 37px;
+        background-color: #00b0f0;
+        border: none;
+        padding: 0px !important;
+    }
+
+    .dots{
+      bottom: 2vh !important;
+      background-color: white !important;
+    }
+}

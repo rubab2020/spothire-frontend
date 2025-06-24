@@ -1,0 +1,125 @@
+<div [formGroup]="workForm">
+  <div class="container-fluid content-bg">
+    <!-- work address -->
+    <div class="form-group">
+      <div class="input-group">
+        <label class="material-field">
+          <input formControlName="address" type="text" [maxLength]="151" placeholder=" ">
+          <span>Work Address</span>
+        </label>
+      </div>
+
+      <div *ngIf="workForm.controls['address'].touched" class="alert alert-danger">
+        <div *ngIf="workForm.controls['address'].value.length > 150">*Maximum 150 characters</div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 8px">
+      <div class="row">
+        <!-- minimum experience -->
+        <div class="col">
+          <div class="input-group">
+            <label class="material-field">
+              <select 
+                formControlName="min_experience" 
+                type="text" 
+                [(ngModel)]="selectedMinimumExperience"
+              >
+                <option [ngValue]="null" selected>Select</option>
+                <option *ngFor="let item of experiences" [ngValue]="item">{{item}}</option>
+              </select>
+              <span>Minimum Experience*</span>
+            </label>
+            <div 
+              *ngIf="isFormSubmitted && workForm.get('min_experience').invalid" 
+              class="alert alert-danger"
+            >
+              <div *ngIf="workForm.get('min_experience').errors.required">
+                *Minimum experience is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- minimum qualification -->
+        <div class="col">
+          <div class="input-group">
+            <label class="material-field">
+              <select 
+                formControlName="min_qualification" 
+                type="text" 
+                [(ngModel)]="selectedMinimumQualification"
+              >
+                <option [ngValue]="null" selected>Select</option>
+                <option *ngFor="let item of qualifications" [ngValue]="item">{{item}}</option>
+              </select>
+              <span>Minimum Qualification*</span>
+            </label>
+            <div 
+              *ngIf="isFormSubmitted && workForm.get('min_qualification').invalid" 
+              class="alert alert-danger"
+            >
+              <div *ngIf="workForm.get('min_qualification').errors.required">
+                *Minimum qualification is required
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- skills -->
+    <div class="form-group" style="margin-bottom: 8px">
+      <div class="input-group">
+        <label class="material-field">
+          <ng-select 
+            class="form-control" 
+            [items]="tags" 
+            bindLabel="name" 
+            bindValue="name"
+            formControlName="skills" 
+            [selectOnTab]="true" 
+            [addTag]="addSkillTagFn" 
+            [multiple]="true"
+            [hideSelected]="true" 
+            maxSelectedItems="6" 
+            [(ngModel)]="selectedSkills" 
+            placeholder=" ">
+          </ng-select>
+          <span>Required Skills</span>
+        </label>
+        <div *ngIf="hasCustomSkillTagTypeError" class="alert alert-danger">
+          *Maximum 15 characters for custom tag
+        </div>
+      </div>
+    </div>
+
+    <!-- description -->
+    <div class="form-group" style="margin-bottom: 17px">
+      <label style="color: gray;">Work Description / Responsibilities*</label>
+      <ckeditor 
+        formControlName="description" 
+        [editor]="Editor" 
+        data="">
+      </ckeditor>
+      <div 
+        *ngIf="isFormSubmitted && workForm.get('description').invalid" 
+        class="alert alert-danger"
+        style="margin-top: 0px;">
+        <div *ngIf="workForm.get('description').errors.required">
+          *Work Description / Responsibilites is required
+        </div>
+      </div>
+    </div>
+
+    <!-- requirements -->
+    <div class="form-group">
+      <label style="color: gray;">Requirements</label>
+      <ckeditor 
+        formControlName="requirements" 
+        [editor]="Editor" 
+        data="">
+      </ckeditor>
+    </div>
+  </div>
+</div>

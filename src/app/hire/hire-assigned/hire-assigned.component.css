@@ -1,0 +1,444 @@
+.page-bg {
+  height: 91vh;
+  overflow: hidden !important;
+  /* background-color: #fbfbfb; */
+}
+
+.content-bg {
+  height: 84.5vh !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  margin-top: 2px;
+}
+
+/* -------- scrollbar ------- */
+.custom-scroll ::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+  border-radius: 4px;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+.custom-scroll ::-webkit-scrollbar:hover {
+  background: #bcbec5fa;
+}
+.custom-scroll ::-webkit-scrollbar-thumb {
+  background: #a6a6a6;
+  border-radius: 4px;
+}
+
+/* ------ badge -------  */
+.badge-secondary {
+  font-weight: normal !important;
+  font-size: 11px !important;
+  padding: 5px 11px !important;
+  margin-right: 3px !important;
+  margin-bottom: 7px !important;
+  color: #4b9de4 !important;
+  background: #e4f5fb !important;
+  border-radius: 10px;
+}
+
+/* --------- employee --------- */
+.employee.selected {
+  background-color: aliceblue;
+}
+.employee:hover {
+  background-color: aliceblue;
+  cursor: pointer;
+}
+
+.logo-cover-section-with-phn {
+  margin-top: -68px;
+}
+.profile-info-with-phn {
+  margin-top: -67px;
+  padding-left: 0px;
+  padding-right: 0px;
+  font-size: 16px;
+}
+.image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.name {
+  margin-top: 7px;
+  font-size: 17px;
+  text-transform: capitalize;
+  margin-left: -5px;
+}
+
+.employee:focus {
+  background-color: rgb(97, 93, 93) !important;
+}
+.employee .employee-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  /* margin-top: 5px; */
+}
+.employee .employee-name {
+  color: #595959;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+.employee .job-name {
+  color: #7f7f7f;
+  font-weight: bold;
+  font-size: 12px;
+  /* padding-bottom:5px; */
+  text-transform: capitalize;
+}
+
+/* -------- material btn --------- */
+.material-btn-outline {
+  min-width: 100px;
+  height: 35px;
+}
+.material-btn-text {
+  margin-left: 17px;
+}
+
+/* ----------- tabs content --------- */
+::ng-deep .mat-tab-labels {
+  justify-content: center !important;
+}
+
+/* --------- modal -------- */
+.modal-content {
+  height: 91vh !important;
+}
+.modal-body {
+  padding: 0px;
+}
+
+/* -------- mobile menu  ------- */
+.mobileMenu > .current {
+  border-bottom: 3px solid #00b0f0 !important;
+}
+.mobileMenu > .current a {
+  color: #00b0f0 !important;
+}
+.mobileMenu a {
+  color: #595959 !important;
+}
+
+/* --------- not found jobs -------- */
+#hireOverlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 76%;
+  top: 136px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  cursor: pointer;
+}
+#text {
+  position: absolute;
+  top: 50%;
+  font-size: 24px;
+  color: white;
+  -webkit-transform: translate(-18%, -50%);
+  transform: translate(15%, 75%);
+}
+
+/* ------ nav ------ */
+.mobileMenu {
+  text-align: center;
+  background-color: white;
+  /* padding-top: 10px; */
+  border-bottom: 1px solid #ddd;
+}
+.current {
+  border-bottom: 3px solid #004e86;
+  padding-bottom: 10px;
+  font-weight: bold;
+}
+.navLink {
+  color: #004e86;
+  text-decoration: none;
+  margin-top: 5px;
+}
+
+/* ----------- card ------------- */
+
+/* ---------- action buttons ----------- */
+.btn-streched {
+  min-width: 240px !important;
+  text-transform: capitalize !important;
+  z-index: 1;
+  background: white;
+}
+.btn-streched-discontinue {
+  min-width: 220px !important;
+  text-transform: capitalize !important;
+}
+.action-btns{
+	position: sticky;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  background: white;
+}
+.btn-group.special {
+  display: flex;
+}
+.special .btn {
+  flex: 1
+}
+.btn-secondary{
+	font-weight: bold;
+}
+.mat-icon {
+	vertical-align: middle;
+}
+
+/* --------- rate ------ */
+.rate-btn {
+  border-radius: 0px !important;
+  text-transform: capitalize !important;
+  margin-top: 7px !important;
+  /* font-weight: 400 !important; */
+  line-height: 26px !important;
+  padding: 1px 1px !important;
+  min-width: 62px !important;
+  height: 27px !important;
+  font-size: 12px;
+}
+
+.rate-card {
+  margin: 10px;
+  width: 100%;
+  margin-left: 11px;
+  text-align: center;
+  margin-bottom: 0px;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+#discontinueModal,
+#completeModal {
+  z-index: 1052;
+}
+
+.company-details {
+  min-height: 77vh !important;
+  max-height: 77vh !important;
+}
+
+/* notification dot */
+.appl-notif-dot{
+  float: right;
+  margin-top: 22px;
+  margin-right: 10px;
+}
+
+@media only screen and (max-width: 1023px) {
+  .page-bg {
+    min-height: 83vh !important;
+    max-height: 83vh !important;
+    /* overflow: hidden !important; */
+    /* border: 1px solid red; */
+  }
+  .content-bg {
+    height: 75vh !important;
+    /* background-color: #F2F3F5 !important; */
+    overflow-x: hidden !important;
+    overflow-y: scroll !important;
+    /* border: 1px solid green; */
+    padding: 0px;
+  }
+
+  /* ------ badge -------  */
+  .badge-secondary {
+    font-weight: normal !important;
+    font-size: 11px !important;
+    padding: 5px 11px !important;
+    margin-right: 3px !important;
+    margin-bottom: 7px !important;
+    color: #4b9de4 !important;
+    background: #e4f5fb !important;
+    border-radius: 10px;
+  }
+
+  /* --------- employee --------- */
+  .logo-cover-section-with-phn {
+    margin-top: -68px;
+  }
+  .profile-info-with-phn {
+    margin-top: -67px;
+    padding-left: 0px;
+    padding-right: 0px;
+    font-size: 16px;
+  }
+  .image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  .name {
+    margin-top: 7px;
+    font-size: 17px;
+    text-transform: capitalize;
+    margin-left: -5px;
+  }
+
+  .employee:focus {
+    background-color: rgb(97, 93, 93) !important;
+  }
+  .employee .employee-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    /* margin-top: 5px; */
+  }
+  .employee .employee-name {
+    color: #595959;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: capitalize;
+  }
+  .employee .job-name {
+    color: #7f7f7f;
+    font-weight: bold;
+    font-size: 12px;
+    /* padding-bottom:5px; */
+    text-transform: capitalize;
+  }
+
+  /* -------- material btn --------- */
+  .material-btn-outline {
+    min-width: 100px;
+    height: 35px;
+  }
+  .material-btn-text {
+    margin-left: 17px;
+  }
+
+  /* ----------- tabs content --------- */
+  ::ng-deep .mat-tab-labels {
+    justify-content: center !important;
+  }
+
+  /* --------- modal -------- */
+  .modal-content {
+    height: 91vh !important;
+  }
+  .modal-body {
+    padding: 0px;
+  }
+
+  /* -------- mobile menu  ------- */
+  .mobileMenu > .current {
+    border-bottom: 3px solid #00b0f0 !important;
+  }
+  .mobileMenu > .current a {
+    color: #00b0f0 !important;
+  }
+  .mobileMenu a {
+    color: #595959 !important;
+  }
+
+  /* --------- not found jobs -------- */
+  #hireOverlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 76%;
+    top: 136px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    cursor: pointer;
+  }
+  #text {
+    position: absolute;
+    top: 50%;
+    font-size: 24px;
+    color: white;
+    -webkit-transform: translate(-18%, -50%);
+    transform: translate(15%, 75%);
+  }
+
+  /* ------ nav ------ */
+  .mobileMenu {
+    text-align: center;
+    background-color: white;
+    /* padding-top: 10px; */
+    border-bottom: 1px solid #ddd;
+  }
+  .current {
+    border-bottom: 3px solid #004e86;
+    padding-bottom: 10px;
+    font-weight: bold;
+  }
+  .navLink {
+    color: #004e86;
+    text-decoration: none;
+    margin-top: 5px;
+  }
+
+  /* ----------- card ------------- */
+
+  /* ---------- action buttons ----------- */
+  .btn-streched {
+    min-width: 110px !important;
+    text-transform: capitalize !important;
+  }
+  .btn-streched-discontinue {
+    min-width: 350px !important;
+    text-transform: capitalize !important;
+  }
+
+  /* --------- rate ------ */
+  .rate-btn {
+    border-radius: 0px !important;
+    text-transform: capitalize !important;
+    margin-top: 7px !important;
+    /* font-weight: 400 !important; */
+    line-height: 26px !important;
+    padding: 1px 1px !important;
+    min-width: 62px !important;
+    height: 27px !important;
+    font-size: 12px;
+  }
+
+  .rate-card {
+    margin: 10px;
+    width: 100%;
+    margin-left: 11px;
+    text-align: center;
+    margin-bottom: 0px;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+  }
+
+  #discontinueModal,
+  #completeModal {
+    z-index: 1052;
+  }
+
+  .company-details {
+    min-height: 83.5vh !important;
+    max-height: 83.5vh !important;
+  }
+  .worker-profile {
+    min-height: 83.5vh !important;
+    max-height: 83.5vh !important;
+  }
+
+  /* notification dot */
+  .appl-notif-dot{
+    float: right;
+    margin-top: 22px;
+    margin-right: 10px;
+  }
+}

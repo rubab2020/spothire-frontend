@@ -1,0 +1,71 @@
+<div class="row mt-2 form-cotent">
+	<div class="form-content-background">
+		<div [ngClass]="isMobile ? 'col-12' : 'col-6 offset-3'">
+			<h3 class="text-center settings-header">Settings</h3>
+	
+			<form class="content-bg" #form="ngForm" [formGroup]="setttingsForm">
+				<!-- organization name -->
+				<div class="form-group">
+					<div class="input-group">
+						<label class="material-field">
+							<input formControlName="name" type="text" class="form-control" placeholder=" ">
+							<span>Full Name</span>
+						</label>
+						<div *ngIf="setttingsForm.get('name').touched && setttingsForm.get('name').invalid" class="alert alert-danger">
+							<div *ngIf="setttingsForm.get('name').errors.required">*Organization Name is required</div>
+							<div *ngIf="setttingsForm.get('name').errors?.backend">*{{setttingsForm.get('name').errors.backend}}</div>
+							<div *ngIf="setttingsForm.get('name').errors.maxlength">
+								*Organization Name should be maximum
+								{{setttingsForm.get('name').errors.maxlength.requiredLength}} characters
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- email -->
+				<div class="form-group">
+					<div class="input-group">
+						<label class="material-field">
+							<input formControlName="email" type="email" class="form-control" placeholder=" ">
+							<span>Email</span>
+						</label>
+						<div *ngIf="setttingsForm.get('email').touched && setttingsForm.get('email').invalid" class="alert alert-danger">
+							<div *ngIf="setttingsForm.get('email').errors.pattern">*Invalid email address</div>
+							<div *ngIf="setttingsForm.get('email').errors.backend">*{{ setttingsForm.get("email").errors.backend }}</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				<!-- phone -->
+				<div class="form-group">
+					<div class="input-group">
+						<label class="material-field">
+							<input formControlName="phone" type="text" class="form-control" placeholder=" " disabled>
+							<span>Phone Number</span>
+						</label>
+					</div>
+				</div>
+	
+				<!-- current password -->
+				<div class="form-group">
+					<a class="pull-right" routerLink="/change-password">Change Password?</a>
+				</div>
+	
+				<div class="text-center mt-5">
+					<button 
+						type="submit" 
+						class="material-btn-contained" 
+						(click)="submitCompanySettings()" 
+						style="min-width: 295px !important; text-transform: capitalize !important;"
+					>
+						Confirm Changes
+						<i *ngIf="circleSpin" class="fa fa-circle-o-notch fa-spin"></i>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<app-error-modal *ngIf="showErrorModal"></app-error-modal>

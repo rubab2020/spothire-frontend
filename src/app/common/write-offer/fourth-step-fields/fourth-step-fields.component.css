@@ -1,0 +1,52 @@
+/* -------- advert duration --------- */
+.advert-duration{
+  background: white;
+  padding-top: 5vh;
+  padding-bottom: 12vh;
+}
+.material-btn-outline {
+  min-width: 140px !important;
+  height: 50px !important;
+  font-size: 16px;
+  padding-top: 6px;
+}
+.advert-btns{
+  margin-top: -10px;
+  margin-left: 15%;
+}
+
+/* ---------- advert buttons ---------- */
+::ng-deep .btn-info:not(:disabled):not(.disabled):active, 
+.btn-info:not(:disabled):not(.disabled).active, 
+.show > .btn-info.dropdown-toggle {
+  color: white;
+  background-color: #26b1e2;
+  border-color: #26b1e2;
+}
+
+@media only screen and (max-width: 1023px) {
+  /* -------- advert duration --------- */
+  .advert-duration{
+    background: white; 
+    /* padding-top: 24vh; */
+    padding-top: 4vh;
+  }
+  .material-btn-outline {
+    min-width: 100px !important;
+    height: 47px !important;
+  }
+  .advert-btns{
+    margin-top: -10px;
+    margin-left: 0px;
+
+  }
+
+  /* ---------- advert buttons ---------- */
+  ::ng-deep .btn-info:not(:disabled):not(.disabled):active, 
+  .btn-info:not(:disabled):not(.disabled).active, 
+  .show > .btn-info.dropdown-toggle {
+    color: white;
+    background-color: #26b1e2;
+    border-color: #26b1e2;
+  }
+}
