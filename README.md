@@ -1,0 +1,1 @@
+# spothire-frontend
